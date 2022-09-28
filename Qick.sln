@@ -3,7 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qick", "Qick\Qick.csproj", "{10906AEF-EB8B-44D3-88E3-381023D96987}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qick", "Qick\Qick.csproj", "{10906AEF-EB8B-44D3-88E3-381023D96987}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{12EB3724-BE10-47B1-9BA7-D4D07AC71A1B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Enum", "Enum", "{EB3518FB-677F-499B-A21C-0C6D1C86D84F}"
+	ProjectSection(SolutionItems) = preProject
+		Qick\Models\Roles.cs = Qick\Models\Roles.cs
+		Status.cs = Status.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dto", "Dto", "{2E9CB45D-B7A2-4E79-B09C-64E20FF57F2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,6 +28,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{10906AEF-EB8B-44D3-88E3-381023D96987} = {12EB3724-BE10-47B1-9BA7-D4D07AC71A1B}
+		{EB3518FB-677F-499B-A21C-0C6D1C86D84F} = {2E9CB45D-B7A2-4E79-B09C-64E20FF57F2F}
+		{2E9CB45D-B7A2-4E79-B09C-64E20FF57F2F} = {12EB3724-BE10-47B1-9BA7-D4D07AC71A1B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5FCEA0C6-BB48-41FA-92B2-A40455918785}

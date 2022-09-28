@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-namespace Qick.Model.Input
+
+namespace Qick.Controllers.Requests
 {
-    public class LoginInput
+    public class LoginRequest
     {
         /// <summary>
         /// email
@@ -10,7 +11,8 @@ namespace Qick.Model.Input
         public string Email { get; set; }
 
         /// <summary>
-        /// password
+        /// passwordrtyertyertyeryerty
+        ///
         /// </summary>
         [Required(ErrorMessage = "Can't be NULL")]
         public string Password { get; set; }

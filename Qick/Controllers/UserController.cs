@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Qick.Model.Input;
-using Qick.Model.Output;
+using Qick.Controllers.Requests;
+using Qick.Controllers.Responses;
 using Qick.Repositories.Interfaces;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -32,21 +32,40 @@ namespace Qick.Controllers
         /// <param name="userIn"></param>
         /// <returns></returns>
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginInput userIn)
+        public async Task<IActionResult> Login(LoginRequest userIn)
         {
-            LoginOutput user = await _repo.Login(userIn);
+            var user = await _repo.Login(userIn);
 
             if (user == null)
                 return Unauthorized();
 
-            LoginOutput login = new()
+            LoginResponse login = new()
             {
                 
-                UserName = user.UserName,
-                Email = user.Email,
-                
+               
             };
             return Ok(login);
+        }
+
+        /// <summary>
+        /// Register to a member role
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(RegisterRequest request)
+        {
+            
+            var user = await _repo.Register(request);
+
+            if (!(user == null))
+            {
+                return Ok(new HttpStatusCodeResponse(200));
+            }
+            else
+            {
+                throw new Exception("Error");
+            }
         }
 
     }

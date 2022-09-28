@@ -1,6 +1,7 @@
-﻿using Qick.Model.Data;
-using Qick.Model.Input;
-using Qick.Model.Output;
+﻿
+using Qick.Controllers.Requests;
+using Qick.Models;
+
 
 namespace Qick.Repositories.Interfaces
 {
@@ -11,6 +12,7 @@ namespace Qick.Repositories.Interfaces
         /// </summary>
         /// <param ></param>
         /// <returns>LoginOuput</returns>
-        Task<LoginOutput> Login(LoginInput user);
+        Task<User> Login(LoginRequest user);
+        Task<User> Register(RegisterRequest register);
     }
 }
