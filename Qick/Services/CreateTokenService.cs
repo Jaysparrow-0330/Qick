@@ -1,13 +1,14 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using Qick.Dto.Enum;
 using Qick.Models;
+using Qick.Services.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
 namespace Qick.Services
 {
-    public class CreateTokenService
+    public class CreateTokenService : ICreateTokenService
     {
         private readonly SymmetricSecurityKey _key;
 
@@ -16,16 +17,16 @@ namespace Qick.Services
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Authentication:JWTKey"]));
         }
 
-        public string CreateToken(User user, bool isUpdate, DateTime? updateDay)
+        public string CreateToken(User user)
         {
             try
             {
                 DateTime expires = DateTime.Now;
-                if (user.Role.Equals(Roles.ADMIN) || user.Role.Equals(Roles.MANAGER) || user.Role.Equals(Roles.GOD) || user.Role.Equals(Roles.PSY) || user.Role.Equals(Roles.STAFF))
+                if (user.RoleId.Equals(Roles.ADMIN) || user.RoleId.Equals(Roles.MANAGER) || user.RoleId.Equals(Roles.GOD) || user.RoleId.Equals(Roles.PSY) || user.RoleId.Equals(Roles.STAFF))
                 {
                     expires = expires.AddDays(7);
                 }
-                else if (user.Role.Equals(Roles.MEMBER))
+                else if (user.RoleId.Equals(Roles.MEMBER))
                 {
                     expires = expires.AddDays(7);
                 }
@@ -33,14 +34,11 @@ namespace Qick.Services
                 {
                     throw new InvalidOperationException();
                 }
-                if (isUpdate)
-                {
-                    expires = (DateTime)updateDay;
-                }
+                
                 var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role.ToString()),
+                new Claim(ClaimTypes.Role, user.RoleId.ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 //new Claim("imageUrl", user.ImageUrl),
                 //new Claim("userName", user.Name),

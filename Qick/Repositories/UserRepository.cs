@@ -23,17 +23,30 @@ namespace Qick.Repositories
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public async Task<User> Login(LoginRequest userIn)
+        public async Task<User> Login(LoginRequest login)
         {
-            var user = await _context.Users.Where(u => u.Email == userIn.Email.ToLower() && u.Status == "ACTIVE" && u.RoleId == "ADMIN").SingleOrDefaultAsync();
-            if (user == null)
-                return null;
-
-            if (!VerifyPasswordHash(userIn.Password, user.PasswordHash, user.PasswordSalt))
-                return null;
-
-            return user;
-
+            try
+            {
+                var user = await _context.Users.Where(u => u.Email.Equals(login.Email.ToLower()) && u.RoleId.Equals(Roles.MEMBER) && u.Status != Status.DISABLE).FirstOrDefaultAsync();
+                if (user != null)
+                {
+                    if (!VerifyPasswordHash(login.Password, user.PasswordHash, user.PasswordSalt))
+                        return null;
+                    else
+                    {
+                        return user;
+                        
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
         }
 

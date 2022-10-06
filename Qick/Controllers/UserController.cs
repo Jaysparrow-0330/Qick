@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Qick.Controllers.Requests;
 using Qick.Controllers.Responses;
+using Qick.Handler.HandlerInterfaces;
+using Qick.Handler.LoginHandler;
 using Qick.Repositories.Interfaces;
+using Qick.Services.Interfaces;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Qick.Controllers
@@ -11,17 +14,17 @@ namespace Qick.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _repo;
-      
+        private readonly ICreateTokenService _token;
 
         /// <summary>
         /// constructor
         /// </summary>
         /// <param name="repo"></param>
         /// 
-        public UserController(IUserRepository repo)
+        public UserController(IUserRepository repo, ICreateTokenService token )
         {
             _repo = repo;
-           
+            _token = token;
         }
 
 
@@ -32,19 +35,22 @@ namespace Qick.Controllers
         /// <param name="userIn"></param>
         /// <returns></returns>
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginRequest userIn)
+        public async Task<ActionResult> Login(LoginRequest userIn)
         {
-            var user = await _repo.Login(userIn);
-
-            if (user == null)
-                return Unauthorized();
-
-            LoginResponse login = new()
+            try
             {
-                
-               
-            };
-            return Ok(login);
+                var check = await _repo.Login(userIn);
+                if (check == null) return Unauthorized();
+                else
+                {
+                    string tk = _token.CreateToken(check);
+                    return Ok(tk);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok(new HttpStatusCodeResponse(400,ex.Message));
+            }
         }
 
         /// <summary>
