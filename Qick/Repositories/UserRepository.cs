@@ -102,5 +102,58 @@ namespace Qick.Repositories
                 passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
             }
         }
+
+        public async Task<User> LoginAd(LoginRequest login)
+        {
+            try
+            {
+                var user = await _context.Users.Where(u => u.Email.Equals(login.Email.ToLower()) && u.RoleId.Equals(Roles.ADMIN) || u.RoleId.Equals(Roles.GOD) && u.Status != Status.DISABLE).FirstOrDefaultAsync();
+                if (user != null)
+                {
+                    if (!VerifyPasswordHash(login.Password, user.PasswordHash, user.PasswordSalt))
+                        return null;
+                    else
+                    {
+                        return user;
+
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public async Task<User> LoginUni(LoginRequest login)
+        {
+            try
+            {
+                var user = await _context.Users.Where(u => u.Email.Equals(login.Email.ToLower()) && u.RoleId.Equals(Roles.MANAGER) || u.RoleId.Equals(Roles.STAFF) && u.Status != Status.DISABLE).FirstOrDefaultAsync();
+                if (user != null)
+                {
+                    if (!VerifyPasswordHash(login.Password, user.PasswordHash, user.PasswordSalt))
+                        return null;
+                    else
+                    {
+                        return user;
+
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
