@@ -50,7 +50,21 @@ namespace Qick.Repositories
 
         }
 
-     
+        public async Task<bool> EmailExist(string email)
+        {
+            try
+            {
+                if (await _context.Users.Where(a => a.RoleId != Roles.USER_GOOGLE).AnyAsync(x => x.Email.Equals(email.ToLower())))
+                    return true;
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
         public async Task<User> Register(RegisterRequest register)
         {
@@ -69,7 +83,7 @@ namespace Qick.Repositories
                     PasswordSalt = passwordSalt,
                     Status = Status.ACTIVE
                 };
-               
+                
                 await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
                 return user;

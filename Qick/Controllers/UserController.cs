@@ -9,7 +9,7 @@ using Qick.Services.Interfaces;
 
 namespace Qick.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/user")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -61,7 +61,13 @@ namespace Qick.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterRequest request)
         {
-            
+            try
+            {
+                var check = await _repo.EmailExist(request.Email);
+            if (check)
+            {
+                return Ok(new HttpStatusCodeResponse(410));
+            }
             var user = await _repo.Register(request);
 
             if (!(user == null))
@@ -72,6 +78,8 @@ namespace Qick.Controllers
             {
                 throw new Exception("Error");
             }
+            }
+            catch (Exception ex) { return BadRequest(ex); }
         }
 
     }

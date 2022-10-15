@@ -8,6 +8,7 @@
             MEMBER = "MEMBER    ",
             PSY = "PSY",
             MANAGER = "UNIMA     ",
-            STAFF = "UNISTAFF  ";
+            STAFF = "UNISTAFF  ",
+            USER_GOOGLE = "USER_GOOGLE";
     }
 }
