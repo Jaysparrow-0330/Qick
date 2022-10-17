@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Qick.Controllers.Requests;
-using Qick.Controllers.Responses;
-using Qick.Handler.HandlerInterfaces;
-using Qick.Handler.LoginHandler;
+using Qick.Dto.Requests;
+using Qick.Dto.Responses;
 using Qick.Repositories.Interfaces;
 using Qick.Services.Interfaces;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -53,6 +51,56 @@ namespace Qick.Controllers
             }
         }
 
+
+        // POST api/<ValuesController>
+        /// <summary>
+        /// Login admin page With Email And Password
+        /// </summary>
+        /// <param name="userIn"></param>
+        /// <returns></returns>
+        [HttpPost("login-admin")]
+        public async Task<ActionResult> LoginAd(LoginRequest userIn)
+        {
+            try
+            {
+                var check = await _repo.LoginAd(userIn);
+                if (check == null) return Unauthorized();
+                else
+                {
+                    string tk = _token.CreateToken(check);
+                    return Ok(tk);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok(new HttpStatusCodeResponse(400, ex.Message));
+            }
+        }
+
+        // POST api/<ValuesController>
+        /// <summary>
+        /// Login Uni page With Email And Password
+        /// </summary>
+        /// <param name="userIn"></param>
+        /// <returns></returns>
+        [HttpPost("login-University")]
+        public async Task<ActionResult> LoginUni(LoginRequest userIn)
+        {
+            try
+            {
+                var check = await _repo.LoginUni(userIn);
+                if (check == null) return Unauthorized();
+                else
+                {
+                    string tk = _token.CreateToken(check);
+                    return Ok(tk);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok(new HttpStatusCodeResponse(400, ex.Message));
+            }
+        }
         /// <summary>
         /// Register to a member role
         /// </summary>

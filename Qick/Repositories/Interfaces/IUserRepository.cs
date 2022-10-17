@@ -1,5 +1,5 @@
 ﻿
-using Qick.Controllers.Requests;
+using Qick.Dto.Requests;
 using Qick.Models;
 
 

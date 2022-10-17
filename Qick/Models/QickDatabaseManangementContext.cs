@@ -45,8 +45,7 @@ namespace Qick.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=mortar-server.ddns.net;Initial Catalog=QickDatabaseManangement;Persist Security Info=True;User ID=sa;Password=Liem1708");
+                optionsBuilder.UseSqlServer("name=DbCon");
             }
         }
 
@@ -290,8 +289,6 @@ namespace Qick.Models
             {
                 entity.ToTable("QuestionType");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.TypeName).HasMaxLength(50);
             });
 
@@ -312,6 +309,10 @@ namespace Qick.Models
                 entity.ToTable("Test");
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Description).HasColumnName("description");
+
+                entity.Property(e => e.ShortDescription).HasColumnName("shortDescription");
 
                 entity.HasOne(d => d.Creator)
                     .WithMany(p => p.Tests)

@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Qick.Handler.HandlerInterfaces;
-using Qick.Handler.LoginHandler;
+using Microsoft.OpenApi.Models;
 using Qick.Models;
 using Qick.Repositories;
 using Qick.Repositories.Interfaces;
@@ -21,10 +20,37 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options => options.AddPolicy("default", policy => {
     policy.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod();
 }));
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "QickApp", Version = "v1" });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Scheme = "bearer",
+        Description = "Please insert JWT token into field"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                        Reference = new OpenApiReference
+                            {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                            }
+                        },
+                    new string[] { }
+                    }
+                });
+});
 builder.Services.AddDbContext<QickDatabaseManangementContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Dbcon")));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<ICheckLoginHandler, CheckLoginHandler>();
 builder.Services.AddScoped<ICreateTokenService, CreateTokenService>();
+builder.Services.AddScoped<ITestRepository, TestRepository>();
 builder.Services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -43,12 +69,17 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "QickApp v1");
+    });
    
 
 
 app.UseCors("default");
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

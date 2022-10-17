@@ -1,6 +1,6 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-using Qick.Controllers.Requests;
+using Qick.Dto.Requests;
 using Qick.Dto.Enum;
 using Qick.Models;
 using Qick.Repositories.Interfaces;

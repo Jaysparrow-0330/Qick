@@ -1,4 +1,4 @@
-﻿namespace Qick.Controllers.Responses
+﻿namespace Qick.Dto.Responses
 {
     public class LoginResponse
     {
