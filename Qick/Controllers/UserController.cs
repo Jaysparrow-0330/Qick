@@ -14,11 +14,7 @@ namespace Qick.Controllers
         private readonly IUserRepository _repo;
         private readonly ICreateTokenService _token;
 
-        /// <summary>
-        /// constructor
-        /// </summary>
-        /// <param name="repo"></param>
-        /// 
+        // constructor
         public UserController(IUserRepository repo, ICreateTokenService token )
         {
             _repo = repo;
@@ -26,12 +22,7 @@ namespace Qick.Controllers
         }
 
 
-        // POST api/<ValuesController>
-        /// <summary>
-        /// Login With Email And Password
-        /// </summary>
-        /// <param name="userIn"></param>
-        /// <returns></returns>
+        // Login With Email And Password
         [HttpPost("login")]
         public async Task<ActionResult> Login(LoginRequest userIn)
         {
@@ -52,13 +43,8 @@ namespace Qick.Controllers
         }
 
 
-        // POST api/<ValuesController>
-        /// <summary>
-        /// Login admin page With Email And Password
-        /// </summary>
-        /// <param name="userIn"></param>
-        /// <returns></returns>
-        [HttpPost("login-admin")]
+        // Login admin page With Email And Password
+        [HttpPost("login-Admin")]
         public async Task<ActionResult> LoginAd(LoginRequest userIn)
         {
             try
@@ -77,12 +63,7 @@ namespace Qick.Controllers
             }
         }
 
-        // POST api/<ValuesController>
-        /// <summary>
-        /// Login University page With Email And Password
-        /// </summary>
-        /// <param name="userIn"></param>
-        /// <returns></returns>
+        // Login University page With Email And Password
         [HttpPost("login-University")]
         public async Task<ActionResult> LoginUni(LoginRequest userIn)
         {
@@ -103,9 +84,6 @@ namespace Qick.Controllers
         }
         /// <summary>
         /// Register to a member role
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterRequest request)
         {

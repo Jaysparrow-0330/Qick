@@ -5,7 +5,6 @@ namespace Qick.Dto.Requests
     public class LoginRequest
     {
         // email
-        [Required(ErrorMessage = "Can't be NULL")]
         public string Email { get; set; }
 
         // password

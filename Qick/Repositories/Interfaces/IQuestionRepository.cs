@@ -4,10 +4,7 @@ namespace Qick.Repositories.Interfaces
 {
     public interface IQuestionRepository
     {
-        /// <summary>
-        /// get list test from database by user
-        /// </summary>
-        /// <returns></returns>
+        // get list test from database by user
         Task<IEnumerable<Question>> GetListQuestionBasedOnTestId(int testId);
 
 

@@ -20,6 +20,7 @@ namespace Qick.Models
         public bool? Status { get; set; }
         public string? Description { get; set; }
         public string? ShortDescription { get; set; }
+        public string? BannerUrl { get; set; }
 
         public virtual User? Creator { get; set; }
         public virtual TestType? QuizType { get; set; }

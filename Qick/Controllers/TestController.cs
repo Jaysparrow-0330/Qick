@@ -21,11 +21,8 @@ namespace Qick.Controllers
         private readonly IQuestionRepository _repoQuestion;
         private readonly IOptionRepository _repoOption;
         private readonly IMapper _mapper;
-        /// <summary>
-        /// constructor
-        /// </summary>
-        /// <param name="repo"></param>
-        /// 
+
+        // constructor
         public TestController(ITestRepository repo, ICreateTokenService token, IMapper mapper,IQuestionRepository repoQuestion,IOptionRepository repoOption)
         {
             _repo = repo;
@@ -35,10 +32,7 @@ namespace Qick.Controllers
             _repoOption = repoOption;
         }
 
-        /// <summary>
-        /// Get list test by authenticated user
-        /// </summary>
-        /// <returns></returns>
+        // Get list test by authenticated user
         [HttpGet("get-list-test-by-user")]
         public async Task<IActionResult> GetAllTest()
         {
@@ -59,10 +53,8 @@ namespace Qick.Controllers
 
         }
 
-        /// <summary>
-        /// Get test to attemp by user
-        /// </summary>
-        /// <returns></returns>
+
+        // Get test to attemp by user
         [HttpGet("taking-test")]
         public async Task<IActionResult> TakingTest(int testId) 
         {
@@ -81,10 +73,7 @@ namespace Qick.Controllers
         
         }
 
-        /// <summary>
-        /// Get test detail by user
-        /// </summary>
-        /// <returns></returns>
+        // Get test detail by user
         [HttpGet("get-test-detail")]
         public async Task<IActionResult> GetTestDetail(int testId)
         {

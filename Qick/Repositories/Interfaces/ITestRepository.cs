@@ -5,34 +5,20 @@ namespace Qick.Repositories.Interfaces
 {
     public interface ITestRepository
     {
-        /// <summary>
-        /// get list test from database by user
-        /// </summary>
-        /// <returns></returns>
+
+        // get list test from database by user
         Task<IEnumerable<Test>> GetListTest(Guid userId);
 
-
-        /// <summary>
-        /// get list test from database by guest
-        /// </summary>
-        /// <returns></returns>
+        // get list test from database by guest
         Task<IEnumerable<Test>> GetListTestGuest();
 
-        /// <summary>
-        /// get test  user to attemp
-        /// </summary>
-        /// <returns></returns>
+        // get test  user to attemp
         Task<Test> GetTestToAttempForUser(int testId, Guid userId);
 
-        /// <summary>
-        /// get test  user to attemp
-        /// </summary>
-        /// <returns></returns>
+        // get test  user to attemp
         Task<Test> GetTestToAttempForGuest(int testId);
-        /// <summary>
-        /// get test  by testId
-        /// </summary>
-        /// <returns></returns>
+
+        // get test  by testId
         Task<Test> GetTestById(int testId);
     }
 }

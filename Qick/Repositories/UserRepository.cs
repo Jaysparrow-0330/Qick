@@ -18,11 +18,8 @@ namespace Qick.Repositories
             _context = context;
             _config = config;
         }
-        /// <summary>
-        ///  Login authentication by email and password 
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
+
+        //  Login authentication by email and password
         public async Task<User> Login(LoginRequest login)
         {
             try

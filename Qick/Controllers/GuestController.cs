@@ -12,21 +12,14 @@ namespace Qick.Controllers
     {
         private readonly ITestRepository _repo;
         private readonly IMapper _mapper;
-        /// <summary>
-        /// constructor
-        /// </summary>
-        /// <param name="repo"></param>
-        /// 
+        // constructor
         public GuestController(ITestRepository repo, IMapper mapper)
         {
             _repo = repo;
             _mapper = mapper;
         }
 
-        /// <summary>
-        /// Get list test by guest
-        /// </summary>
-        /// <returns></returns>
+        // Get list test by guest
         [HttpGet("get-list-test-guest")]
         public async Task<IActionResult> GetAllTest()
         {
@@ -42,10 +35,7 @@ namespace Qick.Controllers
             }
         }
 
-        /// <summary>
-        /// Get test detail by guest
-        /// </summary>
-        /// <returns></returns>
+        // Get test detail by guest
         [HttpGet("get-test-detail-guest")]
         public async Task<IActionResult> GetTestDetail(int testId)
         {
@@ -61,10 +51,7 @@ namespace Qick.Controllers
             }
         }
 
-        /// <summary>
-        /// Get test to attemp by guest
-        /// </summary>
-        /// <returns></returns>
+        // Get test to attemp by guest
         [HttpGet("taking-test-guest")]
         public async Task<IActionResult> TakingTest(int testId)
         {

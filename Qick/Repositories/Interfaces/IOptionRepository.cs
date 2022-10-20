@@ -4,10 +4,8 @@ namespace Qick.Repositories.Interfaces
 {
     public interface IOptionRepository
     {
-        /// <summary>
-        /// get list option from database by user
-        /// </summary>
-        /// <returns></returns>
+
+        // get list option from database by user
         Task<IEnumerable<Option>> GetListOptionBasedOnQuestionId(int questionId);
     }
 }
