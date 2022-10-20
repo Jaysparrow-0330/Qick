@@ -1,4 +1,5 @@
-﻿using Qick.Models;
+﻿using Qick.Dto.Responses;
+using Qick.Models;
 
 namespace Qick.Repositories.Interfaces
 {
@@ -8,7 +9,7 @@ namespace Qick.Repositories.Interfaces
         /// get list test from database by user
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<Test>> GetListTest(string userId);
+        Task<IEnumerable<Test>> GetListTest(Guid userId);
 
 
         /// <summary>
@@ -16,5 +17,22 @@ namespace Qick.Repositories.Interfaces
         /// </summary>
         /// <returns></returns>
         Task<IEnumerable<Test>> GetListTestGuest();
+
+        /// <summary>
+        /// get test  user to attemp
+        /// </summary>
+        /// <returns></returns>
+        Task<Test> GetTestToAttempForUser(int testId, Guid userId);
+
+        /// <summary>
+        /// get test  user to attemp
+        /// </summary>
+        /// <returns></returns>
+        Task<Test> GetTestToAttempForGuest(int testId);
+        /// <summary>
+        /// get test  by testId
+        /// </summary>
+        /// <returns></returns>
+        Task<Test> GetTestById(int testId);
     }
 }

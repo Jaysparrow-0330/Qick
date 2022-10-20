@@ -79,7 +79,7 @@ namespace Qick.Controllers
 
         // POST api/<ValuesController>
         /// <summary>
-        /// Login Uni page With Email And Password
+        /// Login University page With Email And Password
         /// </summary>
         /// <param name="userIn"></param>
         /// <returns></returns>

@@ -2,6 +2,9 @@
 {
     public class Status
     {
+        /// <summary>
+        /// status of user
+        /// </summary>
         public const String
             DISABLE = "DISABLE",
             ACTIVE = "ACTIVE",

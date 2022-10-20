@@ -4,10 +4,15 @@ namespace Qick.Dto.Requests
 {
     public class RegisterRequest
     {
-        [Required(ErrorMessage = "Can't be NULL"), EmailAddress(ErrorMessage = "Wrong email format")]
+        // Email
+        [Required(ErrorMessage = "Can't be NULL")]
         public string Email { get; set; }
+
+        // Name
         [Required(ErrorMessage = "Can't be NULL")]
         public string Name { get; set; }
+
+        // Password
         [Required(ErrorMessage = "Can't be NULL")]
         public string Password { get; set; }
     }

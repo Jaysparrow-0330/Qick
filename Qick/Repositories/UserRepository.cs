@@ -55,9 +55,13 @@ namespace Qick.Repositories
             try
             {
                 if (await _context.Users.Where(a => a.RoleId != Roles.USER_GOOGLE).AnyAsync(x => x.Email.Equals(email.ToLower())))
+                {
                     return true;
-
-                return false;
+                }   
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception ex)
             {
@@ -83,7 +87,6 @@ namespace Qick.Repositories
                     PasswordSalt = passwordSalt,
                     Status = Status.ACTIVE
                 };
-                
                 await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
                 return user;
@@ -125,11 +128,12 @@ namespace Qick.Repositories
                 if (user != null)
                 {
                     if (!VerifyPasswordHash(login.Password, user.PasswordHash, user.PasswordSalt))
+                    {
                         return null;
+                    } 
                     else
                     {
                         return user;
-
                     }
                 }
                 else
@@ -152,11 +156,12 @@ namespace Qick.Repositories
                 if (user != null)
                 {
                     if (!VerifyPasswordHash(login.Password, user.PasswordHash, user.PasswordSalt))
+                    {
                         return null;
+                    }
                     else
                     {
                         return user;
-
                     }
                 }
                 else

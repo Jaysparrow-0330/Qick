@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Qick.Dto.Responses;
 using Qick.Models;
 using Qick.Repositories.Interfaces;
 
@@ -12,7 +13,7 @@ namespace Qick.Repositories
         {
             _context = context;
         }
-        public async Task<IEnumerable<Test>> GetListTest(string userId)
+        public async Task<IEnumerable<Test>> GetListTest(Guid userId)
         {
             var testMember = await _context.Tests
                 .Where(u => u.Status == true)
@@ -26,7 +27,32 @@ namespace Qick.Repositories
             var testMember = await _context.Tests
                   .Where(u => u.Status == true)
                   .ToListAsync();
+            return testMember;
+        }
 
+        public async Task<Test> GetTestById(int testId)
+        {
+            var testDetail = await _context.Tests
+                .Where(a => a.Id == testId)
+                .FirstOrDefaultAsync();
+            return testDetail;
+        }
+
+        public async Task<Test> GetTestToAttempForUser(int testId,Guid userId)
+        {
+            var testMember = await _context.Tests
+                .Where(a => a.Id == testId)
+                .Include(u => u.Questions).ThenInclude(q => q.Options)
+                .FirstOrDefaultAsync();
+            return testMember;
+        }
+
+        public async Task<Test> GetTestToAttempForGuest(int testId)
+        {
+            var testMember = await _context.Tests
+                .Where(a => a.Id == testId)
+                .Include(u => u.Questions).ThenInclude(q => q.Options)
+                .FirstOrDefaultAsync();
             return testMember;
         }
     }

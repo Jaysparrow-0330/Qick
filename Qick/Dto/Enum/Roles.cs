@@ -2,6 +2,9 @@
 {
     public class Roles
     {
+        /// <summary>
+        /// Role for Authenticated User
+        /// </summary>
         public const string
             GOD = "ADGOD     ",
             ADMIN = "ADMIN     ",
