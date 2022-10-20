@@ -310,10 +310,6 @@ namespace Qick.Models
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
-                entity.Property(e => e.Description).HasColumnName("description");
-
-                entity.Property(e => e.ShortDescription).HasColumnName("shortDescription");
-
                 entity.HasOne(d => d.Creator)
                     .WithMany(p => p.Tests)
                     .HasForeignKey(d => d.CreatorId)

@@ -18,9 +18,10 @@ namespace Qick.Models
         public int? TotalQuestion { get; set; }
         public DateTime? CreatedDate { get; set; }
         public bool? Status { get; set; }
-        public string? Description { get; set; }
-        public string? ShortDescription { get; set; }
+        public string? Introrduction { get; set; }
+        public string? History { get; set; }
         public string? BannerUrl { get; set; }
+        public string? CriteriaInformation { get; set; }
 
         public virtual User? Creator { get; set; }
         public virtual TestType? QuizType { get; set; }
