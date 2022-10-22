@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Qick.Dto.Enum;
+using Qick.Dto.Requests;
 using Qick.Dto.Responses;
 using Qick.Models;
 using Qick.Repositories.Interfaces;
@@ -16,7 +18,7 @@ namespace Qick.Repositories
         public async Task<IEnumerable<Test>> GetListTest(Guid userId)
         {
             var testMember = await _context.Tests
-                .Where(u => u.Status == true)
+                .Where(u => u.Status == Status.ACTIVE)
                 .ToListAsync();
 
             return testMember;
@@ -25,7 +27,7 @@ namespace Qick.Repositories
         public async Task<IEnumerable<Test>> GetListTestGuest()
         {
             var testMember = await _context.Tests
-                  .Where(u => u.Status == true)
+                  .Where(u => u.Status == Status.ACTIVE)
                   .ToListAsync();
             return testMember;
         }
@@ -49,11 +51,48 @@ namespace Qick.Repositories
 
         public async Task<Test> GetTestToAttempForGuest(int testId)
         {
-            var testMember = await _context.Tests
+            var testMember = await _context.Tests   
                 .Where(a => a.Id == testId)
                 .Include(u => u.Questions).ThenInclude(q => q.Options)
                 .FirstOrDefaultAsync();
             return testMember;
+        }
+
+        public async Task<Test> CreateTest(CreateTestRequest request, Guid userId)
+        {
+            try
+            {
+                Test test = new()
+                {
+                    CreatorId = userId,
+                    QuizName = request.QuizName,
+                    QuizTypeId = request.QuizTypeId,
+                    TotalQuestion = request.TotalQuestion,
+                    CreatedDate = DateTime.Now,
+                    Introduction =  request.Introduction,
+                    History = request.History,
+                    CriteriaInformation = request.CriteriaInformation,
+                    BannerUrl = request.BannerUrl,
+                    BackgroundUrl = request.BackgroundUrl, 
+                    Status = Status.PENDING
+                };
+                await _context.Tests.AddAsync(test);
+                await _context.SaveChangesAsync();
+                return test;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<IEnumerable<Models.TestType>> GetTestType()
+        {
+            var listTestType = await _context.TestTypes
+                .Where(u => u.Status == true)
+                .ToListAsync();
+
+            return listTestType;
         }
     }
 }

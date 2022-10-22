@@ -53,7 +53,6 @@ namespace Qick.Controllers
 
         }
 
-
         // Get test to attemp by user
         [HttpGet("taking-test")]
         public async Task<IActionResult> TakingTest(int testId) 
@@ -73,6 +72,24 @@ namespace Qick.Controllers
         
         }
 
+        // Get test category
+        [HttpGet("get-test-type")]
+        public async Task<IActionResult> GetTestType()
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var testTypes = await _repo.GetTestType();
+                var testTypeResponse = _mapper.Map<IEnumerable<TestTypeResponse>>(testTypes);
+                return Ok(testTypeResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+
+        }
+
         // Get test detail by user
         [HttpGet("get-test-detail")]
         public async Task<IActionResult> GetTestDetail(int testId)
@@ -88,7 +105,5 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
-
-
     }
 }

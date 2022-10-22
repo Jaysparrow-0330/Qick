@@ -30,7 +30,6 @@ namespace Qick.Models
         public string? AddressNumber { get; set; }
         public int? WardId { get; set; }
 
-        public virtual UserRole? Role { get; set; }
         public virtual University? University { get; set; }
         public virtual Ward? Ward { get; set; }
         public virtual ICollection<Attempt> Attempts { get; set; }

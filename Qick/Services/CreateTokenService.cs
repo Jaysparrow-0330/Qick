@@ -70,7 +70,7 @@ namespace Qick.Services
                 var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role.ToString()),
+                new Claim(ClaimTypes.Role, user.RoleId.ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 //new Claim("imageUrl", user.ImageUrl),
                 //new Claim("userName", user.Name),

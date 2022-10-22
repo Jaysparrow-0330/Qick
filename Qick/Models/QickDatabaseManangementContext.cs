@@ -32,6 +32,7 @@ namespace Qick.Models
         public virtual DbSet<Province> Provinces { get; set; } = null!;
         public virtual DbSet<Question> Questions { get; set; } = null!;
         public virtual DbSet<QuestionType> QuestionTypes { get; set; } = null!;
+        public virtual DbSet<Result> Results { get; set; } = null!;
         public virtual DbSet<Specialization> Specializations { get; set; } = null!;
         public virtual DbSet<Test> Tests { get; set; } = null!;
         public virtual DbSet<TestType> TestTypes { get; set; } = null!;
@@ -292,6 +293,13 @@ namespace Qick.Models
                 entity.Property(e => e.TypeName).HasMaxLength(50);
             });
 
+            modelBuilder.Entity<Result>(entity =>
+            {
+                entity.ToTable("Result");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+            });
+
             modelBuilder.Entity<Specialization>(entity =>
             {
                 entity.ToTable("Specialization");
@@ -313,6 +321,7 @@ namespace Qick.Models
                 entity.HasOne(d => d.Creator)
                     .WithMany(p => p.Tests)
                     .HasForeignKey(d => d.CreatorId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TblQuiz_TblUser");
 
                 entity.HasOne(d => d.QuizType)
@@ -392,20 +401,11 @@ namespace Qick.Models
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e => e.RoleId)
-                    .HasMaxLength(10)
-                    .IsFixedLength();
-
                 entity.Property(e => e.SignUpDate).HasColumnType("datetime");
 
                 entity.Property(e => e.Status)
                     .HasMaxLength(10)
                     .IsFixedLength();
-
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.Users)
-                    .HasForeignKey(d => d.RoleId)
-                    .HasConstraintName("FK_TblUser_TblUserRole");
 
                 entity.HasOne(d => d.University)
                     .WithMany(p => p.Users)
@@ -420,11 +420,9 @@ namespace Qick.Models
 
             modelBuilder.Entity<UserRole>(entity =>
             {
-                entity.ToTable("UserRole");
+                entity.HasNoKey();
 
-                entity.Property(e => e.Id)
-                    .HasMaxLength(10)
-                    .IsFixedLength();
+                entity.ToTable("UserRole");
 
                 entity.Property(e => e.RoleName).HasMaxLength(50);
 

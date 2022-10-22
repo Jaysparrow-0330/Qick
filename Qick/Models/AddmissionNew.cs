@@ -10,7 +10,7 @@ namespace Qick.Models
         public int? UniSpecId { get; set; }
         public int? TotalAddmission { get; set; }
         public int? CurrentAddmission { get; set; }
-        public bool? Status { get; set; }
+        public string? Status { get; set; }
 
         public virtual AddmissionCampaign? Campaign { get; set; }
         public virtual UniversitySpecialization? UniSpec { get; set; }

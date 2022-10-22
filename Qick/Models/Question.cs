@@ -15,7 +15,7 @@ namespace Qick.Models
         public string? QuestionContent { get; set; }
         public int? QuestionTypeId { get; set; }
         public DateTime? CreatedDate { get; set; }
-        public bool? Status { get; set; }
+        public string? Status { get; set; }
         public string? Value { get; set; }
 
         public virtual QuestionType? QuestionType { get; set; }

@@ -15,7 +15,7 @@ namespace Qick.Models
         public int? TotalAddmission { get; set; }
         public int? CurrentAddmission { get; set; }
         public DateTime? CreatedDate { get; set; }
-        public bool? Status { get; set; }
+        public string? Status { get; set; }
 
         public virtual University? Uni { get; set; }
         public virtual ICollection<AddmissionNew> AddmissionNews { get; set; }

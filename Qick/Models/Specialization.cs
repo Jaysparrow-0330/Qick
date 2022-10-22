@@ -13,7 +13,8 @@ namespace Qick.Models
         public string Id { get; set; } = null!;
         public int? MajorId { get; set; }
         public string? SpecName { get; set; }
-        public bool? Status { get; set; }
+        public string? Status { get; set; }
+        public string? Description { get; set; }
 
         public virtual Major? Major { get; set; }
         public virtual ICollection<UniversitySpecialization> UniversitySpecializations { get; set; }

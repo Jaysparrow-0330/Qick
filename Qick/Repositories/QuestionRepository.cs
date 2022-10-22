@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Qick.Dto.Enum;
 using Qick.Models;
 using Qick.Repositories.Interfaces;
 
@@ -18,7 +19,7 @@ namespace Qick.Repositories
             try
             {
                 var questions = _context.Questions
-                    .Where(m => m.TestId == testId && m.Status == true);
+                    .Where(m => m.TestId == testId && m.Status == Status.ACTIVE);
                 return await questions.ToListAsync();
             }
             catch (Exception ex) { throw ex; }

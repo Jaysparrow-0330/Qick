@@ -1,4 +1,5 @@
-﻿using Qick.Dto.Responses;
+﻿using Qick.Dto.Requests;
+using Qick.Dto.Responses;
 using Qick.Models;
 
 namespace Qick.Repositories.Interfaces
@@ -20,5 +21,12 @@ namespace Qick.Repositories.Interfaces
 
         // get test  by testId
         Task<Test> GetTestById(int testId);
+
+        // create test  by creatorId ony admin or godad
+        Task<Test> CreateTest(CreateTestRequest test, Guid userId);
+
+        // get all testType
+        Task<IEnumerable<Models.TestType>> GetTestType();
+
     }
 }
