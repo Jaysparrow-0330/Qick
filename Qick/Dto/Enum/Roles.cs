@@ -5,12 +5,13 @@
 
         // Role for Authenticated User
         public const string
-            GOD = "ADGOD     ",
-            ADMIN = "ADMIN     ",
-            MEMBER = "MEMBER    ",
-            PSY = "PSY",
-            MANAGER = "UNIMA     ",
-            STAFF = "UNISTAFF  ",
-            USER_GOOGLE = "USER_GOOGLE";
+            GOD = "GOD",
+            ADMIN = "ADMIN",
+            MEMBER = "MEMBER",
+            MANAGER = "UNIMA",
+            STAFF = "UNISTAFF",
+            USER_GOOGLE = "MEMGO",
+            INACTIVE = "INACTIVE",
+            STUDENT = "STUDENT";
     }
 }

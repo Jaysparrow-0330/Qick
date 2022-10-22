@@ -4,7 +4,7 @@
     {
         // status of user
         public const String
-            DISABLE = "DISABLE",
+            DISABLE = "INACTIVE",
             ACTIVE = "ACTIVE",
             PENDING = "PENDING",
             DENIED = "DENIED";

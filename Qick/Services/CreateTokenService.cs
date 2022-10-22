@@ -22,7 +22,7 @@ namespace Qick.Services
             try
             {
                 DateTime expires = DateTime.Now;
-                if (user.RoleId.Equals(Roles.ADMIN) || user.RoleId.Equals(Roles.MANAGER) || user.RoleId.Equals(Roles.GOD) || user.RoleId.Equals(Roles.PSY) || user.RoleId.Equals(Roles.STAFF))
+                if (user.RoleId.Equals(Roles.ADMIN) || user.RoleId.Equals(Roles.MANAGER) || user.RoleId.Equals(Roles.GOD)  || user.RoleId.Equals(Roles.STAFF))
                 {
                     expires = expires.AddDays(7);
                 }
