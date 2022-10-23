@@ -33,24 +33,21 @@ namespace Qick.Controllers
         }
 
         // Get list test by authenticated user
-        [HttpGet("get-list-test-by-user")]
-        public async Task<IActionResult> GetAllTest()
+        [HttpGet("get-list-active-test-by-user")]
+        public async Task<IActionResult> GetAllActiveTestByUser()
         {
             try
             {
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 string Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
-                var testList = await _repo.GetListTest(userId);
-                var testListResponse = _mapper.Map<ListTestResponse>(testList);
+                var testList = await _repo.GetListActiveTest(userId);
+                var testListResponse = _mapper.Map<IEnumerable<ListTestResponse>>(testList);
                 return Ok(testListResponse);
             }
             catch (Exception ex)
             {
                 return Ok(ex.Message);
             }
-            
-            
-
         }
 
         // Get test to attemp by user

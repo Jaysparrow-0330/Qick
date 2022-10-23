@@ -15,7 +15,7 @@ namespace Qick.Repositories
         {
             _context = context;
         }
-        public async Task<IEnumerable<Test>> GetListTest(Guid userId)
+        public async Task<IEnumerable<Test>> GetListActiveTest(Guid userId)
         {
             var testMember = await _context.Tests
                 .Where(u => u.Status == Status.ACTIVE)
@@ -24,7 +24,7 @@ namespace Qick.Repositories
             return testMember;
         }
 
-        public async Task<IEnumerable<Test>> GetListTestGuest()
+        public async Task<IEnumerable<Test>> GetListActiveTestGuest()
         {
             var testMember = await _context.Tests
                   .Where(u => u.Status == Status.ACTIVE)
@@ -93,6 +93,14 @@ namespace Qick.Repositories
                 .ToListAsync();
 
             return listTestType;
+        }
+
+        public async Task<IEnumerable<Test>> GetListAllTest(Guid userId)
+        {
+            var testMember = await _context.Tests
+                .ToListAsync();
+
+            return testMember;
         }
     }
 }

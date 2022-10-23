@@ -20,12 +20,12 @@ namespace Qick.Controllers
         }
 
         // Get list test by guest
-        [HttpGet("get-list-test-guest")]
-        public async Task<IActionResult> GetAllTest()
+        [HttpGet("get-list-active-test-guest")]
+        public async Task<IActionResult> GetAllActiveTestByGuest()
         {
             try
             {
-                var testList = await _repo.GetListTestGuest();
+                var testList = await _repo.GetListActiveTestGuest();
                 var testListResponse = _mapper.Map<IEnumerable<ListTestResponse>>(testList);
                 return Ok(testListResponse);
             }

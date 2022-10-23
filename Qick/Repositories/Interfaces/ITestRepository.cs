@@ -7,11 +7,14 @@ namespace Qick.Repositories.Interfaces
     public interface ITestRepository
     {
 
-        // get list test from database by user
-        Task<IEnumerable<Test>> GetListTest(Guid userId);
+        // get list active test from database by user
+        Task<IEnumerable<Test>> GetListActiveTest(Guid userId);
 
-        // get list test from database by guest
-        Task<IEnumerable<Test>> GetListTestGuest();
+        // get list all status test from database by user
+        Task<IEnumerable<Test>> GetListAllTest(Guid userId);
+
+        // get list active test from database by guest
+        Task<IEnumerable<Test>> GetListActiveTestGuest();
 
         // get test  user to attemp
         Task<Test> GetTestToAttempForUser(int testId, Guid userId);

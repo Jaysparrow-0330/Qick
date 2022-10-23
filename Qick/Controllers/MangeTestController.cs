@@ -46,5 +46,41 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
+
+        // Get list active test by admin
+        [HttpGet("get-list-active-test-by-admin")]
+        public async Task<IActionResult> GetAllActiveTestByAdmin()
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                string Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
+                var testList = await _repoTest.GetListActiveTest(userId);
+                var testListResponse = _mapper.Map<IEnumerable<ListTestResponse>>(testList);
+                return Ok(testListResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
+        // Get list all test by admin
+        [HttpGet("get-list-all-test-by-admin")]
+        public async Task<IActionResult> GetAllAllTestByAdmin()
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                string Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
+                var testList = await _repoTest.GetListAllTest(userId);
+                var testListResponse = _mapper.Map<IEnumerable<ListTestResponse>>(testList);
+                return Ok(testListResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
     }
 }
