@@ -33,6 +33,7 @@ namespace Qick.Models
         public virtual DbSet<Province> Provinces { get; set; } = null!;
         public virtual DbSet<Question> Questions { get; set; } = null!;
         public virtual DbSet<QuestionType> QuestionTypes { get; set; } = null!;
+        public virtual DbSet<RootTestKind> RootTestKinds { get; set; } = null!;
         public virtual DbSet<Specialization> Specializations { get; set; } = null!;
         public virtual DbSet<Test> Tests { get; set; } = null!;
         public virtual DbSet<TestType> TestTypes { get; set; } = null!;
@@ -111,6 +112,8 @@ namespace Qick.Models
 
                 entity.Property(e => e.Result).HasMaxLength(50);
 
+                entity.Property(e => e.Status).HasMaxLength(50);
+
                 entity.HasOne(d => d.Quiz)
                     .WithMany(p => p.Attempts)
                     .HasForeignKey(d => d.QuizId)
@@ -127,6 +130,8 @@ namespace Qick.Models
                 entity.HasNoKey();
 
                 entity.ToTable("AttemptDetail");
+
+                entity.Property(e => e.Status).HasMaxLength(50);
 
                 entity.HasOne(d => d.Attempt)
                     .WithMany()
@@ -159,6 +164,8 @@ namespace Qick.Models
 
                 entity.Property(e => e.CityName).HasMaxLength(50);
 
+                entity.Property(e => e.Status).HasMaxLength(50);
+
                 entity.HasOne(d => d.Province)
                     .WithMany(p => p.Cities)
                     .HasForeignKey(d => d.ProvinceId)
@@ -174,6 +181,8 @@ namespace Qick.Models
                 entity.Property(e => e.CityId).HasColumnName("CItyId");
 
                 entity.Property(e => e.DistrictName).HasMaxLength(100);
+
+                entity.Property(e => e.Status).HasMaxLength(50);
 
                 entity.HasOne(d => d.City)
                     .WithMany(p => p.Districts)
@@ -191,9 +200,7 @@ namespace Qick.Models
 
                 entity.Property(e => e.Fqacontent).HasColumnName("FQAContent");
 
-                entity.Property(e => e.Status)
-                    .HasMaxLength(10)
-                    .IsFixedLength();
+                entity.Property(e => e.Status).HasMaxLength(50);
 
                 entity.HasOne(d => d.Uni)
                     .WithMany(p => p.Fqas)
@@ -217,6 +224,8 @@ namespace Qick.Models
 
                 entity.ToTable("JobMajor");
 
+                entity.Property(e => e.Status).HasMaxLength(50);
+
                 entity.HasOne(d => d.Job)
                     .WithMany()
                     .HasForeignKey(d => d.JobId)
@@ -233,6 +242,8 @@ namespace Qick.Models
             modelBuilder.Entity<JobMapping>(entity =>
             {
                 entity.ToTable("JobMapping");
+
+                entity.Property(e => e.Status).HasMaxLength(50);
 
                 entity.HasOne(d => d.Attempt)
                     .WithMany(p => p.JobMappings)
@@ -302,7 +313,16 @@ namespace Qick.Models
             {
                 entity.ToTable("QuestionType");
 
+                entity.Property(e => e.Status).HasMaxLength(50);
+
                 entity.Property(e => e.TypeName).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<RootTestKind>(entity =>
+            {
+                entity.ToTable("RootTestKind");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
             });
 
             modelBuilder.Entity<Specialization>(entity =>
@@ -338,6 +358,8 @@ namespace Qick.Models
             modelBuilder.Entity<TestType>(entity =>
             {
                 entity.ToTable("TestType");
+
+                entity.Property(e => e.Status).HasMaxLength(50);
             });
 
             modelBuilder.Entity<University>(entity =>
@@ -351,6 +373,8 @@ namespace Qick.Models
                 entity.Property(e => e.Phone)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.Status).HasMaxLength(50);
 
                 entity.Property(e => e.Vippack)
                     .HasMaxLength(10)
@@ -368,6 +392,8 @@ namespace Qick.Models
                 entity.ToTable("UniversitySpecialization");
 
                 entity.Property(e => e.SpecId).HasMaxLength(50);
+
+                entity.Property(e => e.Status).HasMaxLength(50);
 
                 entity.HasOne(d => d.Spec)
                     .WithMany(p => p.UniversitySpecializations)
@@ -408,9 +434,7 @@ namespace Qick.Models
 
                 entity.Property(e => e.SignUpDate).HasColumnType("datetime");
 
-                entity.Property(e => e.Status)
-                    .HasMaxLength(10)
-                    .IsFixedLength();
+                entity.Property(e => e.Status).HasMaxLength(50);
 
                 entity.HasOne(d => d.University)
                     .WithMany(p => p.Users)
@@ -439,6 +463,8 @@ namespace Qick.Models
                 entity.ToTable("Ward");
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Status).HasMaxLength(50);
 
                 entity.Property(e => e.WardName).HasMaxLength(100);
 

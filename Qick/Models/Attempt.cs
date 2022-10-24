@@ -15,7 +15,7 @@ namespace Qick.Models
         public int? QuizId { get; set; }
         public DateTime? AttemptDate { get; set; }
         public string? Result { get; set; }
-        public bool? Status { get; set; }
+        public string? Status { get; set; }
 
         public virtual Test? Quiz { get; set; }
         public virtual User? User { get; set; }

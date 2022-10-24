@@ -12,7 +12,7 @@ namespace Qick.Models
 
         public int Id { get; set; }
         public string? TypeName { get; set; }
-        public bool? Status { get; set; }
+        public string? Status { get; set; }
 
         public virtual ICollection<Question> Questions { get; set; }
     }

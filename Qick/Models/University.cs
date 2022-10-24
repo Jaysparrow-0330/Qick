@@ -23,7 +23,7 @@ namespace Qick.Models
         public string? CoverPhotoUrl { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string? Vippack { get; set; }
-        public bool? Status { get; set; }
+        public string? Status { get; set; }
         public int? WardId { get; set; }
 
         public virtual Ward? Ward { get; set; }

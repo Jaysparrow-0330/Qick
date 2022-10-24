@@ -12,7 +12,7 @@ namespace Qick.Models
 
         public int Id { get; set; }
         public string? QuizTypeName { get; set; }
-        public bool? Status { get; set; }
+        public string? Status { get; set; }
 
         public virtual ICollection<Test> Tests { get; set; }
     }

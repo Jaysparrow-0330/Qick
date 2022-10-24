@@ -14,7 +14,7 @@ namespace Qick.Models
         public Guid? UniId { get; set; }
         public string? SpecId { get; set; }
         public string? UniSpecName { get; set; }
-        public bool? Status { get; set; }
+        public string? Status { get; set; }
 
         public virtual Specialization? Spec { get; set; }
         public virtual University? Uni { get; set; }

@@ -7,7 +7,7 @@ namespace Qick.Models
     {
         public int? AttemptId { get; set; }
         public int? OptionId { get; set; }
-        public bool? Status { get; set; }
+        public string? Status { get; set; }
 
         public virtual Attempt? Attempt { get; set; }
         public virtual Option? Option { get; set; }

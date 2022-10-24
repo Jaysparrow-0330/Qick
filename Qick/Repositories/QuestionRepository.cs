@@ -53,7 +53,7 @@ namespace Qick.Repositories
         public async Task<IEnumerable<QuestionType>> GetActiveQuestionType()
         {
             var listQuestionType = await _context.QuestionTypes
-                .Where(u => u.Status == true)
+                .Where(u => u.Status == Status.ACTIVE)
                 .ToListAsync();
 
             return listQuestionType;
