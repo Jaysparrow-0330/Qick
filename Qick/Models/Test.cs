@@ -8,6 +8,7 @@ namespace Qick.Models
         public Test()
         {
             Attempts = new HashSet<Attempt>();
+            Characters = new HashSet<Character>();
             Questions = new HashSet<Question>();
         }
 
@@ -27,6 +28,7 @@ namespace Qick.Models
         public virtual User Creator { get; set; } = null!;
         public virtual TestType? QuizType { get; set; }
         public virtual ICollection<Attempt> Attempts { get; set; }
+        public virtual ICollection<Character> Characters { get; set; }
         public virtual ICollection<Question> Questions { get; set; }
     }
 }

@@ -21,6 +21,7 @@ namespace Qick.Models
         public virtual DbSet<Application> Applications { get; set; } = null!;
         public virtual DbSet<Attempt> Attempts { get; set; } = null!;
         public virtual DbSet<AttemptDetail> AttemptDetails { get; set; } = null!;
+        public virtual DbSet<Character> Characters { get; set; } = null!;
         public virtual DbSet<City> Cities { get; set; } = null!;
         public virtual DbSet<District> Districts { get; set; } = null!;
         public virtual DbSet<Fqa> Fqas { get; set; } = null!;
@@ -32,7 +33,6 @@ namespace Qick.Models
         public virtual DbSet<Province> Provinces { get; set; } = null!;
         public virtual DbSet<Question> Questions { get; set; } = null!;
         public virtual DbSet<QuestionType> QuestionTypes { get; set; } = null!;
-        public virtual DbSet<Result> Results { get; set; } = null!;
         public virtual DbSet<Specialization> Specializations { get; set; } = null!;
         public virtual DbSet<Test> Tests { get; set; } = null!;
         public virtual DbSet<TestType> TestTypes { get; set; } = null!;
@@ -137,6 +137,18 @@ namespace Qick.Models
                     .WithMany()
                     .HasForeignKey(d => d.OptionId)
                     .HasConstraintName("FK_TblAttemptDetail_TblOption");
+            });
+
+            modelBuilder.Entity<Character>(entity =>
+            {
+                entity.ToTable("Character");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.HasOne(d => d.Test)
+                    .WithMany(p => p.Characters)
+                    .HasForeignKey(d => d.TestId)
+                    .HasConstraintName("FK_Character_Test");
             });
 
             modelBuilder.Entity<City>(entity =>
@@ -291,13 +303,6 @@ namespace Qick.Models
                 entity.ToTable("QuestionType");
 
                 entity.Property(e => e.TypeName).HasMaxLength(50);
-            });
-
-            modelBuilder.Entity<Result>(entity =>
-            {
-                entity.ToTable("Result");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
             });
 
             modelBuilder.Entity<Specialization>(entity =>

@@ -19,6 +19,7 @@ namespace Qick.Repositories
         {
             var testMember = await _context.Tests
                 .Where(u => u.Status == Status.ACTIVE)
+                .Include(u => u.QuizType)
                 .ToListAsync();
 
             return testMember;
@@ -36,6 +37,7 @@ namespace Qick.Repositories
         {
             var testDetail = await _context.Tests
                 .Where(a => a.Id == testId)
+                .Include(u => u.QuizType)
                 .FirstOrDefaultAsync();
             return testDetail;
         }
@@ -98,9 +100,66 @@ namespace Qick.Repositories
         public async Task<IEnumerable<Test>> GetListAllTest(Guid userId)
         {
             var testMember = await _context.Tests
+                .Include(u => u.QuizType)
                 .ToListAsync();
 
             return testMember;
         }
+
+        public async Task<bool> CreateResult(ResultRequest request)
+        {
+            try
+            {
+                Character addResult = new()
+                {
+                   Id =Guid.NewGuid(),
+                   TestId = request.TestId,
+                   ResultName = request.ResultName,
+                   ResultRelationship = request.ResultRelationship,
+                   ResultSuccessRule   = request.ResultSuccessRule,
+                   ResultSummary = request.ResultSummary,
+                   ResultShortName = request.ResultShortName
+                };
+                await _context.Characters.AddAsync(addResult);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public Task<Character> CalculateTestResult(CalculateResultRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        //public async Task<Character> CalculateTestResult(CalculateResultRequest request)
+        //{
+        //    try
+        //    {
+        //        var type = await _context.Tests
+        //            .Where(i => i.Id == request.Id)
+        //            .Include(u => u.QuizType)
+        //            .FirstOrDefaultAsync();
+
+        //        if (type.QuizType.QuizTypeName )
+        //        {
+
+        //        }
+        //        var result = await _context.Characters
+        //            .FirstOrDefaultAsync();
+
+        //        return result;
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw ex;
+        //    }
+
+
+        //}
     }
 }

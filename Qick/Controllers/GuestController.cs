@@ -20,7 +20,7 @@ namespace Qick.Controllers
         }
 
         // Get list test by guest
-        [HttpGet("get-list-active-test-guest")]
+        [HttpGet("guest-get-list-active-test-guest")]
         public async Task<IActionResult> GetAllActiveTestByGuest()
         {
             try
@@ -36,7 +36,7 @@ namespace Qick.Controllers
         }
 
         // Get test detail by guest
-        [HttpGet("get-test-detail-guest")]
+        [HttpGet("guest-get-test-detail-guest")]
         public async Task<IActionResult> GetTestDetail(int testId)
         {
             try
@@ -52,7 +52,7 @@ namespace Qick.Controllers
         }
 
         // Get test to attemp by guest
-        [HttpGet("taking-test-guest")]
+        [HttpGet("guest-taking-test-guest")]
         public async Task<IActionResult> TakingTest(int testId)
         {
             try

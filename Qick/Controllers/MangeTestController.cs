@@ -31,7 +31,7 @@ namespace Qick.Controllers
             _repoOption = repoOption;
         }
         //Create Test step one create basic information of test , return test to create questions, option, etc.
-        [HttpPost("create-test-step-one")]
+        [HttpPost("admin-create-test-step-one")]
         public async Task<IActionResult> CreateTestStepOne(CreateTestRequest request)
         {
             try
@@ -47,8 +47,32 @@ namespace Qick.Controllers
             }
         }
 
+
+        //Create Result for test
+        [HttpPost("admin-create-result-for-test")]
+        public async Task<IActionResult> CreateTestResult(ResultRequest request)
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var response = await _repoTest.CreateResult(request);
+
+                if (response)
+                {
+                    return Ok(new HttpStatusCodeResponse(200));
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
         //Create Test step two create questions and options , return boolean to check 
-        [HttpPost("create-test-step-two")]
+        [HttpPost("admin-create-test-step-two")]
         public async Task<IActionResult> CreateTestStepTwo(CreateTestStepTwoRequest request)
         {
             try
@@ -81,7 +105,7 @@ namespace Qick.Controllers
             }
         }
         // Get list active test by admin
-        [HttpGet("get-list-active-test-by-admin")]
+        [HttpGet("admin-get-list-active-test-by-admin")]
         public async Task<IActionResult> GetAllActiveTestByAdmin()
         {
             try
@@ -89,7 +113,7 @@ namespace Qick.Controllers
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 string Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
                 var testList = await _repoTest.GetListActiveTest(userId);
-                var testListResponse = _mapper.Map<IEnumerable<ListTestResponse>>(testList);
+                var testListResponse = _mapper.Map<IEnumerable<ListTestForAdminResponse>>(testList);
                 return Ok(testListResponse);
             }
             catch (Exception ex)
@@ -99,7 +123,7 @@ namespace Qick.Controllers
         }
 
         // Get list all test by admin
-        [HttpGet("get-list-all-test-by-admin")]
+        [HttpGet("admin-get-list-all-test-by-admin")]
         public async Task<IActionResult> GetAllTestByAdmin()
         {
             try
@@ -107,7 +131,7 @@ namespace Qick.Controllers
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 string Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
                 var testList = await _repoTest.GetListAllTest(userId);
-                var testListResponse = _mapper.Map<IEnumerable<ListTestResponse>>(testList);
+                var testListResponse = _mapper.Map<IEnumerable<ListTestForAdminResponse>>(testList);
                 return Ok(testListResponse);
             }
             catch (Exception ex)
@@ -117,7 +141,7 @@ namespace Qick.Controllers
         }
 
         // Get question type category
-        [HttpGet("get-active-question-type")]
+        [HttpGet("admin-get-active-question-type")]
         public async Task<IActionResult> GetActiveQuestionType()
         {
             try

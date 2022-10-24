@@ -33,7 +33,7 @@ namespace Qick.Controllers
         }
 
         // Get list test by authenticated user
-        [HttpGet("get-list-active-test-by-user")]
+        [HttpGet("authenticated-user-get-list-active-test-by-user")]
         public async Task<IActionResult> GetAllActiveTestByUser()
         {
             try
@@ -51,7 +51,7 @@ namespace Qick.Controllers
         }
 
         // Get test to attemp by user
-        [HttpGet("taking-test")]
+        [HttpGet("authenticated-user-taking-test")]
         public async Task<IActionResult> TakingTest(int testId) 
         {
             try
@@ -70,7 +70,7 @@ namespace Qick.Controllers
         }
 
         // Get test category
-        [HttpGet("get-active-test-type")]
+        [HttpGet("authenticated-user-get-active-test-type")]
         public async Task<IActionResult> GetActiveTestType()
         {
             try
@@ -88,7 +88,7 @@ namespace Qick.Controllers
         }
 
         // Get test detail by user
-        [HttpGet("get-test-detail")]
+        [HttpGet("authenticated-user-get-test-detail")]
         public async Task<IActionResult> GetTestDetail(int testId)
         {
             try

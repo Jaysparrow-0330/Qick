@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace Qick.Models
+{
+    public partial class Character
+    {
+        public Guid Id { get; set; }
+        public int? TestId { get; set; }
+        public string? ResultName { get; set; }
+        public string? ResultSummary { get; set; }
+        public string? ResultRelationship { get; set; }
+        public string? ResultSuccessRule { get; set; }
+        public string? ResultShortName { get; set; }
+
+        public virtual Test? Test { get; set; }
+    }
+}

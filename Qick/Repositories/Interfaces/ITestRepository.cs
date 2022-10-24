@@ -28,6 +28,12 @@ namespace Qick.Repositories.Interfaces
         // create test  by creatorId ony admin or godad
         Task<Test> CreateTest(CreateTestRequest test, Guid userId);
 
+        // create result  by test Id ony admin or godad
+        Task<bool> CreateResult(ResultRequest request);
+
+        // create result  by test Id ony admin or godad
+        Task<Character> CalculateTestResult(CalculateResultRequest request);
+
         // get all testType
         Task<IEnumerable<Models.TestType>> GetActiveTestType();
 
