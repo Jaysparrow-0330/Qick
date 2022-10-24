@@ -44,8 +44,10 @@ namespace Qick.Repositories
             try
             {
                 var questions = _context.Questions
-                    .Where(m => m.TestId == testId && m.Status == Status.ACTIVE);
-                return await questions.ToListAsync();
+                    .Where(m => m.TestId == testId && m.Status == Status.ACTIVE)
+                    .Include(i => i.Options)
+                    .ToListAsync();
+                return await questions;
             }
             catch (Exception ex) { throw ex; }
         }

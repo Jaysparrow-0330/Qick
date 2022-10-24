@@ -9,6 +9,7 @@ namespace Qick.Services.AutoMapper
         public OptionMapping()
         {
             CreateMap<Option, OptionResponse>();
+            CreateMap<Option, OptionForAdminResponse>();
             CreateMap<ListResponse<Option>, ListResponse<OptionResponse>>();
         }
     }

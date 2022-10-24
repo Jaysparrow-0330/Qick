@@ -47,15 +47,17 @@ namespace Qick.Controllers
 
         }
 
-        // Get question by test id
-        [HttpGet("authenticated-user-get-question-by-test-id")]
-        public async Task<IActionResult> GetTestDetail(int testId)
+        // Get list all question by test id
+        [HttpGet("authenticated-user-get-list-all-question-by-test-id")]
+        public async Task<IActionResult> GetAllQuestionByTestId(int testId)
         {
             try
             {
-                var testDetail = await _repoTest.GetTestById(testId);
-                var testDetailResponse = _mapper.Map<TestDetailResponse>(testDetail);
-                return Ok(testDetailResponse);
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                string Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
+                var questionList = await _repoQuestion.GetListQuestionBasedOnTestId(testId);
+                var questionListResponse = _mapper.Map<IEnumerable<QuestionForAdminResponse>>(questionList);
+                return Ok(questionListResponse);
             }
             catch (Exception ex)
             {
