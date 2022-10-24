@@ -144,11 +144,11 @@ namespace Qick.Repositories
         //    try
         //    {
         //        var type = await _context.Tests
-        //            .Where(i => i.Id == request.Id)
+        //            .Where(i => i.Id == request.TestId)
         //            .Include(u => u.QuizType)
         //            .FirstOrDefaultAsync();
 
-        //        if (type.QuizType.QuizTypeName)
+        //        if (type.QuizType.QuizTypeName.ToLower().Equals("mbti"))
         //        {
 
         //        }
