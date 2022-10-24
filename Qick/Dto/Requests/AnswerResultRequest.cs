@@ -2,7 +2,7 @@
 {
     public class AnswerResultRequest
     {
-        public int Id { get; set; }
-        public string value { get; set; }
+        public int optionId { get; set; }
+        public string optionValue { get; set; }
     }
 }

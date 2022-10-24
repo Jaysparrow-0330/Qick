@@ -2,8 +2,8 @@
 {
     public class QuestionResultRequest
     {
-        public int Id { get; set; }
-        public string value { get; set; }
-        public ICollection<AnswerResultRequest> Answers { get; set; }
+        public int questionId { get; set; }
+        public string questionvalue { get; set; }
+        public ICollection<AnswerResultRequest> Options { get; set; }
     }
 }

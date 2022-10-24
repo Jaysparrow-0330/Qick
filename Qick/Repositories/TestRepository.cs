@@ -19,6 +19,7 @@ namespace Qick.Repositories
         {
             var testMember = await _context.Tests
                 .Where(u => u.Status == Status.ACTIVE)
+                .Include(i => i.Creator)
                 .Include(u => u.QuizType)
                 .ToListAsync();
 
@@ -37,6 +38,7 @@ namespace Qick.Repositories
         {
             var testDetail = await _context.Tests
                 .Where(a => a.Id == testId)
+                .Include(i => i.Creator)
                 .Include(u => u.QuizType)
                 .FirstOrDefaultAsync();
             return testDetail;
@@ -101,6 +103,7 @@ namespace Qick.Repositories
         {
             var testMember = await _context.Tests
                 .Include(u => u.QuizType)
+                .Include(i => i.Creator)
                 .ToListAsync();
 
             return testMember;
@@ -135,6 +138,7 @@ namespace Qick.Repositories
             throw new NotImplementedException();
         }
 
+
         //public async Task<Character> CalculateTestResult(CalculateResultRequest request)
         //{
         //    try
@@ -144,7 +148,7 @@ namespace Qick.Repositories
         //            .Include(u => u.QuizType)
         //            .FirstOrDefaultAsync();
 
-        //        if (type.QuizType.QuizTypeName )
+        //        if (type.QuizType.QuizTypeName)
         //        {
 
         //        }

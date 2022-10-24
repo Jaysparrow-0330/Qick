@@ -2,7 +2,7 @@
 {
     public class ListTestForAdminResponse
     {
-        public Guid CreatorId { get; set; }
+        public string? UserName { get; set; }
         public string? QuizTypeName { get; set; }
         public string? QuizName { get; set; }
         public int? TotalQuestion { get; set; }

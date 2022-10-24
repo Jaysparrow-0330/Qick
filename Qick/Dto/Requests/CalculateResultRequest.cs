@@ -2,7 +2,7 @@
 {
     public class CalculateResultRequest
     {
-        public int Id { get; set; }
+        public int TestId { get; set; }
         public ICollection<QuestionResultRequest> questions { get; set; }
     }
 }
