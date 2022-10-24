@@ -86,7 +86,7 @@ namespace Qick.Repositories
             }
         }
 
-        public async Task<IEnumerable<Models.TestType>> GetTestType()
+        public async Task<IEnumerable<Models.TestType>> GetActiveTestType()
         {
             var listTestType = await _context.TestTypes
                 .Where(u => u.Status == true)

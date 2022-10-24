@@ -70,13 +70,13 @@ namespace Qick.Controllers
         }
 
         // Get test category
-        [HttpGet("get-test-type")]
-        public async Task<IActionResult> GetTestType()
+        [HttpGet("get-active-test-type")]
+        public async Task<IActionResult> GetActiveTestType()
         {
             try
             {
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                var testTypes = await _repo.GetTestType();
+                var testTypes = await _repo.GetActiveTestType();
                 var testTypeResponse = _mapper.Map<IEnumerable<TestTypeResponse>>(testTypes);
                 return Ok(testTypeResponse);
             }

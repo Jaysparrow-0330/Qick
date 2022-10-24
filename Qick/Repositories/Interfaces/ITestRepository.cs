@@ -29,7 +29,7 @@ namespace Qick.Repositories.Interfaces
         Task<Test> CreateTest(CreateTestRequest test, Guid userId);
 
         // get all testType
-        Task<IEnumerable<Models.TestType>> GetTestType();
+        Task<IEnumerable<Models.TestType>> GetActiveTestType();
 
     }
 }
