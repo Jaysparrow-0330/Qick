@@ -18,7 +18,7 @@ namespace Qick.Repositories.Interfaces
         Task<Question> GetQuestionById(int questionId);
 
         // update question
-        Task<bool> UpdateQuestionInformation(UpdateQuestionRequest question);
+        Task<Question> UpdateQuestionInformation(UpdateQuestionRequest question);
 
     }
 }

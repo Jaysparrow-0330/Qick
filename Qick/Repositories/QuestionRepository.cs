@@ -69,9 +69,32 @@ namespace Qick.Repositories
             return questionDetail;
         }
 
-        public Task<bool> UpdateQuestionInformation(UpdateQuestionRequest question)
+        public async Task<Question> UpdateQuestionInformation(UpdateQuestionRequest question)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var questionDb = await _context.Questions
+                    .Where(u => u.Id == question.Id)
+                    .FirstOrDefaultAsync();
+
+                if (questionDb != null)
+                {
+                    questionDb.QuestionContent = question.QuestionContent;
+                    questionDb.QuestionTypeId = question.QuestionTypeId;
+                    questionDb.Value = question.Value;
+                }
+                else
+                {
+                    { throw new Exception("Question does not exist"); }
+                }
+
+                await _context.SaveChangesAsync();
+                return questionDb;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

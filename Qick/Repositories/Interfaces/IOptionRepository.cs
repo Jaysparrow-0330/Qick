@@ -16,6 +16,6 @@ namespace Qick.Repositories.Interfaces
         Task<Option> GetOptionById(int optionId);
 
         // update option
-        Task<bool> UpdateOptionInformation(UpdateOptionRequest option);
+        Task<Option> UpdateOptionInformation(UpdateOptionRequest option);
     }
 }

@@ -57,9 +57,31 @@ namespace Qick.Repositories
             return optionDetail;
         }
 
-        public Task<bool> UpdateOptionInformation(UpdateOptionRequest option)
+        public async Task<Option> UpdateOptionInformation(UpdateOptionRequest option)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var optionDb = await _context.Options
+                    .Where(u => u.Id == option.Id)
+                    .FirstOrDefaultAsync();
+
+                if (optionDb != null)
+                {
+                    optionDb.OptionContent = option.OptionContent;
+                    optionDb.Value = option.Value;
+                }
+                else
+                {
+                    { throw new Exception("Question does not exist"); }
+                }
+
+                await _context.SaveChangesAsync();
+                return optionDb;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

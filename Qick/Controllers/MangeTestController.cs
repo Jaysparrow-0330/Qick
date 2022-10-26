@@ -157,5 +157,47 @@ namespace Qick.Controllers
             }
 
         }
+
+        //Update Test
+        [HttpPut("admin-update-test")]
+        public async Task<IActionResult> UpdateTestByAdmin(UpdateTestRequest request)
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var test = await _repoTest.UpdateTestInformation(request);
+                if (test != null)
+                {
+                    foreach (var question in request.questions)
+                    {
+                        var questionRequest = await _repoQuestion.UpdateQuestionInformation(question);
+                        if (questionRequest != null)
+                        {
+                            foreach (var option in question.Options)
+                            {
+                                var optionRequest = await _repoOption.UpdateOptionInformation(option);
+                                if (optionRequest == null)
+                                {
+                                    return Ok(new HttpStatusCodeResponse(204));
+                                }
+                            }
+                        }
+                        else
+                        {
+                            return Ok(new HttpStatusCodeResponse(204));
+                        }
+                    }
+                } 
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                } 
+                return Ok(new HttpStatusCodeResponse(200));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
     }
 }

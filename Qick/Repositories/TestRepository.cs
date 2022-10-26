@@ -137,12 +137,38 @@ namespace Qick.Repositories
 
         public Task<Character> CalculateTestResult(CalculateResultRequest request)
         {
-            throw new NotImplementedException();
+           throw new NotImplementedException();
         }
 
-        public Task<bool> UpdateTestInformation(UpdateTestRequest test)
+        public async Task<Test> UpdateTestInformation(UpdateTestRequest test)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var testDb = await _context.Tests
+                    .Where(u => u.Id == test.Id)
+                    .FirstOrDefaultAsync();
+                if (testDb != null)
+                {
+                    testDb.QuizName = test.QuizName;
+                    testDb.TotalQuestion = test.TotalQuestion;
+                    testDb.Introduction = test.Introduction;
+                    testDb.History = test.History;
+                    testDb.CriteriaInformation = test.CriteriaInformation;
+                    testDb.BannerUrl = test.BannerUrl;
+                    testDb.BackgroundUrl = test.BackgroundUrl;
+                } 
+                else
+                {
+                    { throw new Exception("Test does not exist"); }
+                }
+
+                await _context.SaveChangesAsync();
+                return testDb;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         //public async Task<Character> CalculateTestResult(CalculateResultRequest request)
