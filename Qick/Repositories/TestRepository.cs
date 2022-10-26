@@ -121,7 +121,9 @@ namespace Qick.Repositories
                    ResultRelationship = request.ResultRelationship,
                    ResultSuccessRule   = request.ResultSuccessRule,
                    ResultSummary = request.ResultSummary,
-                   ResultShortName = request.ResultShortName
+                   ResultShortName = request.ResultShortName,
+                   ResultPicture = request.ResultPicture,
+                   ResultCareer = request.ResultCareer
                 };
                 await _context.Characters.AddAsync(addResult);
                 await _context.SaveChangesAsync();

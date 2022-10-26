@@ -12,6 +12,8 @@ namespace Qick.Models
         public string? ResultRelationship { get; set; }
         public string? ResultSuccessRule { get; set; }
         public string? ResultShortName { get; set; }
+        public string? ResultPicture { get; set; }
+        public string? ResultCareer { get; set; }
 
         public virtual Test? Test { get; set; }
     }
