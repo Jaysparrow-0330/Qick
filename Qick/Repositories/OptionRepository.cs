@@ -48,5 +48,18 @@ namespace Qick.Repositories
             }
             catch (Exception ex) { throw ex; }
         }
+
+        public async Task<Option> GetOptionById(int optionId)
+        {
+            var optionDetail = await _context.Options
+                .Where(a => a.Id == optionId)
+                .FirstOrDefaultAsync();
+            return optionDetail;
+        }
+
+        public Task<bool> UpdateOptionInformation(UpdateOptionRequest option)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

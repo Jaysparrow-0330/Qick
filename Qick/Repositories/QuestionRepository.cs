@@ -60,5 +60,18 @@ namespace Qick.Repositories
 
             return listQuestionType;
         }
+
+        public async Task<Question> GetQuestionById(int questionId)
+        {
+            var questionDetail = await _context.Questions
+                .Where(a => a.Id == questionId)
+                .FirstOrDefaultAsync();
+            return questionDetail;
+        }
+
+        public Task<bool> UpdateQuestionInformation(UpdateQuestionRequest question)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

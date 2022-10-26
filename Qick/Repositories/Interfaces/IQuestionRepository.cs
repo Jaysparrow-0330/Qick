@@ -14,5 +14,11 @@ namespace Qick.Repositories.Interfaces
         // get all questionType
         Task<IEnumerable<QuestionType>> GetActiveQuestionType();
 
+        // get question  by questionId
+        Task<Question> GetQuestionById(int questionId);
+
+        // update question
+        Task<bool> UpdateQuestionInformation(UpdateQuestionRequest question);
+
     }
 }

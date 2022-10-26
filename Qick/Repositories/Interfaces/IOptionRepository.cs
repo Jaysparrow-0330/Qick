@@ -11,5 +11,11 @@ namespace Qick.Repositories.Interfaces
 
         // create option  by question id ony admin or godad
         Task<bool> CreateOption(Question question, CreateOptionRequest opt);
+
+        // get option  by optionId
+        Task<Option> GetOptionById(int optionId);
+
+        // update option
+        Task<bool> UpdateOptionInformation(UpdateOptionRequest option);
     }
 }

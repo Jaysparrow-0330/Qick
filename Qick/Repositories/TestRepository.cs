@@ -138,6 +138,11 @@ namespace Qick.Repositories
             throw new NotImplementedException();
         }
 
+        public Task<bool> UpdateTestInformation(UpdateTestRequest test)
+        {
+            throw new NotImplementedException();
+        }
+
         //public async Task<Character> CalculateTestResult(CalculateResultRequest request)
         //{
         //    try
