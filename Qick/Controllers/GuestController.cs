@@ -70,7 +70,7 @@ namespace Qick.Controllers
         }
 
         // submit test response test's result
-        [HttpGet("guest-submit-test")]
+        [HttpPost("guest-submit-test")]
         public async Task<IActionResult> SubmitTest(CalculateResultRequest request)
         {
             try
