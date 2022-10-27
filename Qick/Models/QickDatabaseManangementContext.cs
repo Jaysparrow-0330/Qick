@@ -109,9 +109,12 @@ namespace Qick.Models
 
                 entity.Property(e => e.AttemptDate).HasColumnType("datetime");
 
-                entity.Property(e => e.Result).HasMaxLength(50);
-
                 entity.Property(e => e.Status).HasMaxLength(50);
+
+                entity.HasOne(d => d.Character)
+                    .WithMany(p => p.Attempts)
+                    .HasForeignKey(d => d.CharacterId)
+                    .HasConstraintName("FK_Attempt_Character");
 
                 entity.HasOne(d => d.Quiz)
                     .WithMany(p => p.Attempts)
@@ -226,10 +229,10 @@ namespace Qick.Models
 
                 entity.Property(e => e.Status).HasMaxLength(50);
 
-                entity.HasOne(d => d.Attempt)
+                entity.HasOne(d => d.Character)
                     .WithMany(p => p.JobMappings)
-                    .HasForeignKey(d => d.AttemptId)
-                    .HasConstraintName("FK_AttemptResult_Attempt");
+                    .HasForeignKey(d => d.CharacterId)
+                    .HasConstraintName("FK_JobMapping_Character");
 
                 entity.HasOne(d => d.Job)
                     .WithMany(p => p.JobMappings)

@@ -7,15 +7,15 @@ using Qick.Services.Interfaces;
 
 namespace Qick.Controllers
 {
-    [Route("api/user")]
+    [Route("api/auth")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class AuthController : ControllerBase
     {
         private readonly IUserRepository _repo;
         private readonly ICreateTokenService _token;
 
         // constructor
-        public UserController(IUserRepository repo, ICreateTokenService token )
+        public AuthController(IUserRepository repo, ICreateTokenService token )
         {
             _repo = repo;
             _token = token;

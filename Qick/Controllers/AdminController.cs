@@ -5,32 +5,48 @@ using Microsoft.AspNetCore.Mvc;
 using Qick.Dto.Enum;
 using Qick.Dto.Requests;
 using Qick.Dto.Responses;
-using Qick.Models;
 using Qick.Repositories.Interfaces;
-using Qick.Services.Interfaces;
 using System.Security.Claims;
 
 namespace Qick.Controllers
 {
     [Authorize(Roles = Roles.GOD + "," + Roles.ADMIN)]
-    [Route("api/admin-test")]
+    [Route("api/admin")]
     [ApiController]
-    public class MangeTestController : ControllerBase
+    public class AdminController : ControllerBase
     {
         private readonly ITestRepository _repoTest;
-        private readonly ICreateTokenService _token;
         private readonly IQuestionRepository _repoQuestion;
         private readonly IOptionRepository _repoOption;
+        private readonly ISystemRepository _repoSystem;
         private readonly IMapper _mapper;
 
-        public MangeTestController(ITestRepository repo, ICreateTokenService token, IMapper mapper, IQuestionRepository repoQuestion, IOptionRepository repoOption)
+        public AdminController(ITestRepository repoTest, IMapper mapper, IQuestionRepository repoQuestion, IOptionRepository repoOption)
         {
-            _repoTest = repo;
-            _token = token;
+            _repoTest = repoTest;
             _mapper = mapper;
             _repoQuestion = repoQuestion;
             _repoOption = repoOption;
         }
+
+        // Get list all question by test id
+        [HttpGet("get-all-question")]
+        public async Task<IActionResult> GetAllQuestionByTestId(int testId)
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                string Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
+                var questionList = await _repoQuestion.GetListQuestionBasedOnTestId(testId);
+                var questionListResponse = _mapper.Map<IEnumerable<QuestionForAdminResponse>>(questionList);
+                return Ok(questionListResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
         //Create Test step one create basic information of test , return test to create questions, option, etc.
         [HttpPost("test-create")]
         public async Task<IActionResult> CreateTestStepOne(CreateTestRequest request)
@@ -83,14 +99,14 @@ namespace Qick.Controllers
                 foreach (var ques in request.Questions)
                 {
                     var question = await _repoQuestion.CreateQuestion(ques);
-                    
+
                     foreach (var opt in ques.Options)
                     {
                         var check = await _repoOption.CreateOption(question, opt);
                         response = check;
                     }
                 }
-                
+
                 if (response)
                 {
                     return Ok(new HttpStatusCodeResponse(200));
@@ -229,6 +245,30 @@ namespace Qick.Controllers
                     }
                 }
                 return Ok(new HttpStatusCodeResponse(200));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
+        //Create Job
+        [HttpPost("create-jib")]
+        public async Task<IActionResult> CreateJob(JobRequest request)
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var response = await _repoSystem.CreateJob(request);
+
+                if (response)
+                {
+                    return Ok(new HttpStatusCodeResponse(200));
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
             }
             catch (Exception ex)
             {
