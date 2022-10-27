@@ -11,7 +11,7 @@ using System.Security.Claims;
 namespace Qick.Controllers
 {
     [Authorize(Roles = Roles.GOD + "," + Roles.ADMIN)]
-    [Route("api/[controller]")]
+    [Route("api/adminquestion")]
     [ApiController]
     public class ManageQuestionController : ControllerBase
     {

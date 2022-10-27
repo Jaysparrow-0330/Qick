@@ -194,9 +194,7 @@ namespace Qick.Repositories
                         isP = 0;
                     foreach (var question in request.questions)
                     {
-                        foreach (var option in question.Options)
-                        {
-                            switch (option.optionValue)
+                            switch (question.Options.FirstOrDefault().optionValue)
                             {
                                 case TypeMBTI.IsI:
                                     isI += 1;
@@ -232,47 +230,77 @@ namespace Qick.Repositories
 
                                 default:
                                     { throw new Exception("Answer wrong"); }
-                                    break;
                             }
-                        }
                     }
                     if (isI > isE)
                     {
-                        typeResult.Insert(0,"I");
-                    }
-                    else if (isE >= isI)
+                        typeResult = "I";
+                    } 
+                    else
                     {
-                        typeResult.Insert(0, "E");
+                        typeResult = "E";
                     }
-
                     if (isN > isS)
                     {
-                        typeResult.Insert(1, "N");
+                        typeResult += "N";
                     }
-                    else if (isS >= isN)
+                    else
                     {
-                        typeResult.Insert(1, "S");
+                        typeResult += "S";
                     }
-
                     if (isF > isT)
                     {
-                        typeResult.Insert(2, "F");
+                        typeResult += "F";
                     }
-                    else if (isT >= isF)
+                    else
                     {
-                        typeResult.Insert(2, "T");
+                        typeResult += "T";
                     }
-
                     if (isJ > isP)
                     {
-                        typeResult.Insert(3, "J");
+                        typeResult += "J";
                     }
-                    else if (isP >= isJ)
+                    else
                     {
-                        typeResult.Insert(3, "P");
+                        typeResult += "P";
                     }
+                    //if (isI > isE)
+                    //{
+                    //    typeResult.Insert(0,"I");
+                    //}
+                    //else if (isE >= isI)
+                    //{
+                    //    typeResult.Insert(0, "E");
+                    //}
 
-                    
+                    //if (isN > isS)
+                    //{
+                    //    typeResult.Insert(1, "N");
+                    //}
+                    //else if (isS >= isN)
+                    //{
+                    //    typeResult.Insert(1, "S");
+                    //}
+
+                    //if (isF > isT)
+                    //{
+                    //    typeResult.Insert(2, "F");
+                    //}
+                    //else if (isT >= isF)
+                    //{
+                    //    typeResult.Insert(2, "T");
+                    //}
+
+                    //if (isJ > isP)
+                    //{
+                    //    typeResult.Insert(3, "J");
+                    //}
+                    //else if (isP >= isJ)
+                    //{
+                    //    typeResult.Insert(3, "P");
+                    //}
+
+
                 }
                 var result = await _context.Characters
                     .Where(a => a.ResultShortName == typeResult)
@@ -287,6 +315,116 @@ namespace Qick.Repositories
             }
 
 
+        }
+
+        public async Task<string> CalculateTestResultTest(CalculateResultRequest request)
+        {
+            try
+            {
+                string typeResult = "";
+                var type = await _context.Tests
+                    .Where(i => i.Id == request.TestId)
+                    .Include(u => u.QuizType)
+                    .FirstOrDefaultAsync();
+
+                if (type.QuizType.QuizTypeName.Equals(TestTypeName.MBTI))
+                {
+
+                    int
+                        isI = 0,
+                        isE = 0,
+                        isS = 0,
+                        isN = 0,
+                        isT = 0,
+                        isF = 0,
+                        isJ = 0,
+                        isP = 0;
+                    foreach (var question in request.questions)
+                    {
+                        switch (question.Options.FirstOrDefault().optionValue)
+                        {
+                            case TypeMBTI.IsI:
+                                isI += 1;
+                                break;
+
+                            case TypeMBTI.IsE:
+                                isE += 1;
+                                break;
+
+                            case TypeMBTI.IsS:
+                                isS += 1;
+                                break;
+
+                            case TypeMBTI.IsN:
+                                isN += 1;
+                                break;
+
+                            case TypeMBTI.IsT:
+                                isT += 1;
+                                break;
+
+                            case TypeMBTI.IsF:
+                                isF += 1;
+                                break;
+
+                            case TypeMBTI.IsJ:
+                                isJ += 1;
+                                break;
+
+                            case TypeMBTI.IsP:
+                                isP += 1;
+                                break;
+
+                            default:
+                                { throw new Exception("Answer wrong"); }
+                        }
+                    }
+                    if (isI > isE)
+                    {
+                        typeResult = "I";
+                    }
+                    else
+                    {
+                        typeResult = "E";
+                    }
+                    if (isN > isS)
+                    {
+                        typeResult += "N";
+                    }
+                    else
+                    {
+                        typeResult += "S";
+                    }
+                    if (isF > isT)
+                    {
+                        typeResult += "F";
+                    }
+                    else
+                    {
+                        typeResult += "T";
+                    }
+                    if (isJ > isP)
+                    {
+                        typeResult += "J";
+                    }
+                    else
+                    {
+                        typeResult += "P";
+                    }
+                   
+
+                }
+                //var result = await _context.Characters
+                //    .Where(a => a.ResultShortName == typeResult)
+                //    .FirstOrDefaultAsync();
+
+                return typeResult;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }
