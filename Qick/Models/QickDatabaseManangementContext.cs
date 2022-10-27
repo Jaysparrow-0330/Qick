@@ -22,7 +22,6 @@ namespace Qick.Models
         public virtual DbSet<Attempt> Attempts { get; set; } = null!;
         public virtual DbSet<AttemptDetail> AttemptDetails { get; set; } = null!;
         public virtual DbSet<Character> Characters { get; set; } = null!;
-        public virtual DbSet<City> Cities { get; set; } = null!;
         public virtual DbSet<District> Districts { get; set; } = null!;
         public virtual DbSet<Fqa> Fqas { get; set; } = null!;
         public virtual DbSet<Job> Jobs { get; set; } = null!;
@@ -156,38 +155,20 @@ namespace Qick.Models
                     .HasConstraintName("FK_Character_Test");
             });
 
-            modelBuilder.Entity<City>(entity =>
-            {
-                entity.ToTable("City");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.CityName).HasMaxLength(50);
-
-                entity.Property(e => e.Status).HasMaxLength(50);
-
-                entity.HasOne(d => d.Province)
-                    .WithMany(p => p.Cities)
-                    .HasForeignKey(d => d.ProvinceId)
-                    .HasConstraintName("FK_City_Province");
-            });
-
             modelBuilder.Entity<District>(entity =>
             {
                 entity.ToTable("District");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.CityId).HasColumnName("CItyId");
-
                 entity.Property(e => e.DistrictName).HasMaxLength(100);
 
-                entity.Property(e => e.Status).HasMaxLength(50);
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
 
-                entity.HasOne(d => d.City)
+                entity.HasOne(d => d.Province)
                     .WithMany(p => p.Districts)
-                    .HasForeignKey(d => d.CityId)
-                    .HasConstraintName("FK_District_City");
+                    .HasForeignKey(d => d.ProvinceId)
+                    .HasConstraintName("FK_District_Province");
             });
 
             modelBuilder.Entity<Fqa>(entity =>
@@ -282,6 +263,8 @@ namespace Qick.Models
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.ProvinceName).HasMaxLength(50);
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
             });
 
             modelBuilder.Entity<Question>(entity =>
@@ -456,7 +439,9 @@ namespace Qick.Models
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.Property(e => e.Status).HasMaxLength(50);
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.WardName).HasMaxLength(100);
 

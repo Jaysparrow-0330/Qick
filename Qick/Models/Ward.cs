@@ -13,7 +13,7 @@ namespace Qick.Models
 
         public int Id { get; set; }
         public string WardName { get; set; } = null!;
-        public string? Status { get; set; }
+        public bool? Status { get; set; }
         public int? DistrictId { get; set; }
 
         public virtual District? District { get; set; }

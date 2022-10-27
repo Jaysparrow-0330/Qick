@@ -7,13 +7,13 @@ namespace Qick.Models
     {
         public Province()
         {
-            Cities = new HashSet<City>();
+            Districts = new HashSet<District>();
         }
 
         public int Id { get; set; }
         public string? ProvinceName { get; set; }
         public bool? Status { get; set; }
 
-        public virtual ICollection<City> Cities { get; set; }
+        public virtual ICollection<District> Districts { get; set; }
     }
 }
