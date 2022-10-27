@@ -19,6 +19,7 @@ namespace Qick.Services.AutoMapper
             CreateMap<Test, TestDetailResponse>();
             CreateMap<Test, CreateTestResponseStepOne>();
             CreateMap<TestType, TestTypeResponse>();
+            CreateMap<Character, SubmitResponse>();
         }
         
     }

@@ -174,16 +174,108 @@ namespace Qick.Repositories
         {
             try
             {
+                string typeResult = "";
                 var type = await _context.Tests
                     .Where(i => i.Id == request.TestId)
                     .Include(u => u.QuizType)
                     .FirstOrDefaultAsync();
 
-                if (type.QuizType.QuizTypeName.ToLower().Equals("mbti"))
+                if (type.QuizType.QuizTypeName.Equals(TestTypeName.MBTI))
                 {
+                    
+                    int
+                        isI = 0,
+                        isE = 0,
+                        isS = 0,
+                        isN = 0,
+                        isT = 0,
+                        isF = 0,
+                        isJ = 0,
+                        isP = 0;
+                    foreach (var question in request.questions)
+                    {
+                        foreach (var option in question.Options)
+                        {
+                            switch (option.optionValue)
+                            {
+                                case TypeMBTI.IsI:
+                                    isI += 1;
+                                    break;
 
+                                case TypeMBTI.IsE:
+                                    isE += 1;
+                                    break;
+
+                                case TypeMBTI.IsS:
+                                    isS += 1;
+                                    break;
+
+                                case TypeMBTI.IsN:
+                                    isN += 1;
+                                    break;
+
+                                case TypeMBTI.IsT:
+                                    isT += 1;
+                                    break;
+
+                                case TypeMBTI.IsF:
+                                    isF += 1;
+                                    break;
+
+                                case TypeMBTI.IsJ:
+                                    isJ += 1;
+                                    break;
+
+                                case TypeMBTI.IsP:
+                                    isP += 1;
+                                    break;
+
+                                default:
+                                    { throw new Exception("Answer wrong"); }
+                                    break;
+                            }
+                        }
+                    }
+                    if (isI > isE)
+                    {
+                        typeResult.Insert(0,"I");
+                    }
+                    else if (isE >= isI)
+                    {
+                        typeResult.Insert(0, "E");
+                    }
+
+                    if (isN > isS)
+                    {
+                        typeResult.Insert(1, "N");
+                    }
+                    else if (isS >= isN)
+                    {
+                        typeResult.Insert(1, "S");
+                    }
+
+                    if (isF > isT)
+                    {
+                        typeResult.Insert(2, "F");
+                    }
+                    else if (isT >= isF)
+                    {
+                        typeResult.Insert(2, "T");
+                    }
+
+                    if (isJ > isP)
+                    {
+                        typeResult.Insert(3, "J");
+                    }
+                    else if (isP >= isJ)
+                    {
+                        typeResult.Insert(3, "P");
+                    }
+
+                    
                 }
                 var result = await _context.Characters
+                    .Where(a => a.ResultShortName == typeResult)
                     .FirstOrDefaultAsync();
 
                 return result;

@@ -269,10 +269,6 @@ namespace Qick.Models
 
                 entity.Property(e => e.OptionType).HasMaxLength(50);
 
-                entity.Property(e => e.Value)
-                    .HasMaxLength(10)
-                    .IsUnicode(false);
-
                 entity.HasOne(d => d.Question)
                     .WithMany(p => p.Options)
                     .HasForeignKey(d => d.QuestionId)
@@ -293,10 +289,6 @@ namespace Qick.Models
                 entity.ToTable("Question");
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-
-                entity.Property(e => e.Value)
-                    .HasMaxLength(10)
-                    .IsUnicode(false);
 
                 entity.HasOne(d => d.QuestionType)
                     .WithMany(p => p.Questions)

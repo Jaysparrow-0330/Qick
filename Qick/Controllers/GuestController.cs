@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Qick.Dto.Requests;
 using Qick.Dto.Responses;
 using Qick.Repositories.Interfaces;
 
@@ -60,6 +61,23 @@ namespace Qick.Controllers
                 var takingTest = await _repo.GetTestToAttempForGuest(testId);
                 var takingTestResponse = _mapper.Map<TakingTestResponse>(takingTest);
                 return Ok(takingTestResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+
+        }
+
+        // submit test response test's result
+        [HttpGet("guest-submit-test")]
+        public async Task<IActionResult> SubmitTest(CalculateResultRequest request)
+        {
+            try
+            {
+                var result = await _repo.CalculateTestResult(request);
+                var submitResponse = _mapper.Map<SubmitResponse>(result);
+                return Ok(submitResponse);
             }
             catch (Exception ex)
             {

@@ -1,10 +1,13 @@
 ﻿namespace Qick.Dto.Enum
 {
-    public class TestType
+    public class TestTypeName
     {
-        public const int
-            PERSONAL_TEST = 1,
-            ASTRONOLOGY_TEST = 2;
-            
+        public const string
+           MBTI = "MBTI",
+           DISC = "DISC",
+           BIG5 = "BIG FIVE",
+           HOLLAND = "HOLLAND";
+
+
     }
 }

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Qick.Configuration;
 using Qick.Models;
 using Qick.Repositories;
 using Qick.Repositories.Interfaces;
@@ -48,11 +49,7 @@ builder.Services.AddSwaggerGen(c =>
                 });
 });
 builder.Services.AddDbContext<QickDatabaseManangementContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Dbcon")));
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<ICreateTokenService, CreateTokenService>();
-builder.Services.AddScoped<ITestRepository, TestRepository>();
-builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
-builder.Services.AddScoped<IOptionRepository, OptionRepository>();
+builder.Services.AddRepository();
 builder.Services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
