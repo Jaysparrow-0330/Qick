@@ -253,7 +253,7 @@ namespace Qick.Controllers
         }
 
         //Create Job
-        [HttpPost("create-jib")]
+        [HttpPost("create-job")]
         public async Task<IActionResult> CreateJob(JobRequest request)
         {
             try
