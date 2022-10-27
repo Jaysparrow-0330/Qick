@@ -414,9 +414,9 @@ namespace Qick.Repositories
                    
 
                 }
-                //var result = await _context.Characters
-                //    .Where(a => a.ResultShortName == typeResult)
-                //    .FirstOrDefaultAsync();
+                var result = await _context.Characters
+                    .Where(a => a.ResultShortName == typeResult)
+                    .FirstOrDefaultAsync();
 
                 return typeResult;
             }
@@ -425,6 +425,23 @@ namespace Qick.Repositories
 
                 throw ex;
             }
+        }
+
+        public async Task<Character> GetCharacterResult(Guid requestId)
+        {
+            try
+            {
+                var result = await _context.Characters
+                                    .Where(a => a.Id == requestId)
+                                    .FirstOrDefaultAsync();
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
     }
 }

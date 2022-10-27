@@ -69,6 +69,23 @@ namespace Qick.Controllers
 
         }
 
+        // Get character result by character id
+        [HttpGet("get-character")]
+        public async Task<IActionResult> GetCharacterResult(Guid characterId)
+        {
+            try
+            {
+                var character = await _repo.GetCharacterResult(characterId);
+                var characterResponse = _mapper.Map<ResultResponse>(character);
+                return Ok(characterResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+
+        }
+
         // submit test response test's result
         [HttpPost("submit-test")]
         public async Task<IActionResult> SubmitTest(CalculateResultRequest request)

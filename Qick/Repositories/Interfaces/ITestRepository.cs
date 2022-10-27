@@ -43,5 +43,8 @@ namespace Qick.Repositories.Interfaces
         // get all testType
         Task<IEnumerable<Models.TestType>> GetActiveTestType();
 
+        // get character result
+        Task<Character> GetCharacterResult(Guid requestId);
+
     }
 }
