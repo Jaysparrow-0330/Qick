@@ -82,6 +82,7 @@ namespace Qick.Repositories
                     questionDb.QuestionContent = question.QuestionContent;
                     questionDb.QuestionTypeId = question.QuestionTypeId;
                     questionDb.Value = question.Value;
+                    questionDb.Status = question.Status;
                 }
                 else
                 {

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Qick.Dto.Requests;
 using Qick.Dto.Responses;
 using Qick.Models;
 
@@ -13,6 +14,8 @@ namespace Qick.Services.AutoMapper
             CreateMap<ListResponse<Question>, ListResponse<QuestionResponse>>();
             CreateMap<QuestionType,QuestionTypeResponse>();
             CreateMap<Question, QuestionForAdminResponse>();
+            CreateMap<UpdateQuestionRequest, Question>();
+            CreateMap<UpdateQuestionRequest, CreateQuestionRequest>();
         }
     }
 }

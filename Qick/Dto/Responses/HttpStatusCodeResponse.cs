@@ -36,6 +36,10 @@
                     Message = "Email Used";
                     break;
 
+                case 310:
+                    Message = "Test Not Exist";
+                    break;
+
                 default:
                     Code = 400;
                     Message = "Error";

@@ -69,6 +69,7 @@ namespace Qick.Repositories
                 {
                     optionDb.OptionContent = option.OptionContent;
                     optionDb.Value = option.Value;
+                    optionDb.Status = option.Status;
                 }
                 else
                 {

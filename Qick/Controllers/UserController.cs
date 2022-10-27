@@ -44,7 +44,7 @@ namespace Qick.Controllers
 
 
         // Login admin page With Email And Password
-        [HttpPost("login-Admin")]
+        [HttpPost("login-admin")]
         public async Task<ActionResult> LoginAd(LoginRequest userIn)
         {
             try
@@ -64,7 +64,7 @@ namespace Qick.Controllers
         }
 
         // Login University page With Email And Password
-        [HttpPost("login-University")]
+        [HttpPost("login-university")]
         public async Task<ActionResult> LoginUni(LoginRequest userIn)
         {
             try

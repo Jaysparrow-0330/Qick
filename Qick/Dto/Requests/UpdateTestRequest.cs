@@ -10,6 +10,5 @@
         public string? History { get; set; }
         public string? CriteriaInformation { get; set; }
         public string? BackgroundUrl { get; set; }
-        public ICollection<UpdateQuestionRequest> questions { get; set; }
     }
 }

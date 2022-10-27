@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Qick.Dto.Enum;
 using Qick.Dto.Requests;
 using Qick.Dto.Responses;
+using Qick.Models;
 using Qick.Repositories.Interfaces;
 using Qick.Services.Interfaces;
 using System.Security.Claims;
@@ -165,33 +166,68 @@ namespace Qick.Controllers
             try
             {
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                var test = await _repoTest.UpdateTestInformation(request);
-                if (test != null)
+                var checkTest = await _repoTest.GetTestById(request.Id);
+                if (checkTest != null)
                 {
-                    foreach (var question in request.questions)
+                    var test = await _repoTest.UpdateTestInformation(request);
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(310));
+                }
+                return Ok(new HttpStatusCodeResponse(200));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
+        //Update List Question
+        [HttpPut("admin-update-question-list")]
+        public async Task<IActionResult> UpdateQuestionByAdmin(UpdateListQuestionRequest request)
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                foreach (var question in request.questions)
+                {
+                    var checkQuestion = await _repoQuestion.GetQuestionById(question.Id);
+                    if (checkQuestion != null)
                     {
-                        var questionRequest = await _repoQuestion.UpdateQuestionInformation(question);
-                        if (questionRequest != null)
+                        var updateQuestion = await _repoQuestion.UpdateQuestionInformation(question);
+                        foreach (var option in question.Options)
                         {
-                            foreach (var option in question.Options)
+                            var checkOption = await _repoOption.UpdateOptionInformation(option);
+                            if (checkOption != null)
                             {
-                                var optionRequest = await _repoOption.UpdateOptionInformation(option);
-                                if (optionRequest == null)
+                                var updateOption = await _repoOption.UpdateOptionInformation(option);
+                            }
+                            else
+                            {
+                                var newOption = _mapper.Map<CreateOptionRequest>(option);
+                                var check = await _repoOption.CreateOption(updateQuestion, newOption);
+                                if (!check)
                                 {
                                     return Ok(new HttpStatusCodeResponse(204));
                                 }
                             }
                         }
-                        else
+                    }
+                    else
+                    {
+                        var newQuestion = _mapper.Map<CreateQuestionRequest>(question);
+                        var addQuestion = await _repoQuestion.CreateQuestion(newQuestion);
+                        foreach (var opt in newQuestion.Options)
                         {
-                            return Ok(new HttpStatusCodeResponse(204));
+                            var check = await _repoOption.CreateOption(addQuestion, opt);
+                            if (!check)
+                            {
+                                return Ok(new HttpStatusCodeResponse(204));
+                            }
                         }
                     }
-                } 
-                else
-                {
-                    return Ok(new HttpStatusCodeResponse(204));
-                } 
+                }
                 return Ok(new HttpStatusCodeResponse(200));
             }
             catch (Exception ex)

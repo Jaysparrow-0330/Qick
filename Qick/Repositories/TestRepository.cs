@@ -48,7 +48,9 @@ namespace Qick.Repositories
         {
             var testMember = await _context.Tests
                 .Where(a => a.Id == testId)
-                .Include(u => u.Questions).ThenInclude(q => q.Options)
+                .Include(u => u.Questions.Where(a => a.Status == Status.ACTIVE))
+                .ThenInclude(q => q.Options.Where(a => a.Status == Status.ACTIVE))
+                .Where(a => a.Status == Status.ACTIVE)
                 .FirstOrDefaultAsync();
             return testMember;
         }
@@ -57,7 +59,9 @@ namespace Qick.Repositories
         {
             var testMember = await _context.Tests   
                 .Where(a => a.Id == testId)
-                .Include(u => u.Questions).ThenInclude(q => q.Options)
+                .Include(u => u.Questions.Where(a => a.Status == Status.ACTIVE))
+                .ThenInclude(q => q.Options.Where(a => a.Status == Status.ACTIVE))
+                .Where(a => a.Status == Status.ACTIVE)
                 .FirstOrDefaultAsync();
             return testMember;
         }
@@ -135,11 +139,6 @@ namespace Qick.Repositories
             }
         }
 
-        public Task<Character> CalculateTestResult(CalculateResultRequest request)
-        {
-           throw new NotImplementedException();
-        }
-
         public async Task<Test> UpdateTestInformation(UpdateTestRequest test)
         {
             try
@@ -171,31 +170,31 @@ namespace Qick.Repositories
             }
         }
 
-        //public async Task<Character> CalculateTestResult(CalculateResultRequest request)
-        //{
-        //    try
-        //    {
-        //        var type = await _context.Tests
-        //            .Where(i => i.Id == request.TestId)
-        //            .Include(u => u.QuizType)
-        //            .FirstOrDefaultAsync();
+        public async Task<Character> CalculateTestResult(CalculateResultRequest request)
+        {
+            try
+            {
+                var type = await _context.Tests
+                    .Where(i => i.Id == request.TestId)
+                    .Include(u => u.QuizType)
+                    .FirstOrDefaultAsync();
 
-        //        if (type.QuizType.QuizTypeName.ToLower().Equals("mbti"))
-        //        {
+                if (type.QuizType.QuizTypeName.ToLower().Equals("mbti"))
+                {
 
-        //        }
-        //        var result = await _context.Characters
-        //            .FirstOrDefaultAsync();
+                }
+                var result = await _context.Characters
+                    .FirstOrDefaultAsync();
 
-        //        return result;
-        //    }
-        //    catch (Exception ex)
-        //    {
+                return result;
+            }
+            catch (Exception ex)
+            {
 
-        //        throw ex;
-        //    }
+                throw ex;
+            }
 
 
-        //}
+        }
     }
 }
