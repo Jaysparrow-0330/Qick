@@ -50,6 +50,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 builder.Services.AddDbContext<QickDatabaseManangementContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Dbcon")));
 builder.Services.AddRepository();
+builder.Services.AddScoped<ICreateTokenService, CreateTokenService>();
 builder.Services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
