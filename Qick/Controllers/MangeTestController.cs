@@ -13,7 +13,7 @@ using System.Security.Claims;
 namespace Qick.Controllers
 {
     [Authorize(Roles = Roles.GOD + "," + Roles.ADMIN)]
-    [Route("api/managetest")]
+    [Route("api/admin-test")]
     [ApiController]
     public class MangeTestController : ControllerBase
     {
@@ -32,7 +32,7 @@ namespace Qick.Controllers
             _repoOption = repoOption;
         }
         //Create Test step one create basic information of test , return test to create questions, option, etc.
-        [HttpPost("admin-create-test-step-one")]
+        [HttpPost("test-create")]
         public async Task<IActionResult> CreateTestStepOne(CreateTestRequest request)
         {
             try
@@ -50,7 +50,7 @@ namespace Qick.Controllers
 
 
         //Create Result for test
-        [HttpPost("admin-create-result-for-test")]
+        [HttpPost("create-result")]
         public async Task<IActionResult> CreateTestResult(ResultRequest request)
         {
             try
@@ -73,7 +73,7 @@ namespace Qick.Controllers
             }
         }
         //Create Test step two create questions and options , return boolean to check 
-        [HttpPost("admin-create-test-step-two")]
+        [HttpPost("question-create")]
         public async Task<IActionResult> CreateTestStepTwo(CreateTestStepTwoRequest request)
         {
             try
@@ -106,7 +106,7 @@ namespace Qick.Controllers
             }
         }
         // Get list active test by admin
-        [HttpGet("admin-get-list-active-test-by-admin")]
+        [HttpGet("get-test")]
         public async Task<IActionResult> GetAllActiveTestByAdmin()
         {
             try
@@ -124,7 +124,7 @@ namespace Qick.Controllers
         }
 
         // Get list all test by admin
-        [HttpGet("admin-get-list-all-test-by-admin")]
+        [HttpGet("get-all-test")]
         public async Task<IActionResult> GetAllTestByAdmin()
         {
             try
@@ -142,7 +142,7 @@ namespace Qick.Controllers
         }
 
         // Get question type category
-        [HttpGet("admin-get-active-question-type")]
+        [HttpGet("get-question-type")]
         public async Task<IActionResult> GetActiveQuestionType()
         {
             try
@@ -160,7 +160,7 @@ namespace Qick.Controllers
         }
 
         //Update Test
-        [HttpPut("admin-update-test")]
+        [HttpPut("update-test")]
         public async Task<IActionResult> UpdateTestByAdmin(UpdateTestRequest request)
         {
             try
@@ -184,7 +184,7 @@ namespace Qick.Controllers
         }
 
         //Update List Question
-        [HttpPut("admin-update-question-list")]
+        [HttpPut("update-questions")]
         public async Task<IActionResult> UpdateQuestionByAdmin(UpdateListQuestionRequest request)
         {
             try

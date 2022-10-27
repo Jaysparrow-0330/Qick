@@ -30,7 +30,7 @@ namespace Qick.Controllers
         }
 
         // Get question type category
-        [HttpGet("authenticated-user-get-active-question-type")]
+        [HttpGet("get-question-type")]
         public async Task<IActionResult> GetActiveQuestionType()
         {
             try
@@ -48,7 +48,7 @@ namespace Qick.Controllers
         }
 
         // Get list all question by test id
-        [HttpGet("authenticated-user-get-list-all-question-by-test-id")]
+        [HttpGet("get-all-question")]
         public async Task<IActionResult> GetAllQuestionByTestId(int testId)
         {
             try

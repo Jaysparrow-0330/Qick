@@ -11,7 +11,7 @@ using System.Security.Claims;
 namespace Qick.Controllers
 {
     [Authorize(Roles = Roles.GOD + "," + Roles.ADMIN)]
-    [Route("api/adminquestion")]
+    [Route("api/admin-question")]
     [ApiController]
     public class ManageQuestionController : ControllerBase
     {
@@ -29,7 +29,7 @@ namespace Qick.Controllers
         }
 
         // Get list all question by test id
-        [HttpGet("admin-get-list-all-question-by-test-id")]
+        [HttpGet("get-all-question")]
         public async Task<IActionResult> GetAllQuestionByTestId(int testId)
         {
             try
