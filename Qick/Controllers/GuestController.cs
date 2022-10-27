@@ -93,8 +93,7 @@ namespace Qick.Controllers
             try
             {
                 var result = await _repo.CalculateTestResult(request);
-                var submitResponse = _mapper.Map<SubmitResponse>(result);
-                return Ok(submitResponse);
+                return Ok(result);
             }
             catch (Exception ex)
             {

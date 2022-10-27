@@ -170,7 +170,7 @@ namespace Qick.Repositories
             }
         }
 
-        public async Task<Character> CalculateTestResult(CalculateResultRequest request)
+        public async Task<Guid> CalculateTestResult(CalculateResultRequest request)
         {
             try
             {
@@ -306,7 +306,7 @@ namespace Qick.Repositories
                     .Where(a => a.ResultShortName == typeResult)
                     .FirstOrDefaultAsync();
 
-                return result;
+                return result.Id;
             }
             catch (Exception ex)
             {
