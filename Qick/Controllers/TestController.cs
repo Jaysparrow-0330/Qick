@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Qick.Dto.Requests;
 using Qick.Dto.Responses;
 using Qick.Models;
 using Qick.Repositories.Interfaces;
@@ -133,6 +134,21 @@ namespace Qick.Controllers
 
         }
 
+        // submit test response test's result by guest
+        [AllowAnonymous]
+        [HttpPost("submit-test-guest")]
+        public async Task<IActionResult> SubmitTest(CalculateResultRequest request)
+        {
+            try
+            {
+                var result = await _repo.CalculateTestResult(request);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
 
+        }
     }
 }
