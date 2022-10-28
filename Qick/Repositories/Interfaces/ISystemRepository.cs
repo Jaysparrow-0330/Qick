@@ -11,5 +11,8 @@ namespace Qick.Repositories.Interfaces
 
         // get all Job 
         Task<IEnumerable<Job>> GetAllJob();
+
+        // create Major
+        Task<bool> CreateMajor(MajorRequest request);
     }
 }

@@ -44,7 +44,7 @@ namespace Qick.Repositories
             return testDetail;
         }
 
-        public async Task<Test> GetTestToAttempForUser(int testId,Guid userId)
+        public async Task<Test> GetTestToAttemp(int testId)
         {
             var testMember = await _context.Tests
                 .Where(a => a.Id == testId)
@@ -55,16 +55,7 @@ namespace Qick.Repositories
             return testMember;
         }
 
-        public async Task<Test> GetTestToAttempForGuest(int testId)
-        {
-            var testMember = await _context.Tests   
-                .Where(a => a.Id == testId)
-                .Include(u => u.Questions.Where(a => a.Status == Status.ACTIVE))
-                .ThenInclude(q => q.Options.Where(a => a.Status == Status.ACTIVE))
-                .Where(a => a.Status == Status.ACTIVE)
-                .FirstOrDefaultAsync();
-            return testMember;
-        }
+       
 
         public async Task<Test> CreateTest(CreateTestRequest request, Guid userId)
         {
@@ -427,7 +418,7 @@ namespace Qick.Repositories
             }
         }
 
-        public async Task<Character> GetCharacterResult(Guid requestId)
+        public async Task<Character> GetCharacterResult(Guid? requestId)
         {
             try
             {
@@ -442,6 +433,21 @@ namespace Qick.Repositories
                 throw;
             }
             
+        }
+
+        public async Task<IEnumerable<Character>> GetAllCharacterResult()
+        {
+            try
+            {
+                var result = await _context.Characters
+                                    .ToListAsync();
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

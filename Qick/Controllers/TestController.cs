@@ -56,9 +56,9 @@ namespace Qick.Controllers
         {
             try
             {
-                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                string Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
-                var takingTest = await _repo.GetTestToAttempForUser(testId,userId);
+                Guid? userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                string? Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
+                var takingTest = await _repo.GetTestToAttemp(testId);
                 var takingTestResponse = _mapper.Map<TakingTestResponse>(takingTest);
                 return Ok(takingTestResponse);
             }

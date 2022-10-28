@@ -210,12 +210,6 @@ namespace Qick.Models
 
                 entity.Property(e => e.Status).HasMaxLength(50);
 
-                entity.HasOne(d => d.Job)
-                    .WithMany()
-                    .HasForeignKey(d => d.JobId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_JobMajor_Job");
-
                 entity.HasOne(d => d.Major)
                     .WithMany()
                     .HasForeignKey(d => d.MajorId)
@@ -243,6 +237,8 @@ namespace Qick.Models
             modelBuilder.Entity<Major>(entity =>
             {
                 entity.ToTable("Major");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
             });
 
             modelBuilder.Entity<Option>(entity =>
@@ -307,12 +303,12 @@ namespace Qick.Models
             {
                 entity.ToTable("Specialization");
 
-                entity.Property(e => e.Id).HasMaxLength(50);
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.HasOne(d => d.Major)
                     .WithMany(p => p.Specializations)
                     .HasForeignKey(d => d.MajorId)
-                    .HasConstraintName("FK_TblSpecialization_TblMajor");
+                    .HasConstraintName("FK_Specialization_Major");
             });
 
             modelBuilder.Entity<Test>(entity =>
@@ -368,8 +364,6 @@ namespace Qick.Models
             modelBuilder.Entity<UniversitySpecialization>(entity =>
             {
                 entity.ToTable("UniversitySpecialization");
-
-                entity.Property(e => e.SpecId).HasMaxLength(50);
 
                 entity.Property(e => e.Status).HasMaxLength(50);
 

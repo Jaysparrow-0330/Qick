@@ -12,7 +12,7 @@ namespace Qick.Models
 
         public int Id { get; set; }
         public Guid? UniId { get; set; }
-        public string? SpecId { get; set; }
+        public Guid? SpecId { get; set; }
         public string? UniSpecName { get; set; }
         public string? Status { get; set; }
 

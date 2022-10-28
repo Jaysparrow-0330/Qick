@@ -277,6 +277,30 @@ namespace Qick.Controllers
             }
         }
 
+        //Create Major
+        [HttpPost("create-major")]
+        public async Task<IActionResult> CreateMajor(MajorRequest request)
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var response = await _repoSystem.CreateMajor(request);
+
+                if (response)
+                {
+                    return Ok(new HttpStatusCodeResponse(200));
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
         //Get all Job
         [HttpGet("get-job")]
         public async Task<IActionResult> GetJob()

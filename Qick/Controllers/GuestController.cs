@@ -58,7 +58,7 @@ namespace Qick.Controllers
         {
             try
             {
-                var takingTest = await _repo.GetTestToAttempForGuest(testId);
+                var takingTest = await _repo.GetTestToAttemp(testId);
                 var takingTestResponse = _mapper.Map<TakingTestResponse>(takingTest);
                 return Ok(takingTestResponse);
             }
@@ -71,13 +71,26 @@ namespace Qick.Controllers
 
         // Get character result by character id
         [HttpGet("get-character")]
-        public async Task<IActionResult> GetCharacterResult(Guid characterId)
+        public async Task<IActionResult> GetCharacterResult(Guid? characterId)
         {
             try
             {
-                var character = await _repo.GetCharacterResult(characterId);
-                var characterResponse = _mapper.Map<ResultResponse>(character);
-                return Ok(characterResponse);
+                
+
+                if(characterId != null)
+                {
+                    var character = await _repo.GetCharacterResult(characterId);
+                     var characterResponse = _mapper.Map<ResultResponse>(character);
+                    return Ok(characterResponse);
+                }
+                else
+                {
+                    var listCharacter = await _repo.GetAllCharacterResult();
+                     var characterResponse = _mapper.Map<IEnumerable<ResultResponse>>(listCharacter);
+                    return Ok(characterResponse);
+                }
+                
+                return Ok(new HttpStatusCodeResponse(204));
             }
             catch (Exception ex)
             {

@@ -17,10 +17,9 @@ namespace Qick.Repositories.Interfaces
         Task<IEnumerable<Test>> GetListActiveTestGuest();
 
         // get test  user to attemp
-        Task<Test> GetTestToAttempForUser(int testId, Guid userId);
+        Task<Test> GetTestToAttemp(int testId);
 
-        // get test  user to attemp
-        Task<Test> GetTestToAttempForGuest(int testId);
+        
 
         // get test  by testId
         Task<Test> GetTestById(int testId);
@@ -44,7 +43,10 @@ namespace Qick.Repositories.Interfaces
         Task<IEnumerable<Models.TestType>> GetActiveTestType();
 
         // get character result
-        Task<Character> GetCharacterResult(Guid requestId);
+        Task<Character> GetCharacterResult(Guid? requestId);
+
+        // get all character result
+        Task<IEnumerable<Character>> GetAllCharacterResult();
 
     }
 }

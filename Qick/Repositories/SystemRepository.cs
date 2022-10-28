@@ -36,6 +36,28 @@ namespace Qick.Repositories
             }
         }
 
+        public async Task<bool> CreateMajor(MajorRequest request)
+        {
+            try
+            {
+                Major addMajor = new()
+                {
+                    Id = Guid.NewGuid(),
+                    MajorName = request.MajorName,
+                    Status = Status.ACTIVE,
+                    Description = request.Description,
+                    MajorCode = request.MajorCode
+                };
+                await _context.Majors.AddAsync(addMajor);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public async Task<IEnumerable<Job>> GetAllJob()
         {
             try
