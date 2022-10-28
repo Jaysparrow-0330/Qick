@@ -32,15 +32,14 @@ namespace Qick.Controllers
             _repoOption = repoOption;
         }
 
-        // Get list test by authenticated user
+        // Get list active test
+        [AllowAnonymous]
         [HttpGet("get-active-test")]
-        public async Task<IActionResult> GetAllActiveTestByUser()
+        public async Task<IActionResult> GetAllActiveTest()
         {
             try
             {
-                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                string Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
-                var testList = await _repo.GetListActiveTest(userId);
+                var testList = await _repo.GetListActiveTest();
                 var testListResponse = _mapper.Map<IEnumerable<ListTestResponse>>(testList);
                 return Ok(testListResponse);
             }
@@ -51,13 +50,12 @@ namespace Qick.Controllers
         }
 
         // Get test to attemp by user
+        [AllowAnonymous]
         [HttpGet("taking-test")]
         public async Task<IActionResult> TakingTest(int testId) 
         {
             try
             {
-                Guid? userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                string? Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
                 var takingTest = await _repo.GetTestToAttemp(testId);
                 var takingTestResponse = _mapper.Map<TakingTestResponse>(takingTest);
                 return Ok(takingTestResponse);
@@ -87,7 +85,8 @@ namespace Qick.Controllers
 
         }
 
-        // Get test detail by user
+        // Get test detail
+        [AllowAnonymous]
         [HttpGet("get-test-detail")]
         public async Task<IActionResult> GetTestDetail(int testId)
         {
@@ -102,5 +101,38 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
+
+        // Get character result by character id
+        [AllowAnonymous]
+        [HttpGet("get-character")]
+        public async Task<IActionResult> GetCharacterResult(Guid? characterId)
+        {
+            try
+            {
+
+
+                if (characterId != null)
+                {
+                    var character = await _repo.GetCharacterResult(characterId);
+                    var characterResponse = _mapper.Map<ResultResponse>(character);
+                    return Ok(characterResponse);
+                }
+                else
+                {
+                    var listCharacter = await _repo.GetAllCharacterResult();
+                    var characterResponse = _mapper.Map<IEnumerable<ResultResponse>>(listCharacter);
+                    return Ok(characterResponse);
+                }
+
+                return Ok(new HttpStatusCodeResponse(204));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+
+        }
+
+
     }
 }

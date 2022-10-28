@@ -122,23 +122,7 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
-        // Get list active test by admin
-        [HttpGet("get-active-test")]
-        public async Task<IActionResult> GetAllActiveTestByAdmin()
-        {
-            try
-            {
-                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                string Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
-                var testList = await _repoTest.GetListActiveTest(userId);
-                var testListResponse = _mapper.Map<IEnumerable<ListTestForAdminResponse>>(testList);
-                return Ok(testListResponse);
-            }
-            catch (Exception ex)
-            {
-                return Ok(ex.Message);
-            }
-        }
+        
 
         // Get list all test by admin
         [HttpGet("get-all-test")]

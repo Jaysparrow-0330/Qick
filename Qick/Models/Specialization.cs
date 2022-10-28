@@ -15,7 +15,6 @@ namespace Qick.Models
         public string? SpecName { get; set; }
         public string? Status { get; set; }
         public string? Description { get; set; }
-        public string? SpecCode { get; set; }
 
         public virtual Major? Major { get; set; }
         public virtual ICollection<UniversitySpecialization> UniversitySpecializations { get; set; }

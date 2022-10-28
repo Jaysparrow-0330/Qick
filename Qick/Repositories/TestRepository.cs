@@ -15,7 +15,7 @@ namespace Qick.Repositories
         {
             _context = context;
         }
-        public async Task<IEnumerable<Test>> GetListActiveTest(Guid userId)
+        public async Task<IEnumerable<Test>> GetListActiveTest()
         {
             var testMember = await _context.Tests
                 .Where(u => u.Status == Status.ACTIVE)

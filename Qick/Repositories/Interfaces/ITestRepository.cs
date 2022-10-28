@@ -8,7 +8,7 @@ namespace Qick.Repositories.Interfaces
     {
 
         // get list active test from database by user
-        Task<IEnumerable<Test>> GetListActiveTest(Guid userId);
+        Task<IEnumerable<Test>> GetListActiveTest();
 
         // get list all status test from database by user
         Task<IEnumerable<Test>> GetListAllTest(Guid userId);

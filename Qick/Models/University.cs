@@ -25,6 +25,7 @@ namespace Qick.Models
         public string? Vippack { get; set; }
         public string? Status { get; set; }
         public int? WardId { get; set; }
+        public string? UniCode { get; set; }
 
         public virtual Ward? Ward { get; set; }
         public virtual ICollection<AddmissionCampaign> AddmissionCampaigns { get; set; }
