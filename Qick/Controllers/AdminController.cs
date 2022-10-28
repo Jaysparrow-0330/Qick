@@ -276,5 +276,23 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
+
+        //Get all Job
+        [HttpPost("get-job")]
+        public async Task<IActionResult> GetJob()
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var response = await _repoSystem.GetAllJob();
+                var ListJobResponse = _mapper.Map<IEnumerable<JobResponse>>(response);
+
+                return Ok(ListJobResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
     }
 }

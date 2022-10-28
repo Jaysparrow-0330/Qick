@@ -1,4 +1,6 @@
 ﻿using Qick.Dto.Requests;
+using Qick.Dto.Responses;
+using Qick.Models;
 
 namespace Qick.Repositories.Interfaces
 {
@@ -6,5 +8,8 @@ namespace Qick.Repositories.Interfaces
     {
         // create Job 
         Task<bool> CreateJob(JobRequest request);
+
+        // get all Job 
+        Task<IEnumerable<Job>> GetAllJob();
     }
 }

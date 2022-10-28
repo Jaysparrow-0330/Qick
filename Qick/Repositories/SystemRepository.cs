@@ -1,5 +1,7 @@
-﻿using Qick.Dto.Enum;
+﻿using Microsoft.EntityFrameworkCore;
+using Qick.Dto.Enum;
 using Qick.Dto.Requests;
+using Qick.Dto.Responses;
 using Qick.Models;
 using Qick.Repositories.Interfaces;
 
@@ -30,6 +32,21 @@ namespace Qick.Repositories
             }
             catch (Exception ex)
             {
+                throw ex;
+            }
+        }
+
+        public async Task<IEnumerable<Job>> GetAllJob()
+        {
+            try
+            {
+                var response = await _context.Jobs
+                    .ToListAsync();
+                return response;
+            }
+            catch (Exception ex)
+            {
+
                 throw ex;
             }
         }

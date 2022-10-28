@@ -20,6 +20,7 @@ namespace Qick.Models
         public string? ResultShortName { get; set; }
         public string? ResultPicture { get; set; }
         public string? ResultCareer { get; set; }
+        public string? Value { get; set; }
 
         public virtual Test? Test { get; set; }
         public virtual ICollection<Attempt> Attempts { get; set; }
