@@ -21,12 +21,13 @@ namespace Qick.Controllers
         private readonly ISystemRepository _repoSystem;
         private readonly IMapper _mapper;
 
-        public AdminController(ITestRepository repoTest, IMapper mapper, IQuestionRepository repoQuestion, IOptionRepository repoOption)
+        public AdminController(ISystemRepository repoSystem,ITestRepository repoTest, IMapper mapper, IQuestionRepository repoQuestion, IOptionRepository repoOption)
         {
             _repoTest = repoTest;
             _mapper = mapper;
             _repoQuestion = repoQuestion;
             _repoOption = repoOption;
+            _repoSystem = repoSystem;
         }
 
         // Get list all question by test id
@@ -122,7 +123,7 @@ namespace Qick.Controllers
             }
         }
         // Get list active test by admin
-        [HttpGet("get-test")]
+        [HttpGet("get-active-test")]
         public async Task<IActionResult> GetAllActiveTestByAdmin()
         {
             try

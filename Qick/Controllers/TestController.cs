@@ -33,7 +33,7 @@ namespace Qick.Controllers
         }
 
         // Get list test by authenticated user
-        [HttpGet("get-all-test")]
+        [HttpGet("get-active-test")]
         public async Task<IActionResult> GetAllActiveTestByUser()
         {
             try

@@ -21,7 +21,7 @@ namespace Qick.Controllers
         }
 
         // Get list test by guest
-        [HttpGet("get-test")]
+        [HttpGet("get-active-test")]
         public async Task<IActionResult> GetAllActiveTestByGuest()
         {
             try
