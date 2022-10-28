@@ -278,7 +278,7 @@ namespace Qick.Controllers
         }
 
         //Get all Job
-        [HttpPost("get-job")]
+        [HttpGet("get-job")]
         public async Task<IActionResult> GetJob()
         {
             try
