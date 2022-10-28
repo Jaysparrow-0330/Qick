@@ -161,7 +161,7 @@ namespace Qick.Repositories
             }
         }
 
-        public async Task<Guid> CalculateTestResult(CalculateResultRequest request)
+        public async Task<SubmitResponse> CalculateTestResult(CalculateResultRequest request)
         {
             try
             {
@@ -296,8 +296,12 @@ namespace Qick.Repositories
                 var result = await _context.Characters
                     .Where(a => a.ResultShortName == typeResult)
                     .FirstOrDefaultAsync();
-
-                return result.Id;
+                SubmitResponse response = new()
+                {
+                    Id = request.TestId,
+                    ResultShortName = result.ResultShortName
+                }; 
+                return response;
             }
             catch (Exception ex)
             {
@@ -418,12 +422,12 @@ namespace Qick.Repositories
             }
         }
 
-        public async Task<Character> GetCharacterResult(Guid? requestId)
+        public async Task<Character> GetCharacterResult(int testId, string? resultShortName)
         {
             try
             {
                 var result = await _context.Characters
-                                    .Where(a => a.Id == requestId)
+                                    .Where(a => a.TestId == testId && a.ResultShortName.Equals(resultShortName))
                                     .FirstOrDefaultAsync();
                 return result;
             }
@@ -435,11 +439,12 @@ namespace Qick.Repositories
             
         }
 
-        public async Task<IEnumerable<Character>> GetAllCharacterResult()
+        public async Task<IEnumerable<Character>> GetAllCharacterResult(int testId)
         {
             try
             {
                 var result = await _context.Characters
+                                    .Where(a => a.TestId == testId)
                                     .ToListAsync();
                 return result;
             }

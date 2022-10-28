@@ -106,21 +106,21 @@ namespace Qick.Controllers
         // Get character result by character id
         [AllowAnonymous]
         [HttpGet("get-character")]
-        public async Task<IActionResult> GetCharacterResult(Guid? characterId)
+        public async Task<IActionResult> GetCharacterResult(int testId, string? resultShortName)
         {
             try
             {
 
 
-                if (characterId != null)
+                if (resultShortName != null)
                 {
-                    var character = await _repo.GetCharacterResult(characterId);
+                    var character = await _repo.GetCharacterResult(testId,resultShortName);
                     var characterResponse = _mapper.Map<ResultResponse>(character);
                     return Ok(characterResponse);
                 }
                 else
                 {
-                    var listCharacter = await _repo.GetAllCharacterResult();
+                    var listCharacter = await _repo.GetAllCharacterResult(testId);
                     var characterResponse = _mapper.Map<IEnumerable<ResultResponse>>(listCharacter);
                     return Ok(characterResponse);
                 }

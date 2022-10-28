@@ -34,7 +34,7 @@ namespace Qick.Repositories.Interfaces
         Task<bool> CreateResult(ResultRequest request);
 
         // create result  by test Id ony admin or godad
-        Task<Guid> CalculateTestResult(CalculateResultRequest request);
+        Task<SubmitResponse> CalculateTestResult(CalculateResultRequest request);
 
         // create result  by test Id ony admin or godad
         Task<string> CalculateTestResultTest(CalculateResultRequest request);
@@ -43,10 +43,10 @@ namespace Qick.Repositories.Interfaces
         Task<IEnumerable<Models.TestType>> GetActiveTestType();
 
         // get character result
-        Task<Character> GetCharacterResult(Guid? requestId);
+        Task<Character> GetCharacterResult(int testId, string? resultShortName);
 
         // get all character result
-        Task<IEnumerable<Character>> GetAllCharacterResult();
+        Task<IEnumerable<Character>> GetAllCharacterResult(int testId);
 
     }
 }

@@ -2,6 +2,7 @@
 {
     public class SubmitResponse
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
+        public string ResultShortName { get; set; }
     }
 }
