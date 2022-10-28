@@ -1,4 +1,5 @@
-﻿using Qick.Models;
+﻿using Qick.Dto.Requests;
+using Qick.Models;
 
 namespace Qick.Repositories.Interfaces
 {
@@ -6,5 +7,8 @@ namespace Qick.Repositories.Interfaces
     {
         // get list all university by status
         Task<IEnumerable<University>> GetListAllUniversity(string status);
+
+        // create University  by admin or godad
+        Task<bool> CreateUniversity(CreateUniversityRequest request);
     }
 }

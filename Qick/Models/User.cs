@@ -28,10 +28,8 @@ namespace Qick.Models
         public string? Email { get; set; }
         public string? Status { get; set; }
         public string? AddressNumber { get; set; }
-        public int? WardId { get; set; }
 
         public virtual University? University { get; set; }
-        public virtual Ward? Ward { get; set; }
         public virtual ICollection<Attempt> Attempts { get; set; }
         public virtual ICollection<Fqa> Fqas { get; set; }
         public virtual ICollection<Test> Tests { get; set; }

@@ -24,10 +24,9 @@ namespace Qick.Models
         public DateTime? CreatedDate { get; set; }
         public string? Vippack { get; set; }
         public string? Status { get; set; }
-        public int? WardId { get; set; }
         public string? UniCode { get; set; }
+        public string? Description { get; set; }
 
-        public virtual Ward? Ward { get; set; }
         public virtual ICollection<AddmissionCampaign> AddmissionCampaigns { get; set; }
         public virtual ICollection<Fqa> Fqas { get; set; }
         public virtual ICollection<UniversitySpecialization> UniversitySpecializations { get; set; }

@@ -354,11 +354,6 @@ namespace Qick.Models
                     .HasMaxLength(10)
                     .HasColumnName("VIPPack")
                     .IsFixedLength();
-
-                entity.HasOne(d => d.Ward)
-                    .WithMany(p => p.Universities)
-                    .HasForeignKey(d => d.WardId)
-                    .HasConstraintName("FK_University_Ward");
             });
 
             modelBuilder.Entity<UniversitySpecialization>(entity =>
@@ -412,11 +407,6 @@ namespace Qick.Models
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.UniversityId)
                     .HasConstraintName("FK_TblUser_TblUniversity");
-
-                entity.HasOne(d => d.Ward)
-                    .WithMany(p => p.Users)
-                    .HasForeignKey(d => d.WardId)
-                    .HasConstraintName("FK_User_Ward");
             });
 
             modelBuilder.Entity<UserRole>(entity =>

@@ -427,8 +427,8 @@ namespace Qick.Repositories
             try
             {
                 var result = await _context.Characters
-                                    .Where(a => a.TestId == testId && a.ResultShortName.Equals(resultShortName))
-                                    .FirstOrDefaultAsync();
+                             .Where(a => a.TestId == testId && a.ResultShortName.Equals(resultShortName))
+                             .FirstOrDefaultAsync();
                 return result;
             }
             catch (Exception)
