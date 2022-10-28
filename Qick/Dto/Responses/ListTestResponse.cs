@@ -6,5 +6,6 @@
         public string? QuizName { get; set; }
         public string? BannerUrl { get; set; }
         public string? Introduction { get; set; }
+        public int? QuizTypeId { get; set; }
     }
 }
