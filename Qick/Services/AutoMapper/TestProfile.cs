@@ -4,9 +4,9 @@ using Qick.Models;
 
 namespace Qick.Services.AutoMapper
 {
-    public class TestMapping : Profile
+    public class TestProfile : Profile
     {
-        public TestMapping()
+        public TestProfile()
         {
             CreateMap<Test, TakingTestResponse>()
                 .ForMember(m => m.questions, n => n.MapFrom(i => i.Questions.ToList()));

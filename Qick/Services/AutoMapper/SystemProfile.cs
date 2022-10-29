@@ -4,9 +4,9 @@ using Qick.Models;
 
 namespace Qick.Services.AutoMapper
 {
-    public class SystemMapping : Profile
+    public class SystemProfile : Profile
     {
-        public SystemMapping()
+        public SystemProfile()
         {
             CreateMap<Job,JobResponse>();
         }

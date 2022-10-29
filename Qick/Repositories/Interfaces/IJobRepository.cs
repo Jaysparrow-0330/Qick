@@ -6,5 +6,8 @@ namespace Qick.Repositories.Interfaces
     {
         // get all Job 
         Task<IEnumerable<Job>> GetAllJob();
+
+        // get Jobs by character Id
+        Task<IEnumerable<Job>> GetJobByCharacterId(Guid CharacterId);
     }
 }

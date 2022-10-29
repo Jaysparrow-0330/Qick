@@ -39,5 +39,23 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
+
+        //Get all Job
+        [AllowAnonymous]
+        [HttpGet("get-job-career")]
+        public async Task<IActionResult> GetJobByCharacterId(Guid CharacterId)
+        {
+            try
+            {
+                var response = await _repo.GetJobByCharacterId(CharacterId);
+                var ListJobResponse = _mapper.Map<IEnumerable<CareerJobResponse>>(response);
+
+                return Ok(ListJobResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
     }
 }

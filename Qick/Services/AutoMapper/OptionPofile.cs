@@ -5,9 +5,9 @@ using Qick.Models;
 
 namespace Qick.Services.AutoMapper
 {
-    public class OptionMapping : Profile
+    public class OptionPofile : Profile
     {
-        public OptionMapping()
+        public OptionPofile()
         {
             CreateMap<Option, OptionResponse>();
             CreateMap<Option, OptionForAdminResponse>();

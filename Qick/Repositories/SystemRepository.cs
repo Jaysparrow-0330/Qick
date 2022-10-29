@@ -40,7 +40,7 @@ namespace Qick.Repositories
         {
             try
             {
-                foreach (var Id in request.JobId)
+                foreach (var Id in request.JobIds)
                 {
                     JobMapping addJobMapping = new()
                     {
