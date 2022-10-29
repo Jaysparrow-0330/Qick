@@ -421,38 +421,5 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
-
-        public async Task<Character> GetCharacterResult(int testId, string? resultShortName)
-        {
-            try
-            {
-                var result = await _context.Characters
-                             .Where(a => a.TestId == testId && a.ResultShortName.Equals(resultShortName))
-                             .FirstOrDefaultAsync();
-                return result;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            
-        }
-
-        public async Task<IEnumerable<Character>> GetAllCharacterResult(int testId)
-        {
-            try
-            {
-                var result = await _context.Characters
-                                    .Where(a => a.TestId == testId)
-                                    .ToListAsync();
-                return result;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
     }
 }

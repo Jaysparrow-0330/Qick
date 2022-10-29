@@ -20,9 +20,10 @@ namespace Qick.Controllers
         private readonly IOptionRepository _repoOption;
         private readonly ISystemRepository _repoSystem;
         private readonly IUniversityRepository _repoUni;
+        private readonly IJobRepository _repoJob;
         private readonly IMapper _mapper;
 
-        public AdminController(IUniversityRepository repoUni,ISystemRepository repoSystem,ITestRepository repoTest, IMapper mapper, IQuestionRepository repoQuestion, IOptionRepository repoOption)
+        public AdminController(IJobRepository repoJob,IUniversityRepository repoUni,ISystemRepository repoSystem,ITestRepository repoTest, IMapper mapper, IQuestionRepository repoQuestion, IOptionRepository repoOption)
         {
             _repoTest = repoTest;
             _mapper = mapper;
@@ -30,11 +31,12 @@ namespace Qick.Controllers
             _repoOption = repoOption;
             _repoSystem = repoSystem;
             _repoUni = repoUni;
+            _repoJob = repoJob;
         }
 
         // Get list all question by test id
         [HttpGet("get-all-question")]
-        public async Task<IActionResult> GetAllQuestionByTestId(int testId)
+        public async Task<IActionResult> GetAllQuestionByAdmin(int testId)
         {
             try
             {
@@ -93,7 +95,7 @@ namespace Qick.Controllers
             try
             {
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                var response = await _repoSystem.GetAllJob();
+                var response = await _repoJob.GetAllJob();
                 var ListJobResponse = _mapper.Map<IEnumerable<JobResponse>>(response);
 
                 return Ok(ListJobResponse);
@@ -120,6 +122,28 @@ namespace Qick.Controllers
             }
         }
 
+        //Create Test step one create basic information of test , return test to create questions, option, etc.
+        [HttpPost("jobmapping-create")]
+        public async Task<IActionResult> CreateJobMapping(JobCharMappingRequest request)
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var response = await _repoSystem.CreateJobCharMapping(request);
+                if (response)
+                {
+                    return Ok(new HttpStatusCodeResponse(200));
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
 
         //Create Result for test
         [HttpPost("create-result")]

@@ -9,10 +9,10 @@ namespace Qick.Repositories.Interfaces
         // create Job 
         Task<bool> CreateJob(JobRequest request);
 
-        // get all Job 
-        Task<IEnumerable<Job>> GetAllJob();
-
         // create Major
         Task<bool> CreateMajor(MajorRequest request);
+
+        // create Mapping Job
+        Task<bool> CreateJobCharMapping(JobCharMappingRequest request);
     }
 }
