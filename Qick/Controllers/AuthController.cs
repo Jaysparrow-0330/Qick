@@ -44,32 +44,12 @@ namespace Qick.Controllers
 
 
         // Login admin page With Email And Password
-        [HttpPost("login-admin")]
-        public async Task<ActionResult> LoginAd(LoginRequest userIn)
+        [HttpPost("login-admin-university")]
+        public async Task<ActionResult> LoginAdUni(LoginRequest userIn)
         {
             try
             {
                 var check = await _repo.LoginAd(userIn);
-                if (check == null) return Unauthorized();
-                else
-                {
-                    string tk = _token.CreateToken(check);
-                    return Ok(tk);
-                }
-            }
-            catch (Exception ex)
-            {
-                return Ok(new HttpStatusCodeResponse(400, ex.Message));
-            }
-        }
-
-        // Login University page With Email And Password
-        [HttpPost("login-university")]
-        public async Task<ActionResult> LoginUni(LoginRequest userIn)
-        {
-            try
-            {
-                var check = await _repo.LoginUni(userIn);
                 if (check == null) return Unauthorized();
                 else
                 {
