@@ -24,7 +24,8 @@ namespace Qick.Repositories
                 {
                     JobName = request.JobName,
                     Status = Status.ACTIVE,
-                    Description = request.Description
+                    Description = request.Description,
+                    ImageUrl = request.ImageUrl
                 };
                 await _context.Jobs.AddAsync(addJob);
                 await _context.SaveChangesAsync();
