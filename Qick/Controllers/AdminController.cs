@@ -239,6 +239,30 @@ namespace Qick.Controllers
             }
         }
 
+        //Create Specialization
+        [HttpPost("create-specialization")]
+        public async Task<IActionResult> CreateSpec(SpecRequest request)
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var response = await _repoSystem.CreateSpec(request);
+
+                if (response)
+                {
+                    return Ok(new HttpStatusCodeResponse(200));
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
         //Create Test step two create questions and options , return boolean to check 
         [HttpPost("question-create")]
         public async Task<IActionResult> CreateTestStepTwo(CreateTestStepTwoRequest request)

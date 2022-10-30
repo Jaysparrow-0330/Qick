@@ -105,6 +105,26 @@ namespace Qick.Repositories
             }
         }
 
-        
+        public async Task<bool> CreateSpec(SpecRequest request)
+        {
+            try
+            {
+                Specialization addSpec = new()
+                {
+                    Id = Guid.NewGuid(),
+                    MajorId = request.MajorId,
+                    Description = request.Description,
+                    SpecName = request.SpecName,
+                    Status = Status.ACTIVE
+                };
+                await _context.Specializations.AddAsync(addSpec);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
