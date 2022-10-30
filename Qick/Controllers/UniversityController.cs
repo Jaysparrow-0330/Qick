@@ -24,7 +24,7 @@ namespace Qick.Controllers
         //Get all University
         [AllowAnonymous]
         [HttpGet("get-university")]
-        public async Task<IActionResult> GetUniversity(string status)
+        public async Task<IActionResult> GetUniversity(string? status)
         {
             try
             {

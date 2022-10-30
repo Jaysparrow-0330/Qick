@@ -68,14 +68,22 @@ namespace Qick.Repositories
             }
         }
 
-        public async Task<IEnumerable<University>> GetListAllUniversity(string status)
+        public async Task<IEnumerable<University>> GetListAllUniversity(string? status)
         {
             try
-            {
-                var response = await _context.Universities
+            { if(status != null)
+                {
+                    var response = await _context.Universities
                     .Where(a => a.Status.Equals(status))
                     .ToListAsync();
-                return response;
+                    return response;
+                } 
+                else
+                {
+                    var response = await _context.Universities
+                                        .ToListAsync();
+                    return response;
+                }
             }
             catch (Exception ex)
             {
