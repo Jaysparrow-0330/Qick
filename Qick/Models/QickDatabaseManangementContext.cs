@@ -33,6 +33,7 @@ namespace Qick.Models
         public virtual DbSet<Question> Questions { get; set; } = null!;
         public virtual DbSet<QuestionType> QuestionTypes { get; set; } = null!;
         public virtual DbSet<RootTestKind> RootTestKinds { get; set; } = null!;
+        public virtual DbSet<SavedUni> SavedUnis { get; set; } = null!;
         public virtual DbSet<Specialization> Specializations { get; set; } = null!;
         public virtual DbSet<Test> Tests { get; set; } = null!;
         public virtual DbSet<TestType> TestTypes { get; set; } = null!;
@@ -210,6 +211,12 @@ namespace Qick.Models
 
                 entity.Property(e => e.Status).HasMaxLength(50);
 
+                entity.HasOne(d => d.Job)
+                    .WithMany()
+                    .HasForeignKey(d => d.JobId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_JobMajor_Job");
+
                 entity.HasOne(d => d.Major)
                     .WithMany()
                     .HasForeignKey(d => d.MajorId)
@@ -299,6 +306,25 @@ namespace Qick.Models
                 entity.Property(e => e.Id).ValueGeneratedNever();
             });
 
+            modelBuilder.Entity<SavedUni>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("SavedUni");
+
+                entity.Property(e => e.Status).HasMaxLength(50);
+
+                entity.HasOne(d => d.University)
+                    .WithMany()
+                    .HasForeignKey(d => d.UniversityId)
+                    .HasConstraintName("FK_SavedUni_University");
+
+                entity.HasOne(d => d.User)
+                    .WithMany()
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_SavedUni_User");
+            });
+
             modelBuilder.Entity<Specialization>(entity =>
             {
                 entity.ToTable("Specialization");
@@ -351,9 +377,8 @@ namespace Qick.Models
                 entity.Property(e => e.Status).HasMaxLength(50);
 
                 entity.Property(e => e.Vippack)
-                    .HasMaxLength(10)
-                    .HasColumnName("VIPPack")
-                    .IsFixedLength();
+                    .HasMaxLength(50)
+                    .HasColumnName("VIPPack");
             });
 
             modelBuilder.Entity<UniversitySpecialization>(entity =>

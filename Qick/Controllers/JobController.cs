@@ -28,7 +28,6 @@ namespace Qick.Controllers
         {
             try
             {
-                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 var response = await _repo.GetAllJob();
                 var ListJobResponse = _mapper.Map<IEnumerable<JobResponse>>(response);
 

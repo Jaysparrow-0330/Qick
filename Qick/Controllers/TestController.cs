@@ -105,7 +105,7 @@ namespace Qick.Controllers
 
         // submit test response test's result by guest
         [AllowAnonymous]
-        [HttpPost("submit-test-guest")]
+        [HttpPost("submit-test")]
         public async Task<IActionResult> SubmitTest(CalculateResultRequest request)
         {
             try

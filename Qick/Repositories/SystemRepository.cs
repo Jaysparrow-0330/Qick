@@ -60,6 +60,29 @@ namespace Qick.Repositories
             }
         }
 
+        public async Task<bool> CreateJobMajorMapping(JobMajorMappingRequest request)
+        {
+            try
+            {
+                foreach (var Id in request.MajorIds)
+                {
+                    JobMajor addJobMajor = new()
+                    {
+                       JobId = request.JobId,
+                       MajorId = Id,
+                       Status = Status.ACTIVE
+                    };
+                    await _context.JobMajors.AddAsync(addJobMajor);
+                }
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public async Task<bool> CreateMajor(MajorRequest request)
         {
             try

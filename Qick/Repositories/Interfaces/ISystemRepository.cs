@@ -14,5 +14,8 @@ namespace Qick.Repositories.Interfaces
 
         // create Mapping Job
         Task<bool> CreateJobCharMapping(JobCharMappingRequest request);
+
+        // create Mapping Job
+        Task<bool> CreateJobMajorMapping(JobMajorMappingRequest request);
     }
 }

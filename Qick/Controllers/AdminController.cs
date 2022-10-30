@@ -145,6 +145,29 @@ namespace Qick.Controllers
             }
         }
 
+        //Create Test step one create basic information of test , return test to create questions, option, etc.
+        [HttpPost("majormapping-create")]
+        public async Task<IActionResult> CreateMajorMapping(JobMajorMappingRequest request)
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var response = await _repoSystem.CreateJobMajorMapping(request);
+                if (response)
+                {
+                    return Ok(new HttpStatusCodeResponse(200));
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
         //Create Result for test
         [HttpPost("create-result")]
         public async Task<IActionResult> CreateTestResult(ResultRequest request)

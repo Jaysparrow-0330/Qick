@@ -10,6 +10,7 @@ namespace Qick.Services.AutoMapper
         public JobProfile()
         {
             CreateMap<Job, CareerJobResponse>();
+            CreateMap<Job, JobResponse>();
         }
     }
 }

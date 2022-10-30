@@ -8,7 +8,7 @@ namespace Qick.Services.AutoMapper
     {
         public SystemProfile()
         {
-            CreateMap<Job,JobResponse>();
+            
         }
     }
 }

@@ -26,6 +26,7 @@ namespace Qick.Models
         public string? Status { get; set; }
         public string? UniCode { get; set; }
         public string? Description { get; set; }
+        public int? CountSaved { get; set; }
 
         public virtual ICollection<AddmissionCampaign> AddmissionCampaigns { get; set; }
         public virtual ICollection<Fqa> Fqas { get; set; }
