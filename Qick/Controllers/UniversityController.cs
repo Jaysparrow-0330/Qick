@@ -29,8 +29,8 @@ namespace Qick.Controllers
             try
             {
                 var response = await _repo.GetListAllUniversity(status);
-                var ListJobResponse = _mapper.Map<IEnumerable<ListUniResponse>>(response);
-                return Ok(ListJobResponse);
+                var ListUniResponse = _mapper.Map<IEnumerable<ListUniResponse>>(response);
+                return Ok(ListUniResponse);
             }
             catch (Exception ex)
             {
@@ -38,5 +38,21 @@ namespace Qick.Controllers
             }
         }
 
+        //Get University by Major Id
+        [AllowAnonymous]
+        [HttpGet("get-uni-major")]
+        public async Task<IActionResult> GetUniversityByMajorId(Guid majorId)
+        {
+            try
+            {
+                var response = await _repo.GetUniversityByMajorId(majorId);
+                var ListUniResponse = _mapper.Map<IEnumerable<ListUniResponse>>(response);
+                return Ok(ListUniResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
     }
 }

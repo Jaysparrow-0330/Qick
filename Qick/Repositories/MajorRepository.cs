@@ -20,7 +20,7 @@ namespace Qick.Repositories
                     .ToListAsync();
                 return response;
             }
-            catch (Exception ex)
+            catch (Exception ex)    
             {
 
                 throw ex;

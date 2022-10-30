@@ -3,6 +3,7 @@ using Qick.Dto.Enum;
 using Qick.Dto.Requests;
 using Qick.Models;
 using Qick.Repositories.Interfaces;
+using System.Linq;
 
 namespace Qick.Repositories
 {
@@ -84,6 +85,42 @@ namespace Qick.Repositories
                                         .ToListAsync();
                     return response;
                 }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public async Task<IEnumerable<University>> GetUniversityByMajorId(Guid majorId)
+        {
+            try
+            {
+                    var listSpec = await _context.Specializations
+                    .Where(a => a.MajorId == majorId)
+                    .Select(r => r.Id)
+                    .ToListAsync();
+                var responseList = new List<University>();
+
+                foreach (var id in listSpec)
+                {
+                    var response = await _context.Universities
+                    .Where(a => a.Id == a.UniversitySpecializations.Where(n => n.SpecId == id).FirstOrDefault().UniId)
+                    .ToListAsync();
+                    foreach (var item in response)
+                    {
+                        if (!responseList.Contains(item))
+                        {
+                            responseList.Add(item);
+                        }
+                    }
+                    
+                }
+                
+
+                    return responseList;
+                
             }
             catch (Exception ex)
             {

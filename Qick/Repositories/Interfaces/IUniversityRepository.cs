@@ -8,6 +8,9 @@ namespace Qick.Repositories.Interfaces
         // get list all university by status
         Task<IEnumerable<University>> GetListAllUniversity(string? status);
 
+        // get list all university by status
+        Task<IEnumerable<University>> GetUniversityByMajorId(Guid majorId);
+
         // create University  by admin or godad
         Task<bool> CreateUniversity(CreateUniversityRequest request);
 
