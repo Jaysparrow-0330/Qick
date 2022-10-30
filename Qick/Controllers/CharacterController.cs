@@ -8,7 +8,7 @@ using Qick.Repositories.Interfaces;
 namespace Qick.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/character")]
     [ApiController]
     public class CharacterController : ControllerBase
     {

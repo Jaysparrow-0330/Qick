@@ -1,4 +1,5 @@
-﻿using Qick.Dto.Enum;
+﻿using Microsoft.EntityFrameworkCore;
+using Qick.Dto.Enum;
 using Qick.Dto.Requests;
 using Qick.Models;
 using Qick.Repositories.Interfaces;
@@ -43,9 +44,44 @@ namespace Qick.Repositories
             }
         }
 
-        public Task<IEnumerable<University>> GetListAllUniversity(string status)
+        public async Task<bool> CreateUniversitySpec(CreateUniSpecRequest request)
         {
-            throw new NotImplementedException();
+            try
+            {
+                    UniversitySpecialization addUniSpec = new()
+                    {
+                       UniId = request.UniId,
+                       SpecId = request.SpecId,
+                       UniSpecName =   request.UniSpecName,
+                       SpecCode = request.SpecCode,
+                       Status = Status.ACTIVE,
+
+                    };
+                    
+                await _context.UniversitySpecializations.AddAsync(addUniSpec);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<IEnumerable<University>> GetListAllUniversity(string status)
+        {
+            try
+            {
+                var response = await _context.Universities
+                    .Where(a => a.Status.Equals(status))
+                    .ToListAsync();
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }

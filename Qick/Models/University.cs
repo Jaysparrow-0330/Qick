@@ -9,6 +9,7 @@ namespace Qick.Models
         {
             AddmissionCampaigns = new HashSet<AddmissionCampaign>();
             Fqas = new HashSet<Fqa>();
+            SavedUnis = new HashSet<SavedUni>();
             UniversitySpecializations = new HashSet<UniversitySpecialization>();
             Users = new HashSet<User>();
         }
@@ -30,6 +31,7 @@ namespace Qick.Models
 
         public virtual ICollection<AddmissionCampaign> AddmissionCampaigns { get; set; }
         public virtual ICollection<Fqa> Fqas { get; set; }
+        public virtual ICollection<SavedUni> SavedUnis { get; set; }
         public virtual ICollection<UniversitySpecialization> UniversitySpecializations { get; set; }
         public virtual ICollection<User> Users { get; set; }
     }

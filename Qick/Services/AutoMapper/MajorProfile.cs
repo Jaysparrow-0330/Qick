@@ -10,6 +10,7 @@ namespace Qick.Services.AutoMapper
         {
             CreateMap<Major, MajorResponse>();
             CreateMap<Major, CareerMajorResponse>();
+            CreateMap<Specialization, ListSpecDbResponse>();
         }
     }
 }

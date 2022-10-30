@@ -7,6 +7,7 @@ namespace Qick.Models
     {
         public Major()
         {
+            JobMajors = new HashSet<JobMajor>();
             Specializations = new HashSet<Specialization>();
         }
 
@@ -16,6 +17,7 @@ namespace Qick.Models
         public string? Description { get; set; }
         public string? MajorCode { get; set; }
 
+        public virtual ICollection<JobMajor> JobMajors { get; set; }
         public virtual ICollection<Specialization> Specializations { get; set; }
     }
 }

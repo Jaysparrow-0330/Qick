@@ -205,20 +205,18 @@ namespace Qick.Models
 
             modelBuilder.Entity<JobMajor>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("JobMajor");
 
                 entity.Property(e => e.Status).HasMaxLength(50);
 
                 entity.HasOne(d => d.Job)
-                    .WithMany()
+                    .WithMany(p => p.JobMajors)
                     .HasForeignKey(d => d.JobId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_JobMajor_Job");
 
                 entity.HasOne(d => d.Major)
-                    .WithMany()
+                    .WithMany(p => p.JobMajors)
                     .HasForeignKey(d => d.MajorId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_JobMajor_Major");
@@ -308,19 +306,17 @@ namespace Qick.Models
 
             modelBuilder.Entity<SavedUni>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("SavedUni");
 
                 entity.Property(e => e.Status).HasMaxLength(50);
 
                 entity.HasOne(d => d.University)
-                    .WithMany()
+                    .WithMany(p => p.SavedUnis)
                     .HasForeignKey(d => d.UniversityId)
                     .HasConstraintName("FK_SavedUni_University");
 
                 entity.HasOne(d => d.User)
-                    .WithMany()
+                    .WithMany(p => p.SavedUnis)
                     .HasForeignKey(d => d.UserId)
                     .HasConstraintName("FK_SavedUni_User");
             });

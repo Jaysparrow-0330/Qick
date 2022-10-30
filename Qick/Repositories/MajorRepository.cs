@@ -27,7 +27,39 @@ namespace Qick.Repositories
             }
         }
 
-        public Task<IEnumerable<Major>> GetMajorByJobId(int JobId)
+        public async Task<IEnumerable<Specialization>> GetAllSpecDb()
+        {
+            try
+            {
+                var response = await _context.Specializations
+                    .ToListAsync();
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public async Task<IEnumerable<Major>> GetMajorByJobId(int JobId)
+        {
+            try
+            {
+                var response = await _context.Majors
+                    .Where(x => x.Id == x.JobMajors.Where(a => a.JobId == JobId).FirstOrDefault().MajorId)
+                    .ToListAsync();
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public Task<IEnumerable<Specialization>> GetSpecByMajorId(int MajorId)
         {
             throw new NotImplementedException();
         }

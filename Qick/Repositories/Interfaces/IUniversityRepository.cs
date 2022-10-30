@@ -10,5 +10,8 @@ namespace Qick.Repositories.Interfaces
 
         // create University  by admin or godad
         Task<bool> CreateUniversity(CreateUniversityRequest request);
+
+        // create University  by admin or godad
+        Task<bool> CreateUniversitySpec(CreateUniSpecRequest request);
     }
 }

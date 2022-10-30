@@ -7,6 +7,7 @@ namespace Qick.Models
     {
         public Job()
         {
+            JobMajors = new HashSet<JobMajor>();
             JobMappings = new HashSet<JobMapping>();
         }
 
@@ -16,6 +17,7 @@ namespace Qick.Models
         public string? Description { get; set; }
         public string? ImageUrl { get; set; }
 
+        public virtual ICollection<JobMajor> JobMajors { get; set; }
         public virtual ICollection<JobMapping> JobMappings { get; set; }
     }
 }

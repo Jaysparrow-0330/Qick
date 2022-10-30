@@ -39,6 +39,24 @@ namespace Qick.Controllers
             }
         }
 
+        //Get all spec db
+        [AllowAnonymous]
+        [HttpGet("get-spec")]
+        public async Task<IActionResult> GetSpec()
+        {
+            try
+            {
+                var response = await _repo.GetAllSpecDb();
+                var ListJobResponse = _mapper.Map<IEnumerable<ListSpecDbResponse>>(response);
+
+                return Ok(ListJobResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
         //Get all Job
         [AllowAnonymous]
         [HttpGet("get-major-career")]

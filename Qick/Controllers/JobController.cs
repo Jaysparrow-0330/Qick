@@ -30,7 +30,6 @@ namespace Qick.Controllers
             {
                 var response = await _repo.GetAllJob();
                 var ListJobResponse = _mapper.Map<IEnumerable<JobResponse>>(response);
-
                 return Ok(ListJobResponse);
             }
             catch (Exception ex)

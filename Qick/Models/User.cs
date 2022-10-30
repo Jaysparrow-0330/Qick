@@ -9,6 +9,7 @@ namespace Qick.Models
         {
             Attempts = new HashSet<Attempt>();
             Fqas = new HashSet<Fqa>();
+            SavedUnis = new HashSet<SavedUni>();
             Tests = new HashSet<Test>();
         }
 
@@ -32,6 +33,7 @@ namespace Qick.Models
         public virtual University? University { get; set; }
         public virtual ICollection<Attempt> Attempts { get; set; }
         public virtual ICollection<Fqa> Fqas { get; set; }
+        public virtual ICollection<SavedUni> SavedUnis { get; set; }
         public virtual ICollection<Test> Tests { get; set; }
     }
 }
