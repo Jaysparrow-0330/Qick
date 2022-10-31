@@ -121,7 +121,9 @@ namespace Qick.Repositories
         {
             try
             {
-                var user = await _context.Users.Where(u => u.Email.Equals(login.Email.ToLower()) && u.RoleId.Equals(Roles.ADMIN) || u.RoleId.Equals(Roles.GOD) || u.RoleId.Equals(Roles.MANAGER) || u.RoleId.Equals(Roles.STAFF) && u.Status != Status.DISABLE).FirstOrDefaultAsync();
+                var user = await _context.Users
+                    .Where(u => u.Email.Equals(login.Email.ToLower()) && u.RoleId.Equals(Roles.ADMIN) || u.RoleId.Equals(Roles.GOD) || u.RoleId.Equals(Roles.MANAGER) || u.RoleId.Equals(Roles.STAFF) && u.Status != Status.DISABLE)
+                    .FirstOrDefaultAsync();
                 if (user != null)
                 {
                     if (!VerifyPasswordHash(login.Password, user.PasswordHash, user.PasswordSalt))
@@ -207,17 +209,71 @@ namespace Qick.Repositories
             }
         }
 
-        public Task<AcademicProfile> CreateAcademicProfile(CreateAcademyRequest request)
+        public async Task<AcademicProfile> CreateAcademicProfile(CreateAcademyRequest request)
         {
-            throw new NotImplementedException();
+            try
+            {
+                AcademicProfile addProfile = new()
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = request.UserId,
+                    AcademicRank = request.AcademicRank,
+                    AvarageScore = request.AvarageScore,
+                    GraduationYear = request.GraduationYear,
+                    HighSchoolAddress = request.HighSchoolAddress,
+                    HighSchoolCode = request.HighSchoolCode,
+                    HighSchoolName = request.HighSchoolName,
+                    SchoolReport1Url = request.SchoolReport1Url,
+                    SchoolReport2Url = request.SchoolReport2Url,
+                    SchoolReport3Url = request.SchoolReport3Url,
+                    SchoolReport4Url =request.SchoolReport4Url
+                };
+                await _context.AcademicProfiles.AddAsync(addProfile);
+                await _context.SaveChangesAsync();
+                return addProfile;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
-        public Task<AcademicProfile> UpdateAcademicProfile(UpdateAcademyRequest request)
+        public async Task<AcademicProfile> UpdateAcademicProfile(UpdateAcademyRequest request)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var profile = await _context.AcademicProfiles
+                    .Where(u => u.Id == request.Id)
+                    .FirstOrDefaultAsync();
+
+                if (profile != null)
+                {
+                    profile.AcademicRank = request.AcademicRank;
+                    profile.AvarageScore = request.AvarageScore;
+                    profile.GraduationYear = request.GraduationYear;
+                    profile.HighSchoolAddress = request.HighSchoolAddress;
+                    profile.HighSchoolCode = request.HighSchoolCode;
+                    profile.HighSchoolName = request.HighSchoolName;
+                    profile.SchoolReport1Url = request.SchoolReport1Url;
+                    profile.SchoolReport2Url = request.SchoolReport2Url;
+                    profile.SchoolReport3Url = request.SchoolReport3Url;
+                    profile.SchoolReport4Url = request.SchoolReport4Url;
+                }
+                else
+                {
+                    { throw new Exception("Profile does not exist"); }
+                }
+
+                await _context.SaveChangesAsync();
+                return profile;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
-        public async Task<AcademicProfile> GetAcademicProfile(Guid UserId)
+        public async Task<AcademicProfile> GetAcademicProfile(Guid? UserId)
         {
             try
             {
@@ -225,6 +281,21 @@ namespace Qick.Repositories
                     .Where(a => a.User.Id == UserId)
                     .FirstOrDefaultAsync();
                     return AcaProfile;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<User> GetProfile(Guid? UserId)
+        {
+            try
+            {
+                var AcaProfile = await _context.Users
+                    .Where(a => a.Id == UserId)
+                    .FirstOrDefaultAsync();
+                return AcaProfile;
             }
             catch (Exception ex)
             {

@@ -16,7 +16,9 @@ namespace Qick.Repositories.Interfaces
         // update user profile
         Task<User> UpdateProfile(UserProfileUpdateRequest request);
 
-        Task<AcademicProfile> GetAcademicProfile(Guid UserId);
+        Task<AcademicProfile> GetAcademicProfile(Guid? UserId);
+
+        Task<User> GetProfile(Guid? UserId);
 
         // create Acadamic Profile
         Task<AcademicProfile> CreateAcademicProfile(CreateAcademyRequest request);
