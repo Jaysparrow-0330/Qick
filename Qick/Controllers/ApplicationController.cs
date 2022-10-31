@@ -10,7 +10,7 @@ using System.Security.Claims;
 namespace Qick.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/application")]
     [ApiController]
     public class ApplicationController : ControllerBase
     {
@@ -62,6 +62,24 @@ namespace Qick.Controllers
                 {
                     return Ok(new HttpStatusCodeResponse(204));
                 }
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
+        // Get list all question by test id
+        [HttpGet("get-all-application")]
+        public async Task<IActionResult> GetAllApplicationByUniId(Guid? UniId)
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                string Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
+                var applicationList = await _repo.GetApplication(UniId);
+                var applicationListResponse = _mapper.Map<IEnumerable<ListApplicationResponse>>(applicationList) ;
+                return Ok(applicationListResponse);
             }
             catch (Exception ex)
             {

@@ -10,5 +10,8 @@ namespace Qick.Repositories.Interfaces
 
         // create 
         Task<ApplicationDetail> CreateApplicationDetail(CreateApplicationDetailRequest request);
+
+        // get 
+        Task<IEnumerable<Application>> GetApplication(Guid? uniId);
     }
 }

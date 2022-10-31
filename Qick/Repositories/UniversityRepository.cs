@@ -93,6 +93,23 @@ namespace Qick.Repositories
             }
         }
 
+        public async Task<IEnumerable<UniversitySpecialization>> GetListAllUniversitySpec(Guid? UniId)
+        {
+            try
+            {
+                    var response = await _context.UniversitySpecializations
+                    .Where(a => a.UniId == UniId)
+                    .ToListAsync();
+                    return response;
+                
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
         public async Task<IEnumerable<University>> GetUniversityByMajorId(Guid majorId)
         {
             try

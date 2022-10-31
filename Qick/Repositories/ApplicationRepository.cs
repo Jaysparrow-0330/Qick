@@ -1,4 +1,5 @@
-﻿using Qick.Dto.Enum;
+﻿using Microsoft.EntityFrameworkCore;
+using Qick.Dto.Enum;
 using Qick.Dto.Requests;
 using Qick.Models;
 using Qick.Repositories.Interfaces;
@@ -65,6 +66,24 @@ namespace Qick.Repositories
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        public async Task<IEnumerable<Application>> GetApplication(Guid? uniId)
+        {
+            try
+            {
+                var result = await _context.Applications
+                                    .Include(u => u.User)
+                                    .Include(x => x.UniSpec)
+                                    .Where(a => a.UniId == uniId)
+                                    .ToListAsync();
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
     }

@@ -47,6 +47,22 @@ namespace Qick.Controllers
             }
         }
 
+        //Get all University
+        [AllowAnonymous]
+        [HttpGet("get-university-spec")]
+        public async Task<IActionResult> GetUniversitySpec(Guid? UniId)
+        {
+            try
+            {
+                    var response = await _repo.GetListAllUniversitySpec(UniId);
+                    return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
         //Get University by Major Id
         [AllowAnonymous]
         [HttpGet("get-uni-major")]
