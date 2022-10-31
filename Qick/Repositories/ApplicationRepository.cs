@@ -15,6 +15,31 @@ namespace Qick.Repositories
             _context = context;
         }
 
+        public async Task<Application> ChangeStatusApplication(string status, Guid? AppId)
+        {
+            try
+            {
+                var App = await _context.Applications
+                    .Where(u => u.Id == AppId)
+                    .FirstOrDefaultAsync();
+                if (App != null)
+                {
+                    App.Status = status;
+                }
+                else
+                {
+                    { throw new Exception("Application does not exist"); }
+                }
+
+                await _context.SaveChangesAsync();
+                return App;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public async Task<Application> CreateApplication(CreateApplicationRequest request)
         {
             try
@@ -69,7 +94,7 @@ namespace Qick.Repositories
             }
         }
 
-        public async Task<IEnumerable<Application>> GetApplication(Guid? uniId)
+        public async Task<IEnumerable<Application>> GetApplicationByUniId(Guid? uniId)
         {
             try
             {
@@ -78,6 +103,43 @@ namespace Qick.Repositories
                                     .Include(x => x.UniSpec)
                                     .Where(a => a.UniId == uniId)
                                     .ToListAsync();
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<Application>> GetApplicationByUserId(Guid? userId)
+        {
+            try
+            {
+                var result = await _context.Applications
+                                    .Include(u => u.User)
+                                    .Include(x => x.UniSpec)
+                                    .Where(a => a.UserId == userId)
+                                    .ToListAsync();
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<Application> GetApplicationDetail(Guid? appId)
+        {
+            try
+            {
+                var result = await _context.Applications
+                             .Include(u => u.Uni)
+                             .Include(u => u.User)
+                             .Include(u => u.ApplicationDetails)
+                             .Where(a => a.Id == appId)
+                             .FirstOrDefaultAsync();
                 return result;
             }
             catch (Exception)

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Qick.Dto.Enum;
 using Qick.Dto.Requests;
 using Qick.Dto.Responses;
 using Qick.Repositories.Interfaces;
@@ -71,15 +72,67 @@ namespace Qick.Controllers
 
         // Get list all question by test id
         [HttpGet("get-all-application")]
-        public async Task<IActionResult> GetAllApplicationByUniId(Guid? UniId)
+        public async Task<IActionResult> GetAllApplicationById(Guid? Id)
         {
             try
             {
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 string Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
-                var applicationList = await _repo.GetApplication(UniId);
-                var applicationListResponse = _mapper.Map<IEnumerable<ListApplicationResponse>>(applicationList) ;
-                return Ok(applicationListResponse);
+                if(Role.Equals(Roles.MEMBER) || Role.Equals(Roles.STUDENT))
+                {
+                    var applicationList = await _repo.GetApplicationByUserId(Id);
+                    var applicationListResponse = _mapper.Map<IEnumerable<ListApplicationResponse>>(applicationList);
+                    return Ok(applicationListResponse);
+                } 
+                else
+                {
+                    var applicationList = await _repo.GetApplicationByUniId(Id);
+                    var applicationListResponse = _mapper.Map<IEnumerable<ListApplicationResponse>>(applicationList);
+                    return Ok(applicationListResponse);
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
+        // Get list all question by test id
+        [HttpGet("get-detail")]
+        public async Task<IActionResult> GetApplicationDetail(Guid? Id)
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                string Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
+                    var applicationDetail = await _repo.GetApplicationDetail(Id);
+                    var applicationResponse = _mapper.Map<IEnumerable<ApplicationDetailResponse>>(applicationDetail);
+                    return Ok(applicationResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
+        //Update app status
+        [HttpPut("update-app-status")]
+        public async Task<IActionResult> UpdateApplicationStatus(string status, Guid? AppId)
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var checkTest = await _repo.ChangeStatusApplication(status,AppId);
+                if (checkTest != null)
+                {
+                    return Ok(checkTest);
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(310));
+                }
+                
             }
             catch (Exception ex)
             {
