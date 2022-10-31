@@ -128,5 +128,21 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
+
+        public async Task<University> GetUniversityDetail(Guid? uniId)
+        {
+            try
+            {
+                var result = await _context.Universities
+                             .Where(a => a.Id == uniId)
+                             .FirstOrDefaultAsync();
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

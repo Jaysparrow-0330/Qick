@@ -7,6 +7,8 @@ namespace Qick.Models
     {
         public User()
         {
+            AcademicProfiles = new HashSet<AcademicProfile>();
+            Applications = new HashSet<Application>();
             Attempts = new HashSet<Attempt>();
             Fqas = new HashSet<Fqa>();
             SavedUnis = new HashSet<SavedUni>();
@@ -29,8 +31,12 @@ namespace Qick.Models
         public string? Email { get; set; }
         public string? Status { get; set; }
         public string? AddressNumber { get; set; }
+        public string? CredentialFrontImgUrl { get; set; }
+        public string? CredentialBackImgUrl { get; set; }
 
         public virtual University? University { get; set; }
+        public virtual ICollection<AcademicProfile> AcademicProfiles { get; set; }
+        public virtual ICollection<Application> Applications { get; set; }
         public virtual ICollection<Attempt> Attempts { get; set; }
         public virtual ICollection<Fqa> Fqas { get; set; }
         public virtual ICollection<SavedUni> SavedUnis { get; set; }

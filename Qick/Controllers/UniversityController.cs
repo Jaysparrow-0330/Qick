@@ -24,13 +24,22 @@ namespace Qick.Controllers
         //Get all University
         [AllowAnonymous]
         [HttpGet("get-university")]
-        public async Task<IActionResult> GetUniversity(string? status)
+        public async Task<IActionResult> GetUniversity(string? status, Guid? UniId)
         {
             try
             {
-                var response = await _repo.GetListAllUniversity(status);
-                var ListUniResponse = _mapper.Map<IEnumerable<ListUniResponse>>(response);
-                return Ok(ListUniResponse);
+                if(UniId != null)
+                {
+                    var response = await _repo.GetUniversityDetail(UniId);
+                    return Ok(response);
+                }
+                else
+                {
+                    var response = await _repo.GetListAllUniversity(status);
+                    var ListUniResponse = _mapper.Map<IEnumerable<ListUniResponse>>(response);
+                    return Ok(ListUniResponse);
+                }
+                
             }
             catch (Exception ex)
             {

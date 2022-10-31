@@ -16,9 +16,11 @@ namespace Qick.Models
         {
         }
 
+        public virtual DbSet<AcademicProfile> AcademicProfiles { get; set; } = null!;
         public virtual DbSet<AddmissionCampaign> AddmissionCampaigns { get; set; } = null!;
         public virtual DbSet<AddmissionNew> AddmissionNews { get; set; } = null!;
         public virtual DbSet<Application> Applications { get; set; } = null!;
+        public virtual DbSet<ApplicationDetail> ApplicationDetails { get; set; } = null!;
         public virtual DbSet<Attempt> Attempts { get; set; } = null!;
         public virtual DbSet<AttemptDetail> AttemptDetails { get; set; } = null!;
         public virtual DbSet<Character> Characters { get; set; } = null!;
@@ -53,6 +55,20 @@ namespace Qick.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<AcademicProfile>(entity =>
+            {
+                entity.ToTable("AcademicProfile");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.HighSchoolName).HasColumnName("HIghSchoolName");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.AcademicProfiles)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_AcademicProfile_User");
+            });
+
             modelBuilder.Entity<AddmissionCampaign>(entity =>
             {
                 entity.ToTable("AddmissionCampaign");
@@ -82,26 +98,40 @@ namespace Qick.Models
 
             modelBuilder.Entity<Application>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("Application");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.ApplyDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Uni)
-                    .WithMany()
+                    .WithMany(p => p.Applications)
                     .HasForeignKey(d => d.UniId)
                     .HasConstraintName("FK_TblApplication_TblUniversity");
 
                 entity.HasOne(d => d.UniSpec)
-                    .WithMany()
+                    .WithMany(p => p.Applications)
                     .HasForeignKey(d => d.UniSpecId)
                     .HasConstraintName("FK_TblApplication_TblUniversitySpecialization");
 
                 entity.HasOne(d => d.User)
-                    .WithMany()
+                    .WithMany(p => p.Applications)
                     .HasForeignKey(d => d.UserId)
                     .HasConstraintName("FK_TblApplication_TblUser");
+            });
+
+            modelBuilder.Entity<ApplicationDetail>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("ApplicationDetail");
+
+                entity.Property(e => e.HighSchoolName).HasColumnName("HIghSchoolName");
+
+                entity.HasOne(d => d.Application)
+                    .WithMany()
+                    .HasForeignKey(d => d.ApplicationId)
+                    .HasConstraintName("FK_ApplicationDetail_Application");
             });
 
             modelBuilder.Entity<Attempt>(entity =>

@@ -10,6 +10,7 @@ namespace Qick.Models
         public int? UniSpecId { get; set; }
         public DateTime? ApplyDate { get; set; }
         public string? Status { get; set; }
+        public Guid Id { get; set; }
 
         public virtual University? Uni { get; set; }
         public virtual UniversitySpecialization? UniSpec { get; set; }

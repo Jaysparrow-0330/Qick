@@ -121,7 +121,7 @@ namespace Qick.Repositories
         {
             try
             {
-                var user = await _context.Users.Where(u => u.Email.Equals(login.Email.ToLower()) && u.RoleId.Equals(Roles.ADMIN) || u.RoleId.Equals(Roles.GOD) && u.Status != Status.DISABLE).FirstOrDefaultAsync();
+                var user = await _context.Users.Where(u => u.Email.Equals(login.Email.ToLower()) && u.RoleId.Equals(Roles.ADMIN) || u.RoleId.Equals(Roles.GOD) || u.RoleId.Equals(Roles.MANAGER) || u.RoleId.Equals(Roles.STAFF) && u.Status != Status.DISABLE).FirstOrDefaultAsync();
                 if (user != null)
                 {
                     if (!VerifyPasswordHash(login.Password, user.PasswordHash, user.PasswordSalt))
@@ -165,6 +165,66 @@ namespace Qick.Repositories
                 {
                     return null;
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<User> UpdateProfile(UserProfileUpdateRequest request)
+        {
+            try
+            {
+                var user = await _context.Users
+                    .Where(u => u.Id == request.Id)
+                    .FirstOrDefaultAsync();
+
+                if (user != null)
+                {
+                    user.UserName = request.UserName;
+                    user.Age = request.Age;
+                    user.AddressNumber = request.AddressNumber;
+                    user.AvatarUrl = request.AvatarUrl;
+                    user.CredentialBackImgUrl = request.CredentialBackImgUrl;
+                    user.CredentialFrontImgUrl = request.CredentialFrontImgUrl;
+                    user.CredentialId = request.CredentialId;
+                    user.DateOfBirth = request.DateOfBirth;
+                    user.Gender = request.Gender;
+                    user.Phone = request.Phone;
+                }
+                else
+                {
+                    { throw new Exception("User does not exist"); }
+                }
+
+                await _context.SaveChangesAsync();
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public Task<AcademicProfile> CreateAcademicProfile(CreateAcademyRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<AcademicProfile> UpdateAcademicProfile(UpdateAcademyRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<AcademicProfile> GetAcademicProfile(Guid UserId)
+        {
+            try
+            {
+                var AcaProfile = await _context.AcademicProfiles
+                    .Where(a => a.User.Id == UserId)
+                    .FirstOrDefaultAsync();
+                    return AcaProfile;
             }
             catch (Exception ex)
             {
