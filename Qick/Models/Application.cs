@@ -5,6 +5,11 @@ namespace Qick.Models
 {
     public partial class Application
     {
+        public Application()
+        {
+            ApplicationDetails = new HashSet<ApplicationDetail>();
+        }
+
         public Guid? UserId { get; set; }
         public Guid? UniId { get; set; }
         public int? UniSpecId { get; set; }
@@ -15,5 +20,6 @@ namespace Qick.Models
         public virtual University? Uni { get; set; }
         public virtual UniversitySpecialization? UniSpec { get; set; }
         public virtual User? User { get; set; }
+        public virtual ICollection<ApplicationDetail> ApplicationDetails { get; set; }
     }
 }

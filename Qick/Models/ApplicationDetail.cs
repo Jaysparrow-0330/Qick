@@ -5,7 +5,7 @@ namespace Qick.Models
 {
     public partial class ApplicationDetail
     {
-        public Guid? Id { get; set; }
+        public Guid Id { get; set; }
         public Guid? ApplicationId { get; set; }
         public string? CredentialFrontImgUrl { get; set; }
         public string? CredentialBackImgUrl { get; set; }

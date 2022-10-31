@@ -122,14 +122,14 @@ namespace Qick.Models
 
             modelBuilder.Entity<ApplicationDetail>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("ApplicationDetail");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.HighSchoolName).HasColumnName("HIghSchoolName");
 
                 entity.HasOne(d => d.Application)
-                    .WithMany()
+                    .WithMany(p => p.ApplicationDetails)
                     .HasForeignKey(d => d.ApplicationId)
                     .HasConstraintName("FK_ApplicationDetail_Application");
             });
