@@ -16,7 +16,8 @@ namespace Qick.Services.AutoMapper
             .ForMember(m => m.Gender, n => n.MapFrom(i => i.User.Gender))
             .ForMember(m => m.Phone, n => n.MapFrom(i => i.User.Phone))
             .ForMember(m => m.UserName, n => n.MapFrom(i => i.User.UserName))
-            .ForMember(m => m.UniSpecName, n => n.MapFrom(i => i.UniSpec.UniSpecName));
+            .ForMember(m => m.UniSpecName, n => n.MapFrom(i => i.UniSpec.UniSpecName))
+            .ForMember(m => m.UniName, n => n.MapFrom(i => i.Uni.UniName));
 
             CreateMap<Application, ApplicationDetailResponse>()
             .ForMember(m => m.AddressNumber, n => n.MapFrom(i => i.User.AddressNumber))
