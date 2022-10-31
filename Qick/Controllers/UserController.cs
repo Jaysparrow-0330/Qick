@@ -32,7 +32,7 @@ namespace Qick.Controllers
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 if (userId != null)
                 {
-                    var user = await _repo.UpdateProfile(request);
+                    var user = await _repo.UpdateProfile(request, userId);
                     return Ok(user);
                 }
                 else

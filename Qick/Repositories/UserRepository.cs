@@ -174,7 +174,7 @@ namespace Qick.Repositories
             }
         }
 
-        public async Task<User> UpdateProfile(UserProfileUpdateRequest request)
+        public async Task<User> UpdateProfile(UserProfileUpdateRequest request, Guid id)
         {
             try
             {

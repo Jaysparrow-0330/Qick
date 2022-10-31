@@ -14,7 +14,7 @@ namespace Qick.Repositories.Interfaces
         Task<bool> EmailExist(string email);
 
         // update user profile
-        Task<User> UpdateProfile(UserProfileUpdateRequest request);
+        Task<User> UpdateProfile(UserProfileUpdateRequest request, Guid id);
 
         Task<AcademicProfile> GetAcademicProfile(Guid? UserId);
 
