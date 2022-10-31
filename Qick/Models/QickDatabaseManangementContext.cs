@@ -107,7 +107,7 @@ namespace Qick.Models
                 entity.HasOne(d => d.Uni)
                     .WithMany(p => p.Applications)
                     .HasForeignKey(d => d.UniId)
-                    .HasConstraintName("FK_TblApplication_TblUniversity");
+                    .HasConstraintName("FK_Application_University");
 
                 entity.HasOne(d => d.UniSpec)
                     .WithMany(p => p.Applications)

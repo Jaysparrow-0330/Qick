@@ -51,7 +51,7 @@ namespace Qick.Repositories
                    CredentialBackImgUrl =request.CredentialBackImgUrl,
                    CredentialFrontImgUrl = request.CredentialFrontImgUrl,
                    GraduationYear = request.GraduationYear,
-                   HighSchoolAddress = request.HighSchoolName,
+                   HighSchoolAddress = request.HighSchoolAddress,
                    HighSchoolCode = request.HighSchoolCode,
                    HighSchoolName = request.HighSchoolName,
                     SchoolReport1Url = request.SchoolReport1Url,
