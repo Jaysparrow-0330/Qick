@@ -179,7 +179,7 @@ namespace Qick.Repositories
             try
             {
                 var user = await _context.Users
-                    .Where(u => u.Id == request.Id)
+                    .Where(u => u.Id == id)
                     .FirstOrDefaultAsync();
 
                 if (user != null)

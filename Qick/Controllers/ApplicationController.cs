@@ -84,11 +84,15 @@ namespace Qick.Controllers
                     var applicationListResponse = _mapper.Map<IEnumerable<ListApplicationResponse>>(applicationList);
                     return Ok(applicationListResponse);
                 } 
-                else
+                else if(Role.Equals(Roles.STAFF) || Role.Equals(Roles.MANAGER))
                 {
                     var applicationList = await _repo.GetApplicationByUniId(Id);
                     var applicationListResponse = _mapper.Map<IEnumerable<ListApplicationResponse>>(applicationList);
                     return Ok(applicationListResponse);
+                } 
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
                 }
                 
             }
