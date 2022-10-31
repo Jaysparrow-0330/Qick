@@ -111,7 +111,7 @@ namespace Qick.Controllers
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 string Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
                     var applicationDetail = await _repo.GetApplicationDetail(Id);
-                    var applicationResponse = _mapper.Map<IEnumerable<ApplicationDetailResponse>>(applicationDetail);
+                    var applicationResponse = _mapper.Map<ApplicationDetailResponse>(applicationDetail);
                     return Ok(applicationResponse);
             }
             catch (Exception ex)
