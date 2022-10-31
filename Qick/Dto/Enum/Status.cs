@@ -7,7 +7,7 @@
             DISABLE = "INACTIVE",
             ACTIVE = "ACTIVE",
             PENDING = "PENDING",
-            APRROVED = "APRROVED",
+            APRROVED = "APPRROVED",
             BANNED = "BANNED",
             DENIED = "DENIED";
            

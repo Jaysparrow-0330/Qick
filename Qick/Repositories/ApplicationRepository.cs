@@ -99,8 +99,9 @@ namespace Qick.Repositories
             try
             {
                 var result = await _context.Applications
-                                    .Include(u => u.User)
-                                    .Include(x => x.UniSpec)
+                                    .Include(u => u.User).Where(a => a.UserId == a.User.Id)
+                                    .Include(x => x.UniSpec).Where(a => a.UniId == a.Uni.Id)
+                                    .Include(a => a.Uni).Where(a => a.UniSpecId == a.UniSpec.Id)
                                     .Where(a => a.UniId == uniId)
                                     .ToListAsync();
                 return result;
@@ -117,8 +118,9 @@ namespace Qick.Repositories
             try
             {
                 var result = await _context.Applications
-                                    .Include(u => u.User)
-                                    .Include(x => x.UniSpec)
+                                    .Include(u => u.User).Where(a => a.UserId == a.User.Id)
+                                    .Include(x => x.UniSpec).Where(a => a.UniId == a.Uni.Id)
+                                    .Include(a => a.Uni).Where(a => a.UniSpecId == a.UniSpec.Id)
                                     .Where(a => a.UserId == userId)
                                     .ToListAsync();
                 return result;
