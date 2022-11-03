@@ -72,21 +72,22 @@ namespace Qick.Controllers
 
         // Get list all question by test id
         [HttpGet("get-all-application")]
-        public async Task<IActionResult> GetAllApplicationById(Guid? Id)
+        public async Task<IActionResult> GetAllApplicationById()
         {
             try
             {
-                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 string Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
                 if(Role.Equals(Roles.MEMBER) || Role.Equals(Roles.STUDENT))
                 {
-                    var applicationList = await _repo.GetApplicationByUserId(Id);
+                    Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                    var applicationList = await _repo.GetApplicationByUserId(userId);
                     var applicationListResponse = _mapper.Map<IEnumerable<ListApplicationResponse>>(applicationList);
                     return Ok(applicationListResponse);
                 } 
                 else if(Role.Equals(Roles.STAFF) || Role.Equals(Roles.MANAGER))
                 {
-                    var applicationList = await _repo.GetApplicationByUniId(Id);
+                    Guid uniId = Guid.Parse(User.FindFirst("university").Value);
+                    var applicationList = await _repo.GetApplicationByUniId(uniId);
                     var applicationListResponse = _mapper.Map<IEnumerable<ListApplicationResponse>>(applicationList);
                     return Ok(applicationListResponse);
                 } 
