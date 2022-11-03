@@ -73,10 +73,12 @@ namespace Qick.Controllers
 
         //Get profile
         [HttpGet("get-profile")]
-        public async Task<IActionResult> GetProfile(Guid userId)
+        public async Task<IActionResult> GetProfile()
         {
+
             try
             {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 var response = await _repo.GetProfile(userId);
                 return Ok(response);
             }
@@ -88,10 +90,11 @@ namespace Qick.Controllers
 
         //Get academy profile
         [HttpGet("get-aca-profile")]
-        public async Task<IActionResult> GetAcademicProfile(Guid userId)
+        public async Task<IActionResult> GetAcademicProfile()
         {
             try
             {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 var response = await _repo.GetAcademicProfile(userId);
                 return Ok(response);
             }
@@ -107,8 +110,8 @@ namespace Qick.Controllers
         {
             try
             {
-                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                    var response = await _repo.CreateAcademicProfile(request);
+                    Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                    var response = await _repo.CreateAcademicProfile(request,userId);
                     if (response != null)
                     {
                         return Ok(response);

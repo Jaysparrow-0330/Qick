@@ -209,14 +209,14 @@ namespace Qick.Repositories
             }
         }
 
-        public async Task<AcademicProfile> CreateAcademicProfile(CreateAcademyRequest request)
+        public async Task<AcademicProfile> CreateAcademicProfile(CreateAcademyRequest request,Guid userId)
         {
             try
             {
                 AcademicProfile addProfile = new()
                 {
                     Id = Guid.NewGuid(),
-                    UserId = request.UserId,
+                    UserId = userId,
                     AcademicRank = request.AcademicRank,
                     AvarageScore = request.AvarageScore,
                     GraduationYear = request.GraduationYear,

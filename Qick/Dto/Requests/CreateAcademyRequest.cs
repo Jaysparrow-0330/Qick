@@ -2,7 +2,6 @@
 {
     public class CreateAcademyRequest
     {
-        public Guid? UserId { get; set; }
         public string? HighSchoolCode { get; set; }
         public string? HighSchoolName { get; set; }
         public string? HighSchoolAddress { get; set; }
