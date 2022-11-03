@@ -137,8 +137,8 @@ namespace Qick.Repositories
             try
             {
                 var result = await _context.Applications
-                             .Include(u => u.Uni)
-                             .Include(u => u.User)
+                             .Include(u => u.Uni).Where(a => a.UniSpecId == a.UniSpec.Id)
+                             .Include(u => u.User).Where(a => a.UserId == a.User.Id)
                              .Include(u => u.ApplicationDetails)
                              .Where(a => a.Id == appId)
                              .FirstOrDefaultAsync();

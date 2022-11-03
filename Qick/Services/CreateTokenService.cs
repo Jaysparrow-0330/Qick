@@ -40,6 +40,7 @@ namespace Qick.Services
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(ClaimTypes.Role, user.RoleId.ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim("university",user.UniversityId.ToString()),
                 //new Claim("imageUrl", user.ImageUrl),
                 //new Claim("userName", user.Name),
                 new Claim("status", user.Status.ToString())

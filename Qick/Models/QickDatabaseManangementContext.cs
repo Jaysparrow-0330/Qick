@@ -26,6 +26,7 @@ namespace Qick.Models
         public virtual DbSet<Character> Characters { get; set; } = null!;
         public virtual DbSet<District> Districts { get; set; } = null!;
         public virtual DbSet<Fqa> Fqas { get; set; } = null!;
+        public virtual DbSet<HighSchool> HighSchools { get; set; } = null!;
         public virtual DbSet<Job> Jobs { get; set; } = null!;
         public virtual DbSet<JobMajor> JobMajors { get; set; } = null!;
         public virtual DbSet<JobMapping> JobMappings { get; set; } = null!;
@@ -226,6 +227,19 @@ namespace Qick.Models
                     .WithMany(p => p.Fqas)
                     .HasForeignKey(d => d.UserId)
                     .HasConstraintName("FK_TblFQA_TblUser");
+            });
+
+            modelBuilder.Entity<HighSchool>(entity =>
+            {
+                entity.ToTable("HighSchool");
+
+                entity.Property(e => e.Id)
+                    .ValueGeneratedNever()
+                    .HasColumnName("id");
+
+                entity.Property(e => e.HighSchoolCode).HasMaxLength(50);
+
+                entity.Property(e => e.Status).HasMaxLength(50);
             });
 
             modelBuilder.Entity<Job>(entity =>
@@ -432,10 +446,6 @@ namespace Qick.Models
 
                 entity.Property(e => e.AddressNumber).HasMaxLength(100);
 
-                entity.Property(e => e.AvatarUrl)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.CredentialId)
                     .HasMaxLength(50)
                     .IsUnicode(false);
@@ -450,9 +460,21 @@ namespace Qick.Models
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
+                entity.Property(e => e.RoleId).HasMaxLength(50);
+
                 entity.Property(e => e.SignUpDate).HasColumnType("datetime");
 
                 entity.Property(e => e.Status).HasMaxLength(50);
+
+                entity.HasOne(d => d.HighSchool)
+                    .WithMany(p => p.Users)
+                    .HasForeignKey(d => d.HighSchoolId)
+                    .HasConstraintName("FK_User_HighSchool");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.Users)
+                    .HasForeignKey(d => d.RoleId)
+                    .HasConstraintName("FK_User_UserRole");
 
                 entity.HasOne(d => d.University)
                     .WithMany(p => p.Users)
@@ -462,9 +484,11 @@ namespace Qick.Models
 
             modelBuilder.Entity<UserRole>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("UserRole");
+
+                entity.HasIndex(e => e.RoleName, "IX_UserRole");
+
+                entity.Property(e => e.Id).HasMaxLength(50);
 
                 entity.Property(e => e.RoleName).HasMaxLength(50);
 
