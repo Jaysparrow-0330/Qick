@@ -34,9 +34,13 @@ namespace Qick.Models
         public string? CredentialFrontImgUrl { get; set; }
         public string? CredentialBackImgUrl { get; set; }
         public Guid? HighSchoolId { get; set; }
+        public int? WardId { get; set; }
+        public string? PublicProfile { get; set; }
 
         public virtual HighSchool? HighSchool { get; set; }
+        public virtual UserRole? Role { get; set; }
         public virtual University? University { get; set; }
+        public virtual Ward? Ward { get; set; }
         public virtual ICollection<AcademicProfile> AcademicProfiles { get; set; }
         public virtual ICollection<Application> Applications { get; set; }
         public virtual ICollection<Attempt> Attempts { get; set; }

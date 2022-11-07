@@ -194,13 +194,12 @@ namespace Qick.Models
             {
                 entity.ToTable("District");
 
-                entity.Property(e => e.DistrictName).HasMaxLength(100);
-
-                entity.Property(e => e.DistrictType).HasDefaultValueSql("((1))");
+                entity.Property(e => e.DistrictName).HasMaxLength(200);
 
                 entity.HasOne(d => d.Province)
                     .WithMany(p => p.Districts)
                     .HasForeignKey(d => d.ProvinceId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_District_Province");
             });
 
@@ -238,6 +237,11 @@ namespace Qick.Models
                 entity.Property(e => e.HighSchoolCode).HasMaxLength(50);
 
                 entity.Property(e => e.Status).HasMaxLength(50);
+
+                entity.HasOne(d => d.Ward)
+                    .WithMany(p => p.HighSchools)
+                    .HasForeignKey(d => d.WardId)
+                    .HasConstraintName("FK_HighSchool_Ward");
             });
 
             modelBuilder.Entity<Job>(entity =>
@@ -307,8 +311,6 @@ namespace Qick.Models
                 entity.ToTable("Province");
 
                 entity.Property(e => e.ProvinceName).HasMaxLength(100);
-
-                entity.Property(e => e.ProvinceType).HasDefaultValueSql("((1))");
             });
 
             modelBuilder.Entity<Question>(entity =>
@@ -415,6 +417,11 @@ namespace Qick.Models
                 entity.Property(e => e.Vippack)
                     .HasMaxLength(50)
                     .HasColumnName("VIPPack");
+
+                entity.HasOne(d => d.Ward)
+                    .WithMany(p => p.Universities)
+                    .HasForeignKey(d => d.WardId)
+                    .HasConstraintName("FK_University_Ward");
             });
 
             modelBuilder.Entity<UniversitySpecialization>(entity =>
@@ -456,6 +463,10 @@ namespace Qick.Models
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
+                entity.Property(e => e.PublicProfile).HasMaxLength(50);
+
+                entity.Property(e => e.RoleId).HasMaxLength(50);
+
                 entity.Property(e => e.SignUpDate).HasColumnType("datetime");
 
                 entity.Property(e => e.Status).HasMaxLength(50);
@@ -465,10 +476,20 @@ namespace Qick.Models
                     .HasForeignKey(d => d.HighSchoolId)
                     .HasConstraintName("FK_User_HighSchool");
 
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.Users)
+                    .HasForeignKey(d => d.RoleId)
+                    .HasConstraintName("FK_User_UserRole");
+
                 entity.HasOne(d => d.University)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.UniversityId)
                     .HasConstraintName("FK_TblUser_TblUniversity");
+
+                entity.HasOne(d => d.Ward)
+                    .WithMany(p => p.Users)
+                    .HasForeignKey(d => d.WardId)
+                    .HasConstraintName("FK_User_Ward");
             });
 
             modelBuilder.Entity<UserRole>(entity =>
@@ -488,17 +509,12 @@ namespace Qick.Models
             {
                 entity.ToTable("Ward");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.Status)
-                    .IsRequired()
-                    .HasDefaultValueSql("((1))");
-
-                entity.Property(e => e.WardName).HasMaxLength(100);
+                entity.Property(e => e.WardName).HasMaxLength(200);
 
                 entity.HasOne(d => d.District)
                     .WithMany(p => p.Wards)
                     .HasForeignKey(d => d.DistrictId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Ward_District");
             });
 

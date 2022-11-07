@@ -12,7 +12,7 @@ namespace Qick.Models
 
         public int Id { get; set; }
         public string? ProvinceName { get; set; }
-        public int? ProvinceType { get; set; }
+        public int ProvinceType { get; set; }
 
         public virtual ICollection<District> Districts { get; set; }
     }

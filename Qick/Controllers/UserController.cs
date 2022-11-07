@@ -80,7 +80,8 @@ namespace Qick.Controllers
             {
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 var response = await _repo.GetProfile(userId);
-                return Ok(response);
+                var profile = _mapper.Map<ProfileResponse>(response);
+                return Ok(profile);
             }
             catch (Exception ex)
             {

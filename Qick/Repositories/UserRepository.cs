@@ -82,7 +82,8 @@ namespace Qick.Repositories
                     RoleId = Roles.MEMBER,
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
-                    Status = Status.ACTIVE
+                    Status = Status.ACTIVE,
+                    PublicProfile = PublicProfile.INACTIVE
                 };
                 await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
@@ -288,12 +289,16 @@ namespace Qick.Repositories
             }
         }
 
-        public async Task<User> GetProfile(Guid? UserId)
+        public async Task<User> GetProfile(Guid UserId)
         {
             try
             {
                 var AcaProfile = await _context.Users
                     .Where(a => a.Id == UserId)
+                    .Include(a => a.Ward)
+                    .ThenInclude(u => u.District)
+                    .ThenInclude(u => u.Province)
+                    .Where(u => u.WardId == u.Ward.Id)
                     .FirstOrDefaultAsync();
                 return AcaProfile;
             }

@@ -15,7 +15,9 @@ namespace Qick.Models
         public string? HighSchoolCode { get; set; }
         public string? Status { get; set; }
         public string? HighSchoolAddress { get; set; }
+        public int? WardId { get; set; }
 
+        public virtual Ward? Ward { get; set; }
         public virtual ICollection<User> Users { get; set; }
     }
 }

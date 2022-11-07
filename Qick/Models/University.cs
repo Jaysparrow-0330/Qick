@@ -29,7 +29,9 @@ namespace Qick.Models
         public string? UniCode { get; set; }
         public string? Description { get; set; }
         public int? CountSaved { get; set; }
+        public int? WardId { get; set; }
 
+        public virtual Ward? Ward { get; set; }
         public virtual ICollection<AddmissionCampaign> AddmissionCampaigns { get; set; }
         public virtual ICollection<Application> Applications { get; set; }
         public virtual ICollection<Fqa> Fqas { get; set; }
