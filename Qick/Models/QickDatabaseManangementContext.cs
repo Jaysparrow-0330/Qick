@@ -196,9 +196,7 @@ namespace Qick.Models
 
                 entity.Property(e => e.DistrictName).HasMaxLength(100);
 
-                entity.Property(e => e.Status)
-                    .IsRequired()
-                    .HasDefaultValueSql("((1))");
+                entity.Property(e => e.DistrictType).HasDefaultValueSql("((1))");
 
                 entity.HasOne(d => d.Province)
                     .WithMany(p => p.Districts)
@@ -308,11 +306,9 @@ namespace Qick.Models
             {
                 entity.ToTable("Province");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.ProvinceName).HasMaxLength(100);
 
-                entity.Property(e => e.ProvinceName).HasMaxLength(50);
-
-                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
+                entity.Property(e => e.ProvinceType).HasDefaultValueSql("((1))");
             });
 
             modelBuilder.Entity<Question>(entity =>
@@ -446,21 +442,19 @@ namespace Qick.Models
 
                 entity.Property(e => e.AddressNumber).HasMaxLength(100);
 
+                entity.Property(e => e.AvatarUrl)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.CredentialId)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.DateOfBirth).HasColumnType("datetime");
 
-                entity.Property(e => e.Gender)
-                    .HasMaxLength(10)
-                    .IsFixedLength();
-
                 entity.Property(e => e.Phone)
                     .HasMaxLength(20)
                     .IsUnicode(false);
-
-                entity.Property(e => e.RoleId).HasMaxLength(50);
 
                 entity.Property(e => e.SignUpDate).HasColumnType("datetime");
 
@@ -470,11 +464,6 @@ namespace Qick.Models
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.HighSchoolId)
                     .HasConstraintName("FK_User_HighSchool");
-
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.Users)
-                    .HasForeignKey(d => d.RoleId)
-                    .HasConstraintName("FK_User_UserRole");
 
                 entity.HasOne(d => d.University)
                     .WithMany(p => p.Users)
