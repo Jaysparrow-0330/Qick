@@ -30,7 +30,9 @@ namespace Qick.Models
         public virtual DbSet<Job> Jobs { get; set; } = null!;
         public virtual DbSet<JobMajor> JobMajors { get; set; } = null!;
         public virtual DbSet<JobMapping> JobMappings { get; set; } = null!;
+        public virtual DbSet<MailBox> MailBoxes { get; set; } = null!;
         public virtual DbSet<Major> Majors { get; set; } = null!;
+        public virtual DbSet<Message> Messages { get; set; } = null!;
         public virtual DbSet<Option> Options { get; set; } = null!;
         public virtual DbSet<Province> Provinces { get; set; } = null!;
         public virtual DbSet<Question> Questions { get; set; } = null!;
@@ -74,6 +76,8 @@ namespace Qick.Models
             {
                 entity.ToTable("AddmissionCampaign");
 
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Uni)
@@ -86,10 +90,17 @@ namespace Qick.Models
             {
                 entity.ToTable("AddmissionNew");
 
-                entity.HasOne(d => d.Campaign)
+                entity.HasOne(d => d.Uni)
                     .WithMany(p => p.AddmissionNews)
-                    .HasForeignKey(d => d.CampaignId)
+                    .HasForeignKey(d => d.UniId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TblAddmissionNew_TblAddmissionCampaign");
+
+                entity.HasOne(d => d.UniNavigation)
+                    .WithMany(p => p.AddmissionNews)
+                    .HasForeignKey(d => d.UniId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AddmissionNew_University");
 
                 entity.HasOne(d => d.UniSpec)
                     .WithMany(p => p.AddmissionNews)
@@ -285,11 +296,43 @@ namespace Qick.Models
                     .HasConstraintName("FK_AttemptResult_Job");
             });
 
+            modelBuilder.Entity<MailBox>(entity =>
+            {
+                entity.ToTable("MailBox");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.HasOne(d => d.Uni)
+                    .WithMany(p => p.MailBoxes)
+                    .HasForeignKey(d => d.UniId)
+                    .HasConstraintName("FK_MailBox_University");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.MailBoxes)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_MailBox_User");
+            });
+
             modelBuilder.Entity<Major>(entity =>
             {
                 entity.ToTable("Major");
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
+            });
+
+            modelBuilder.Entity<Message>(entity =>
+            {
+                entity.ToTable("Message");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.MessageType).HasMaxLength(50);
+
+                entity.HasOne(d => d.MailBox)
+                    .WithMany(p => p.Messages)
+                    .HasForeignKey(d => d.MailBoxId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Message_MailBox");
             });
 
             modelBuilder.Entity<Option>(entity =>

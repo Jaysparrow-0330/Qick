@@ -8,8 +8,10 @@ namespace Qick.Models
         public University()
         {
             AddmissionCampaigns = new HashSet<AddmissionCampaign>();
+            AddmissionNews = new HashSet<AddmissionNew>();
             Applications = new HashSet<Application>();
             Fqas = new HashSet<Fqa>();
+            MailBoxes = new HashSet<MailBox>();
             SavedUnis = new HashSet<SavedUni>();
             UniversitySpecializations = new HashSet<UniversitySpecialization>();
             Users = new HashSet<User>();
@@ -33,8 +35,10 @@ namespace Qick.Models
 
         public virtual Ward? Ward { get; set; }
         public virtual ICollection<AddmissionCampaign> AddmissionCampaigns { get; set; }
+        public virtual ICollection<AddmissionNew> AddmissionNews { get; set; }
         public virtual ICollection<Application> Applications { get; set; }
         public virtual ICollection<Fqa> Fqas { get; set; }
+        public virtual ICollection<MailBox> MailBoxes { get; set; }
         public virtual ICollection<SavedUni> SavedUnis { get; set; }
         public virtual ICollection<UniversitySpecialization> UniversitySpecializations { get; set; }
         public virtual ICollection<User> Users { get; set; }

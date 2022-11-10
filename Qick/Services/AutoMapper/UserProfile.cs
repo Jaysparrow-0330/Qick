@@ -10,9 +10,9 @@ namespace Qick.Services.AutoMapper
         {
             CreateMap<User, ProfileResponse>()
                 .ForMember(m => m.HighSchoolName, n => n.MapFrom(i => i.HighSchool.HighSchoolName))
-                .ForMember(m => m.WardName, n => n.MapFrom(i => i.Ward.WardName))
-                .ForMember(m => m.DistrictName, n => n.MapFrom(i => i.Ward.District.DistrictName))
-                .ForMember(m => m.ProvinceName, n => n.MapFrom(i => i.Ward.District.Province.ProvinceName));
+                .ForMember(m => m.WardId, n => n.MapFrom(i => i.Ward.Id))
+                .ForMember(m => m.DistrictId, n => n.MapFrom(i => i.Ward.District.Id))
+                .ForMember(m => m.ProvinceId, n => n.MapFrom(i => i.Ward.District.Province.Id));
         }
     }
 }

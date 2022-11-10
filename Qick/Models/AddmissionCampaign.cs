@@ -10,7 +10,7 @@ namespace Qick.Models
             AddmissionNews = new HashSet<AddmissionNew>();
         }
 
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public Guid? UniId { get; set; }
         public int? TotalAddmission { get; set; }
         public int? CurrentAddmission { get; set; }
