@@ -4,5 +4,6 @@
     {
         public int optionId { get; set; }
         public string optionValue { get; set; }
+        public Boolean? selectedField { get; set; }
     }
 }
