@@ -195,6 +195,7 @@ namespace Qick.Repositories
                     user.DateOfBirth = request.DateOfBirth;
                     user.Gender = request.Gender;
                     user.Phone = request.Phone;
+                    user.WardId = request.WardId;
                 }
                 else
                 {

@@ -79,5 +79,51 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
+
+        // Get list all question by test id
+        [HttpGet("mailbox")]
+        public async Task<IActionResult> GetAllMailBoxById()
+        {
+            try
+            {
+                string Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
+                if (Role.Equals(Roles.MEMBER) || Role.Equals(Roles.STUDENT))
+                {
+                    Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                    var list = await _repo.GetMailBoxByUserId(userId);
+                    return Ok(list);
+                }
+                else if (Role.Equals(Roles.STAFF) || Role.Equals(Roles.MANAGER))
+                {
+                    Guid uniId = Guid.Parse(User.FindFirst("university").Value);
+                    var list = await _repo.GetMailBoxByUniId(uniId);
+                    return Ok(list);
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
+        // Get list all question by test id
+        [HttpGet("message")]
+        public async Task<IActionResult> GetAllMessageById(Guid MailId)
+        {
+            try
+            {
+                    var list = await _repo.GetMessByMailId(MailId);
+                    return Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
     }
 }

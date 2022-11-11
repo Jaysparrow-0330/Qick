@@ -10,5 +10,13 @@ namespace Qick.Repositories.Interfaces
 
         // create 
         Task<bool> CreateMess(Guid mailId, string content, string type);
+
+        // get 
+        Task<IEnumerable<MailBox>> GetMailBoxByUniId(Guid? uniId);
+        // get 
+        Task<IEnumerable<MailBox>> GetMailBoxByUserId(Guid? userId);
+
+        // get 
+        Task<IEnumerable<Message>> GetMessByMailId(Guid? MailId);
     }
 }

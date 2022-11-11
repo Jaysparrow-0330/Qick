@@ -324,8 +324,6 @@ namespace Qick.Models
             {
                 entity.ToTable("Message");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.CreateDate).HasColumnType("datetime");
 
                 entity.Property(e => e.MessageType).HasMaxLength(50);

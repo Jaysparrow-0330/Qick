@@ -12,5 +12,6 @@
         public string? AddressNumber { get; set; }
         public string? CredentialFrontImgUrl { get; set; }
         public string? CredentialBackImgUrl { get; set; }
+        public int? WardId { get; set; }
     }
 }

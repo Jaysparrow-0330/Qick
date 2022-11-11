@@ -1,4 +1,5 @@
-﻿using Qick.Dto.Requests;
+﻿using Microsoft.EntityFrameworkCore;
+using Qick.Dto.Requests;
 using Qick.Models;
 using Qick.Repositories.Interfaces;
 
@@ -52,6 +53,54 @@ namespace Qick.Repositories
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        public async Task<IEnumerable<MailBox>> GetMailBoxByUniId(Guid? uniId)
+        {
+            try
+            {
+                var result = await _context.MailBoxes
+                                    .Where(a => a.UniId == uniId)
+                                    .ToListAsync();
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<MailBox>> GetMailBoxByUserId(Guid? userId)
+        {
+            try
+            {
+                var result = await _context.MailBoxes
+                                    .Where(a => a.UserId == userId)
+                                    .ToListAsync();
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<Message>> GetMessByMailId(Guid? MailId)
+        {
+            try
+            {
+                var result = await _context.Messages
+                                    .Where(a => a.MailBoxId == MailId)
+                                    .ToListAsync();
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
     }
