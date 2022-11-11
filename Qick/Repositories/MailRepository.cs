@@ -1,4 +1,5 @@
-﻿using Qick.Models;
+﻿using Qick.Dto.Requests;
+using Qick.Models;
 using Qick.Repositories.Interfaces;
 
 namespace Qick.Repositories
@@ -12,15 +13,16 @@ namespace Qick.Repositories
             _context = context;
         }
 
-        public async Task<MailBox> CreateMail(Guid uniId,Guid userId)
+        public async Task<MailBox> CreateMail(CreateMessRequest request,Guid userId)
         {
             try
             {
                 MailBox addResult = new()
                 {
                    Id = Guid.NewGuid(),
-                   UniId = uniId,
-                   UserId = userId
+                   UniId = request.uniId,
+                   UserId = userId,
+                   Topic = request.Topic
                 };
                 await _context.MailBoxes.AddAsync(addResult);
                 await _context.SaveChangesAsync();

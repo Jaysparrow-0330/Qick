@@ -13,6 +13,7 @@ namespace Qick.Models
         public Guid Id { get; set; }
         public Guid? UserId { get; set; }
         public Guid? UniId { get; set; }
+        public string? Topic { get; set; }
 
         public virtual University? Uni { get; set; }
         public virtual User? User { get; set; }

@@ -31,7 +31,7 @@ namespace Qick.Controllers
             try
             {
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                var response = await _repo.CreateMail(request.uniId,userId);
+                var response = await _repo.CreateMail(request,userId);
 
                 if (response != null)
                 {
