@@ -9,6 +9,7 @@ namespace Qick.Models
         public Guid MailBoxId { get; set; }
         public string MessageContent { get; set; } = null!;
         public string? MessageType { get; set; }
+        public DateTime? CreateDate { get; set; }
 
         public virtual MailBox MailBox { get; set; } = null!;
     }

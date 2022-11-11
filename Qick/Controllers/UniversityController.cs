@@ -31,7 +31,8 @@ namespace Qick.Controllers
                 if(UniId != null)
                 {
                     var response = await _repo.GetUniversityDetail(UniId);
-                    return Ok(response);
+                    var detailResponse = _mapper.Map<UniDetailResponse>(response);
+                    return Ok(detailResponse);
                 }
                 else
                 {
@@ -51,7 +52,7 @@ namespace Qick.Controllers
         [AllowAnonymous]
         [HttpGet("get-university-spec")]
         public async Task<IActionResult> GetUniversitySpec(Guid? UniId)
-        {
+        {                            
             try
             {
                     var response = await _repo.GetListAllUniversitySpec(UniId);

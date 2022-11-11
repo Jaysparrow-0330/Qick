@@ -152,6 +152,10 @@ namespace Qick.Repositories
             {
                 var result = await _context.Universities
                              .Where(a => a.Id == uniId)
+                             .Include(a => a.Ward)
+                             .ThenInclude(u => u.District)
+                             .ThenInclude(u => u.Province)
+                             .Where(u => u.WardId == u.Ward.Id)
                              .FirstOrDefaultAsync();
                 return result;
             }

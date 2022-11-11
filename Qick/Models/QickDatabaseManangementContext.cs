@@ -326,6 +326,8 @@ namespace Qick.Models
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
+                entity.Property(e => e.CreateDate).HasColumnType("datetime");
+
                 entity.Property(e => e.MessageType).HasMaxLength(50);
 
                 entity.HasOne(d => d.MailBox)
@@ -492,9 +494,7 @@ namespace Qick.Models
 
                 entity.Property(e => e.AddressNumber).HasMaxLength(100);
 
-                entity.Property(e => e.AvatarUrl)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.AvatarUrl).IsUnicode(false);
 
                 entity.Property(e => e.CredentialId)
                     .HasMaxLength(50)
