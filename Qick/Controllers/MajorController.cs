@@ -24,7 +24,7 @@ namespace Qick.Controllers
         //Get all major
         [AllowAnonymous]
         [HttpGet("get-major")]
-        public async Task<IActionResult> GetJob()
+        public async Task<IActionResult> GetMajor()
         {
             try
             {
@@ -39,17 +39,43 @@ namespace Qick.Controllers
             }
         }
 
-        //Get all spec db
+        //Get all major
         [AllowAnonymous]
-        [HttpGet("get-spec")]
-        public async Task<IActionResult> GetSpec()
+        [HttpGet("majoruni")]
+        public async Task<IActionResult> GetMajorbyUniId(Guid uniId)
         {
             try
             {
-                var response = await _repo.GetAllSpecDb();
-                var ListJobResponse = _mapper.Map<IEnumerable<ListSpecDbResponse>>(response);
+                var response = await _repo.GetMajorByUniId(uniId);
+                var ListJobResponse = _mapper.Map<IEnumerable<MajorResponse>>(response);
 
-                return Ok(ListJobResponse);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
+        //Get all spec db
+        [AllowAnonymous]
+        [HttpGet("get-spec")]
+        public async Task<IActionResult> GetSpec(Guid? MajorId)
+        {
+            try
+            {
+                if (MajorId == null)
+                {
+                    var response = await _repo.GetAllSpecDb();
+                    var ListJobResponse = _mapper.Map<IEnumerable<ListSpecDbResponse>>(response);
+                    return Ok(ListJobResponse);
+                } 
+                else
+                {
+                    var response = await _repo.GetSpecByMajorId(MajorId);
+                    var ListJobResponse = _mapper.Map<IEnumerable<ListSpecDbResponse>>(response);
+                    return Ok(ListJobResponse);
+                }
             }
             catch (Exception ex)
             {

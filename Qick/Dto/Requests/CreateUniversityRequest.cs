@@ -11,6 +11,7 @@
         public string? AvatarUrl { get; set; }
         public string? CoverPhotoUrl { get; set; }
         public string? Description { get; set; }
+        public int? WardId { get; set; }
 
     }
 }

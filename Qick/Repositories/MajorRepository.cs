@@ -47,7 +47,9 @@ namespace Qick.Repositories
             try
             {
                 var response = await _context.Majors
-                    .Where(x => x.Id == x.JobMajors.Where(a => a.JobId == JobId).FirstOrDefault().MajorId)
+                    .Where(x => x.Id == x.JobMajors
+                    .Where(a => a.JobId == JobId)
+                    .FirstOrDefault().MajorId)
                     .ToListAsync();
 
                 return response;
@@ -59,9 +61,26 @@ namespace Qick.Repositories
             }
         }
 
-        public Task<IEnumerable<Specialization>> GetSpecByMajorId(int MajorId)
+        public async Task<IEnumerable<Major>> GetMajorByUniId(Guid uniId)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Specialization>> GetSpecByMajorId(Guid? MajorId)
+        {
+            try
+            {
+                var response = await _context.Specializations
+                    .Where(x => x.MajorId == MajorId)
+                    .ToListAsync();
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }

@@ -32,7 +32,9 @@ namespace Qick.Repositories
             try
             {
                 var response = await _context.Jobs
-                    .Where(x => x.Id == x.JobMappings.Where(a => a.CharacterId == characterId).FirstOrDefault().JobId)
+                    .Where(x => x.Id == x.JobMappings
+                    .Where(a => a.CharacterId == characterId)
+                    .FirstOrDefault().JobId)
                     .ToListAsync();
 
                 return response;

@@ -33,6 +33,7 @@ namespace Qick.Repositories
                     WebsiteUrl = request.WebsiteUrl,
                     Description = request.Description,
                     CreatedDate = DateTime.Now,
+                    WardId = request.WardId,
                     Status = Status.ACTIVE
                 };
                 await _context.Universities.AddAsync(addUni);

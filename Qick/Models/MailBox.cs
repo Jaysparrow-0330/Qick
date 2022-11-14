@@ -14,6 +14,7 @@ namespace Qick.Models
         public Guid? UserId { get; set; }
         public Guid? UniId { get; set; }
         public string? Topic { get; set; }
+        public DateTime? CreateDate { get; set; }
 
         public virtual University? Uni { get; set; }
         public virtual User? User { get; set; }

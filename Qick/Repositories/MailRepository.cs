@@ -23,7 +23,8 @@ namespace Qick.Repositories
                    Id = Guid.NewGuid(),
                    UniId = request.uniId,
                    UserId = userId,
-                   Topic = request.Topic
+                   Topic = request.Topic,
+                   CreateDate = DateTime.Now
                 };
                 await _context.MailBoxes.AddAsync(addResult);
                 await _context.SaveChangesAsync();

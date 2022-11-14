@@ -27,6 +27,7 @@ namespace Qick.Models
         public virtual DbSet<District> Districts { get; set; } = null!;
         public virtual DbSet<Fqa> Fqas { get; set; } = null!;
         public virtual DbSet<HighSchool> HighSchools { get; set; } = null!;
+        public virtual DbSet<IntensityIndex> IntensityIndices { get; set; } = null!;
         public virtual DbSet<Job> Jobs { get; set; } = null!;
         public virtual DbSet<JobMajor> JobMajors { get; set; } = null!;
         public virtual DbSet<JobMapping> JobMappings { get; set; } = null!;
@@ -255,6 +256,15 @@ namespace Qick.Models
                     .HasConstraintName("FK_HighSchool_Ward");
             });
 
+            modelBuilder.Entity<IntensityIndex>(entity =>
+            {
+                entity.ToTable("IntensityIndex");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Dimension).HasMaxLength(100);
+            });
+
             modelBuilder.Entity<Job>(entity =>
             {
                 entity.ToTable("Job");
@@ -301,6 +311,8 @@ namespace Qick.Models
                 entity.ToTable("MailBox");
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.CreateDate).HasColumnType("date");
 
                 entity.HasOne(d => d.Uni)
                     .WithMany(p => p.MailBoxes)
