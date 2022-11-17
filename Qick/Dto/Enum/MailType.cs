@@ -4,6 +4,8 @@
     {
         public const string
             SEND = "SEND",
-            REPLY = "REPLY";
+            REPLY = "REPLY",
+            REUNI = "RE_UNIVERSITY",
+            REUSER = "RE_USER";
     }
 }

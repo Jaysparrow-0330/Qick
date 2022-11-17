@@ -32,7 +32,6 @@ namespace Qick.Controllers
             {
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 var response = await _repo.CreateMail(request,userId);
-
                 if (response != null)
                 {
                     var messResponse = await _repo.CreateMess(response.Id, request.MessageContent, MailType.SEND);
@@ -62,10 +61,23 @@ namespace Qick.Controllers
         {
             try
             {
-                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                var messResponse = await _repo.CreateMess(request.MailBoxId, request.MessageContent, MailType.REPLY);
-
-                if (messResponse)
+                var check = false;
+                string Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
+                if (Role.Equals(Roles.MEMBER) || Role.Equals(Roles.STUDENT))
+                {
+                    var messResponse = await _repo.CreateMess(request.MailBoxId, request.MessageContent, MailType.REUSER);
+                    check = messResponse;
+                }
+                else if (Role.Equals(Roles.STAFF) || Role.Equals(Roles.MANAGER))
+                {
+                    var messResponse = await _repo.CreateMess(request.MailBoxId, request.MessageContent, MailType.REUNI);
+                    check = messResponse;
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+                if (check)
                 {
                     return Ok(new HttpStatusCodeResponse(200));
                 }
@@ -91,13 +103,15 @@ namespace Qick.Controllers
                 {
                     Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                     var list = await _repo.GetMailBoxByUserId(userId);
-                    return Ok(list);
+                    var response = _mapper.Map<IEnumerable<MailBoxResponse>>(list);
+                    return Ok(response);
                 }
                 else if (Role.Equals(Roles.STAFF) || Role.Equals(Roles.MANAGER))
                 {
                     Guid uniId = Guid.Parse(User.FindFirst("university").Value);
                     var list = await _repo.GetMailBoxByUniId(uniId);
-                    return Ok(list);
+                    var response = _mapper.Map<IEnumerable<MailBoxResponse>>(list);
+                    return Ok(response);
                 }
                 else
                 {
