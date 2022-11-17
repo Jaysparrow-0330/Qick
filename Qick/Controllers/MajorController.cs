@@ -48,7 +48,6 @@ namespace Qick.Controllers
             {
                 var response = await _repo.GetMajorByUniId(uniId);
                 var ListJobResponse = _mapper.Map<IEnumerable<MajorResponse>>(response);
-
                 return Ok(response);
             }
             catch (Exception ex)

@@ -168,28 +168,6 @@ namespace Qick.Controllers
             }
         }
 
-        //Create Test step one create basic information of test , return test to create questions, option, etc.
-        [HttpPost("unispec-create")]
-        public async Task<IActionResult> CreateUniSpec(CreateUniSpecRequest request)
-        {
-            try
-            {
-                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                var response = await _repoUni.CreateUniversitySpec(request);
-                if (response)
-                {
-                    return Ok(new HttpStatusCodeResponse(200));
-                }
-                else
-                {
-                    return Ok(new HttpStatusCodeResponse(204));
-                }
-            }
-            catch (Exception ex)
-            {
-                return Ok(ex.Message);
-            }
-        }
 
         //Create Result for test
         [HttpPost("create-result")]

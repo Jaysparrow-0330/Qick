@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Qick.Dto.Requests;
 using Qick.Dto.Responses;
 using Qick.Repositories.Interfaces;
+using System.Security.Claims;
 
 namespace Qick.Controllers
 {
@@ -64,6 +66,28 @@ namespace Qick.Controllers
             }
         }
 
+        //Create Test step one create basic information of test , return test to create questions, option, etc.
+        [HttpPost("unispec-create")]
+        public async Task<IActionResult> CreateUniSpec(CreateUniSpecRequest request)
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var response = await _repo.CreateUniversitySpec(request);
+                if (response)
+                {
+                    return Ok(new HttpStatusCodeResponse(200));
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
         //Get University by Major Id
         [AllowAnonymous]
         [HttpGet("get-uni-major")]
