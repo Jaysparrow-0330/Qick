@@ -81,6 +81,8 @@ namespace Qick.Repositories
             {
                 var result = await _context.MailBoxes
                                     .Where(a => a.UserId == userId)
+                                    .Include(a => a.Uni)
+                                    .Include(x => x.User)
                                     .ToListAsync();
                 return result;
             }
