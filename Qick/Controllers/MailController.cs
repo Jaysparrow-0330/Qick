@@ -42,7 +42,8 @@ namespace Qick.Controllers
                 }
                 else if (Role.Equals(Roles.STAFF) || Role.Equals(Roles.MANAGER))
                 {
-                    var response = await _repo.CreateMail(request, userId, MailType.SEND);
+                    Guid uniId = Guid.Parse(User.FindFirst("university").Value);
+                    var response = await _repo.CreateMailUni(request, uniId, MailType.SENDUNI);
                     var messResponse = await _repo.CreateMess(response.Id, request.MessageContent, MailType.SENDUNI);
                     check = messResponse;
                 }

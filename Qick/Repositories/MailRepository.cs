@@ -37,6 +37,29 @@ namespace Qick.Repositories
             }
         }
 
+        public async Task<MailBox> CreateMailUni(CreateMessRequest request, Guid uniId, string type)
+        {
+            try
+            {
+                MailBox addResult = new()
+                {
+                    Id = Guid.NewGuid(),
+                    UniId = uniId,
+                    UserId = request.recipientId,
+                    Topic = request.Topic,
+                    CreateDate = DateTime.Now,
+                    Type = type
+                };
+                await _context.MailBoxes.AddAsync(addResult);
+                await _context.SaveChangesAsync();
+                return addResult;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public async Task<bool> CreateMess(Guid mailId, string content, string type)
         {
             try

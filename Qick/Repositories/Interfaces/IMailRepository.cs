@@ -7,7 +7,8 @@ namespace Qick.Repositories.Interfaces
     {
         // create 
         Task<MailBox> CreateMail(CreateMessRequest request, Guid userId, string type);
-
+        // create 
+        Task<MailBox> CreateMailUni(CreateMessRequest request, Guid uniId, string type);
         // create 
         Task<bool> CreateMess(Guid mailId, string content, string type);
 
