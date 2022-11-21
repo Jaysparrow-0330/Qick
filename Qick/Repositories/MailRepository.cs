@@ -65,6 +65,7 @@ namespace Qick.Repositories
                                     .Where(a => a.UniId == uniId)
                                     .Include(a => a.Uni)
                                     .Include(x => x.User)
+                                    .OrderBy(x => x.CreateDate)
                                     .ToListAsync();
                 return result;
             }
@@ -83,6 +84,7 @@ namespace Qick.Repositories
                                     .Where(a => a.UserId == userId)
                                     .Include(a => a.Uni)
                                     .Include(x => x.User)
+                                    .OrderBy(x => x.CreateDate)
                                     .ToListAsync();
                 return result;
             }
