@@ -2,7 +2,7 @@
 {
     public class CreateMessRequest
     {
-        public Guid uniId { get; set; }
+        public Guid recipientId { get; set; }
         public string MessageContent { get; set; }
 
         public string? Topic { get; set; }

@@ -11,5 +11,6 @@
         public string? UniAvatarUrl { get; set; }
         public string? Topic { get; set; }
         public DateTime? CreateDate { get; set; }
+        public string? Type { get; set; }
     }
 }

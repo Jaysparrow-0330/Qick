@@ -26,7 +26,7 @@ namespace Qick.Models
         public virtual DbSet<Character> Characters { get; set; } = null!;
         public virtual DbSet<District> Districts { get; set; } = null!;
         public virtual DbSet<Fqa> Fqas { get; set; } = null!;
-        public virtual DbSet<FqaTopic> FqaTopics { get; set; } = null!;
+        public virtual DbSet<Fqatopic> Fqatopics { get; set; } = null!;
         public virtual DbSet<HighSchool> HighSchools { get; set; } = null!;
         public virtual DbSet<IntensityIndex> IntensityIndices { get; set; } = null!;
         public virtual DbSet<Job> Jobs { get; set; } = null!;
@@ -245,9 +245,9 @@ namespace Qick.Models
                     .HasConstraintName("FK_TblFQA_TblUser");
             });
 
-            modelBuilder.Entity<FqaTopic>(entity =>
+            modelBuilder.Entity<Fqatopic>(entity =>
             {
-                entity.ToTable("FQA Topic");
+                entity.ToTable("FQATopic");
 
                 entity.Property(e => e.Status)
                     .HasMaxLength(50)
@@ -329,6 +329,10 @@ namespace Qick.Models
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.CreateDate).HasColumnType("date");
+
+                entity.Property(e => e.Type)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.HasOne(d => d.Uni)
                     .WithMany(p => p.MailBoxes)

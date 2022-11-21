@@ -14,17 +14,18 @@ namespace Qick.Repositories
             _context = context;
         }
 
-        public async Task<MailBox> CreateMail(CreateMessRequest request,Guid userId)
+        public async Task<MailBox> CreateMail(CreateMessRequest request,Guid userId, string type)
         {
             try
             {
                 MailBox addResult = new()
                 {
                    Id = Guid.NewGuid(),
-                   UniId = request.uniId,
+                   UniId = request.recipientId,
                    UserId = userId,
                    Topic = request.Topic,
-                   CreateDate = DateTime.Now
+                   CreateDate = DateTime.Now,
+                   Type = type
                 };
                 await _context.MailBoxes.AddAsync(addResult);
                 await _context.SaveChangesAsync();

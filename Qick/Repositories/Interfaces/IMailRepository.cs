@@ -6,7 +6,7 @@ namespace Qick.Repositories.Interfaces
     public interface IMailRepository
     {
         // create 
-        Task<MailBox> CreateMail(CreateMessRequest request, Guid userId);
+        Task<MailBox> CreateMail(CreateMessRequest request, Guid userId, string type);
 
         // create 
         Task<bool> CreateMess(Guid mailId, string content, string type);

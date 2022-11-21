@@ -33,14 +33,16 @@ namespace Qick.Controllers
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 var check = false;
                 string Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
-                var response = await _repo.CreateMail(request, userId);
+                
                 if (Role.Equals(Roles.MEMBER) || Role.Equals(Roles.STUDENT))
                 {
+                    var response = await _repo.CreateMail(request, userId,MailType.SEND);
                     var messResponse = await _repo.CreateMess(response.Id, request.MessageContent, MailType.SEND);
                     check = messResponse;
                 }
                 else if (Role.Equals(Roles.STAFF) || Role.Equals(Roles.MANAGER))
                 {
+                    var response = await _repo.CreateMail(request, userId, MailType.SEND);
                     var messResponse = await _repo.CreateMess(response.Id, request.MessageContent, MailType.SENDUNI);
                     check = messResponse;
                 }

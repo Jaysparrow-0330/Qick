@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Qick.Models
 {
-    public partial class FqaTopic
+    public partial class Fqatopic
     {
-        public FqaTopic()
+        public Fqatopic()
         {
             Fqas = new HashSet<Fqa>();
         }
