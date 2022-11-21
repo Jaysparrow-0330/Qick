@@ -12,7 +12,9 @@ namespace Qick.Models
         public string? Fqaanswer { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string? Status { get; set; }
+        public int TopicId { get; set; }
 
+        public virtual FqaTopic Topic { get; set; } = null!;
         public virtual University? Uni { get; set; }
         public virtual User? User { get; set; }
     }

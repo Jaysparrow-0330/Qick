@@ -3,7 +3,8 @@
     public class MailType
     {
         public const string
-            SEND = "SEND",
+            SEND = "USER",
+            SENDUNI = "UNIVERSITY",
             REPLY = "REPLY",
             REUNI = "RE_UNIVERSITY",
             REUSER = "RE_USER";

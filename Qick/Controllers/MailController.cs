@@ -31,18 +31,26 @@ namespace Qick.Controllers
             try
             {
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                var response = await _repo.CreateMail(request,userId);
-                if (response != null)
+                var check = false;
+                string Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
+                var response = await _repo.CreateMail(request, userId);
+                if (Role.Equals(Roles.MEMBER) || Role.Equals(Roles.STUDENT))
                 {
                     var messResponse = await _repo.CreateMess(response.Id, request.MessageContent, MailType.SEND);
-                    if (messResponse)
-                    {
-                        return Ok(new HttpStatusCodeResponse(200));
-                    }
-                    else
-                    {
-                        return Ok(new HttpStatusCodeResponse(204));
-                    }      
+                    check = messResponse;
+                }
+                else if (Role.Equals(Roles.STAFF) || Role.Equals(Roles.MANAGER))
+                {
+                    var messResponse = await _repo.CreateMess(response.Id, request.MessageContent, MailType.SENDUNI);
+                    check = messResponse;
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+                if (check)
+                {
+                    return Ok(new HttpStatusCodeResponse(200));
                 }
                 else
                 {
@@ -65,12 +73,12 @@ namespace Qick.Controllers
                 string Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
                 if (Role.Equals(Roles.MEMBER) || Role.Equals(Roles.STUDENT))
                 {
-                    var messResponse = await _repo.CreateMess(request.MailBoxId, request.MessageContent, MailType.REUSER);
+                    var messResponse = await _repo.CreateMess(request.MailBoxId, request.MessageContent, MailType.SEND);
                     check = messResponse;
                 }
                 else if (Role.Equals(Roles.STAFF) || Role.Equals(Roles.MANAGER))
                 {
-                    var messResponse = await _repo.CreateMess(request.MailBoxId, request.MessageContent, MailType.REUNI);
+                    var messResponse = await _repo.CreateMess(request.MailBoxId, request.MessageContent, MailType.SENDUNI);
                     check = messResponse;
                 }
                 else

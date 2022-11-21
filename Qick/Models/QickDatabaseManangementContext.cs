@@ -26,6 +26,7 @@ namespace Qick.Models
         public virtual DbSet<Character> Characters { get; set; } = null!;
         public virtual DbSet<District> Districts { get; set; } = null!;
         public virtual DbSet<Fqa> Fqas { get; set; } = null!;
+        public virtual DbSet<FqaTopic> FqaTopics { get; set; } = null!;
         public virtual DbSet<HighSchool> HighSchools { get; set; } = null!;
         public virtual DbSet<IntensityIndex> IntensityIndices { get; set; } = null!;
         public virtual DbSet<Job> Jobs { get; set; } = null!;
@@ -53,7 +54,7 @@ namespace Qick.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("name=DbCon");
+                optionsBuilder.UseSqlServer("name=Dbcon");
             }
         }
 
@@ -227,6 +228,12 @@ namespace Qick.Models
 
                 entity.Property(e => e.Status).HasMaxLength(50);
 
+                entity.HasOne(d => d.Topic)
+                    .WithMany(p => p.Fqas)
+                    .HasForeignKey(d => d.TopicId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_FQA_FQA Topic");
+
                 entity.HasOne(d => d.Uni)
                     .WithMany(p => p.Fqas)
                     .HasForeignKey(d => d.UniId)
@@ -236,6 +243,15 @@ namespace Qick.Models
                     .WithMany(p => p.Fqas)
                     .HasForeignKey(d => d.UserId)
                     .HasConstraintName("FK_TblFQA_TblUser");
+            });
+
+            modelBuilder.Entity<FqaTopic>(entity =>
+            {
+                entity.ToTable("FQA Topic");
+
+                entity.Property(e => e.Status)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<HighSchool>(entity =>
