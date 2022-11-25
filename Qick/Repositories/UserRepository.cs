@@ -123,7 +123,7 @@ namespace Qick.Repositories
             try
             {
                 var user = await _context.Users
-                    .Where(u => u.Email.Equals(login.Email.ToLower()) && u.RoleId.Equals(Roles.ADMIN) || u.RoleId.Equals(Roles.GOD) || u.RoleId.Equals(Roles.MANAGER) || u.RoleId.Equals(Roles.STAFF) && u.Status != Status.DISABLE)
+                    .Where(u => u.Email.Equals(login.Email.ToLower()) && (u.RoleId.Equals(Roles.ADMIN) || u.RoleId.Equals(Roles.GOD) || u.RoleId.Equals(Roles.MANAGER) || u.RoleId.Equals(Roles.STAFF)) && u.Status != Status.DISABLE)
                     .FirstOrDefaultAsync();
                 if (user != null)
                 {
