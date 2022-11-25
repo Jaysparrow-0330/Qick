@@ -81,7 +81,7 @@ namespace Qick.Controllers
             {
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 var response = await _repoUser.GetUser();
-                var profile = _mapper.Map<IEnumerable<ProfileResponse>>(response);
+                var profile = _mapper.Map<IEnumerable<ListUserResponse>>(response);
                 return Ok(profile);
             }
             catch (Exception ex)

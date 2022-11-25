@@ -318,7 +318,15 @@ namespace Qick.Repositories
 
                 if (user != null)
                 {
-                    user.PublicProfile = PublicProfile.ACTIVE;
+                    if (user.PublicProfile == PublicProfile.INACTIVE)
+                    {
+                        user.PublicProfile = PublicProfile.ACTIVE;
+                    } 
+                    else if (user.PublicProfile == PublicProfile.ACTIVE)
+                    {
+                        user.PublicProfile = PublicProfile.INACTIVE;
+                    }
+                    
                 }
                 else
                 {
@@ -340,6 +348,7 @@ namespace Qick.Repositories
             try
             {
                 var list = await _context.Users
+                    .Include(u => u.University)
                     .Include(a => a.Ward)
                     .ThenInclude(u => u.District)
                     .ThenInclude(u => u.Province)
@@ -366,7 +375,8 @@ namespace Qick.Repositories
                     if (user.Status == Status.ACTIVE)
                     {
                         user.Status = Status.BANNED;
-                    } else if (user.Status == Status.BANNED)
+                    } 
+                    else if (user.Status == Status.BANNED)
                     {
                         user.Status = Status.ACTIVE;
                     }
