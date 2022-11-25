@@ -186,7 +186,6 @@ namespace Qick.Repositories
                 if (user != null)
                 {
                     user.UserName = request.UserName;
-                    user.Age = request.Age;
                     user.AddressNumber = request.AddressNumber;
                     user.AvatarUrl = request.AvatarUrl;
                     user.CredentialBackImgUrl = request.CredentialBackImgUrl;
