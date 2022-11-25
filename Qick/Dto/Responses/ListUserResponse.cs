@@ -4,6 +4,7 @@
     {
         public Guid Id { get; set; }
         public Guid? UniversityId { get; set; }
+        public string? RoleName { get; set; }
         public string? UniName { get; set; }
         public string? UserName { get; set; }
         public string? Gender { get; set; }

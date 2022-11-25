@@ -348,6 +348,7 @@ namespace Qick.Repositories
             try
             {
                 var list = await _context.Users
+                    .Include(x => x.Role)
                     .Include(u => u.University)
                     .Include(a => a.Ward)
                     .ThenInclude(u => u.District)
