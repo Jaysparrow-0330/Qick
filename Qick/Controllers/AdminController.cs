@@ -21,9 +21,10 @@ namespace Qick.Controllers
         private readonly ISystemRepository _repoSystem;
         private readonly IUniversityRepository _repoUni;
         private readonly IJobRepository _repoJob;
+        private readonly IUserRepository _repoUser;
         private readonly IMapper _mapper;
 
-        public AdminController(IJobRepository repoJob,IUniversityRepository repoUni,ISystemRepository repoSystem,ITestRepository repoTest, IMapper mapper, IQuestionRepository repoQuestion, IOptionRepository repoOption)
+        public AdminController(IUserRepository repoUser,IJobRepository repoJob,IUniversityRepository repoUni,ISystemRepository repoSystem,ITestRepository repoTest, IMapper mapper, IQuestionRepository repoQuestion, IOptionRepository repoOption)
         {
             _repoTest = repoTest;
             _mapper = mapper;
@@ -32,6 +33,7 @@ namespace Qick.Controllers
             _repoSystem = repoSystem;
             _repoUni = repoUni;
             _repoJob = repoJob;
+            _repoUser = repoUser;
         }
 
         // Get list all question by test id
@@ -63,6 +65,24 @@ namespace Qick.Controllers
                 var testList = await _repoTest.GetListAllTest(userId);
                 var testListResponse = _mapper.Map<IEnumerable<ListTestForAdminResponse>>(testList);
                 return Ok(testListResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
+        //Get profile
+        [HttpGet("user")]
+        public async Task<IActionResult> GetUser()
+        {
+
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var response = await _repoUser.GetUser();
+                var profile = _mapper.Map<IEnumerable<ProfileResponse>>(response);
+                return Ok(profile);
             }
             catch (Exception ex)
             {
@@ -178,7 +198,7 @@ namespace Qick.Controllers
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 var response = await _repoTest.CreateResult(request);
 
-                if (response)
+                if (response )
                 {
                     return Ok(new HttpStatusCodeResponse(200));
                 }
@@ -347,6 +367,35 @@ namespace Qick.Controllers
             }
         }
 
+        //Update ACc Profiel
+        [HttpPut("ban/unban")]
+        public async Task<IActionResult> BanUnbanUser(Guid userId)
+        {
+            try
+            {
+                if (userId != null)
+                {
+                    var check = await _repoUser.BanUser(userId);
+                    if (check != null)
+                    {
+                        return Ok(check);
+                    }
+                    else
+                    {
+                        return Ok(new HttpStatusCodeResponse(204));
+                    }
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
         //Update List Question
         [HttpPut("update-questions")]
         public async Task<IActionResult> UpdateQuestionByAdmin(UpdateListQuestionRequest request)

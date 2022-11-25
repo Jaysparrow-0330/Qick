@@ -20,10 +20,15 @@ namespace Qick.Repositories.Interfaces
 
         Task<User> GetProfile(Guid UserId);
 
+        Task<IEnumerable<User>> GetUser();
+        Task<User> BanUser(Guid UserId);
+
         // create Acadamic Profile
         Task<AcademicProfile> CreateAcademicProfile(CreateAcademyRequest request,Guid userId);
 
         // update user profile
         Task<AcademicProfile> UpdateAcademicProfile(UpdateAcademyRequest request);
+        // update user profile
+        Task<bool> PublicProfileUser(Guid userId);
     }
 }

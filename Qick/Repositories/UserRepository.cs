@@ -308,5 +308,83 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
+
+        public async Task<bool> PublicProfileUser(Guid userId)
+        {
+            try
+            {
+                var user = await _context.Users
+                    .Where(u => u.Id == userId)
+                    .FirstOrDefaultAsync();
+
+                if (user != null)
+                {
+                    user.PublicProfile = PublicProfile.ACTIVE;
+                }
+                else
+                {
+                    { throw new Exception("User does not exist"); }
+                    return false;
+                }
+
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<IEnumerable<User>> GetUser()
+        {
+            try
+            {
+                var list = await _context.Users
+                    .Include(a => a.Ward)
+                    .ThenInclude(u => u.District)
+                    .ThenInclude(u => u.Province)
+                    .Where(u => u.WardId == u.Ward.Id)
+                    .ToListAsync();
+                return list ;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<User> BanUser(Guid UserId)
+        {
+            try
+            {
+                var user = await _context.Users
+                    .Where(u => u.Id == UserId)
+                    .FirstOrDefaultAsync();
+
+                if (user != null)
+                {
+                    if (user.Status == Status.ACTIVE)
+                    {
+                        user.Status = Status.BANNED;
+                    } else if (user.Status == Status.BANNED)
+                    {
+                        user.Status = Status.ACTIVE;
+                    }
+                    
+                }
+                else
+                {
+                    { throw new Exception("User does not exist"); }
+                }
+
+                await _context.SaveChangesAsync();
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

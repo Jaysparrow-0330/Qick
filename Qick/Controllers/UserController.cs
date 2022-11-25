@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Qick.Dto.Enum;
 using Qick.Dto.Requests;
 using Qick.Dto.Responses;
 using Qick.Repositories.Interfaces;
@@ -71,6 +72,37 @@ namespace Qick.Controllers
             }
         }
 
+        //Update ACc Profiel
+        [HttpPut("public")]
+        public async Task<IActionResult> UpdatePublicProfile( )
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                if (userId != null)
+                {
+                    var check = await _repo.PublicProfileUser(userId);
+                    if (check)
+                    {
+                        return Ok(new HttpStatusCodeResponse(200));
+                    }
+                    else
+                    {
+                        return Ok(new HttpStatusCodeResponse(204));
+                    }
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
         //Get profile
         [HttpGet("get-profile")]
         public async Task<IActionResult> GetProfile()
@@ -81,6 +113,25 @@ namespace Qick.Controllers
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 var response = await _repo.GetProfile(userId);
                 var profile = _mapper.Map<ProfileResponse>(response);
+                return Ok(profile);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
+
+        //Get profile
+        [HttpGet("user")]
+        public async Task<IActionResult> GetUser()
+        {
+
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var response = await _repo.GetUser();
+                var profile = _mapper.Map<IEnumerable<ProfileResponse>>(response);
                 return Ok(profile);
             }
             catch (Exception ex)
