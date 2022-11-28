@@ -66,7 +66,7 @@ namespace Qick.Repositories
                     CreatorId = userId,
                     TestName = request.QuizName,
                     TestTypeId = request.QuizTypeId,
-                    TotalQuestion = request.TotalQuestion,
+                    TotalQuestion = 0,
                     CreatedDate = DateTime.Now,
                     Introduction =  request.Introduction,
                     History = request.History,
@@ -322,6 +322,31 @@ namespace Qick.Repositories
             catch (Exception ex)
             {
 
+                throw ex;
+            }
+        }
+
+        public async Task<Test> UpdateTotalQuestion(int total, int testId)
+        {
+            try
+            {
+                var testDb = await _context.Tests
+                    .Where(u => u.Id == testId)
+                    .FirstOrDefaultAsync();
+                if (testDb != null)
+                {
+                    testDb.TotalQuestion = total; 
+                }
+                else
+                {
+                    { throw new Exception("Test does not exist"); }
+                }
+
+                await _context.SaveChangesAsync();
+                return testDb;
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
         }

@@ -2,7 +2,8 @@
 {
     public class CreateQuestionRequest
     {
-        public int? TestId { get; set; }
+        public int TestId { get; set; }
+        public int? QuestionId { get; set; }
         public string? QuestionContent { get; set; }
         public int? QuestionTypeId { get; set; }
         public string? Value { get; set; }

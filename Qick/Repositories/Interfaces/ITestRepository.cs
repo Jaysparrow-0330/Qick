@@ -26,6 +26,8 @@ namespace Qick.Repositories.Interfaces
 
         // update test 
         Task<Test> UpdateTestInformation(UpdateTestRequest test);
+        // update test 
+        Task<Test> UpdateTotalQuestion(int total, int testId);
 
         // create test  by creatorId ony admin or godad
         Task<Test> CreateTest(CreateTestRequest test, Guid userId);

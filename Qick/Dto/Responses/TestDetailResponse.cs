@@ -3,6 +3,7 @@
     public class TestDetailResponse
     {
         public int Id { get; set; }
+        public int? TestTypeId { get; set; }
         public string? TestName { get; set; }
         public string? BannerUrl { get; set; }
         public int? TotalQuestion { get; set; }

@@ -269,14 +269,17 @@ namespace Qick.Controllers
             {
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 var response = false;
+                var testUpdate = _repoTest.UpdateTotalQuestion(request.TotalQuestion, request.Questions.FirstOrDefault().TestId);
                 foreach (var ques in request.Questions)
                 {
-                    var question = await _repoQuestion.CreateQuestion(ques);
-
-                    foreach (var opt in ques.Options)
+                    if (ques.QuestionId == null)
                     {
-                        var check = await _repoOption.CreateOption(question, opt);
-                        response = check;
+                        var question = await _repoQuestion.CreateQuestion(ques);
+                        foreach (var opt in ques.Options)
+                        {
+                            var check = await _repoOption.CreateOption(question, opt);
+                            response = check;
+                        }
                     }
                 }
 

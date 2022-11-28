@@ -4,7 +4,6 @@
     {
         public int? QuizTypeId { get; set; }
         public string? QuizName { get; set; }
-        public int? TotalQuestion { get; set; }
         public string? Introduction { get; set; }
         public string? History { get; set; }
         public string? CriteriaInformation { get; set; }
