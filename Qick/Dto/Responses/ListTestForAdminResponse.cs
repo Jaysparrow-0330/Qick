@@ -4,8 +4,8 @@
     {
         public int Id { get; set; }
         public string? UserName { get; set; }
-        public string? QuizTypeName { get; set; }
-        public string? QuizName { get; set; }
+        public string? TestTypeName { get; set; }
+        public string? TestName { get; set; }
         public int? TotalQuestion { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string? Status { get; set; }
