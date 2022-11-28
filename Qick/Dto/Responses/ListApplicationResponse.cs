@@ -4,6 +4,7 @@
     {
         public Guid? UserId { get; set; }
         public Guid? UniId { get; set; }
+        public Guid HighSchoolId { get; set; }
         public int? UniSpecId { get; set; }
         public string? UniName { get; set; }
         public DateTime? ApplyDate { get; set; }

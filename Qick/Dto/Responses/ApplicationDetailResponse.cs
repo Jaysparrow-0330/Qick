@@ -6,6 +6,7 @@ namespace Qick.Dto.Responses
     {
         public Guid Id { get; set; }
         public Guid? UniId { get; set; }
+        public Guid HighSchoolId { get; set; }
         public int? UniSpecId { get; set; }
         public Guid? UserId { get; set; }
         public DateTime? DateOfBirth { get; set; }

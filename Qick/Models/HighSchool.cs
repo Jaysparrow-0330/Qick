@@ -8,6 +8,7 @@ namespace Qick.Models
         public HighSchool()
         {
             AcademicProfiles = new HashSet<AcademicProfile>();
+            ApplicationDetails = new HashSet<ApplicationDetail>();
             Users = new HashSet<User>();
         }
 
@@ -20,6 +21,7 @@ namespace Qick.Models
 
         public virtual Ward? Ward { get; set; }
         public virtual ICollection<AcademicProfile> AcademicProfiles { get; set; }
+        public virtual ICollection<ApplicationDetail> ApplicationDetails { get; set; }
         public virtual ICollection<User> Users { get; set; }
     }
 }

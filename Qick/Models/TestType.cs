@@ -11,7 +11,7 @@ namespace Qick.Models
         }
 
         public int Id { get; set; }
-        public string? QuizTypeName { get; set; }
+        public string? TestTypeName { get; set; }
         public string? Status { get; set; }
 
         public virtual ICollection<Test> Tests { get; set; }

@@ -146,12 +146,16 @@ namespace Qick.Models
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.Property(e => e.HighSchoolName).HasColumnName("HIghSchoolName");
-
                 entity.HasOne(d => d.Application)
                     .WithMany(p => p.ApplicationDetails)
                     .HasForeignKey(d => d.ApplicationId)
                     .HasConstraintName("FK_ApplicationDetail_Application");
+
+                entity.HasOne(d => d.HighSchool)
+                    .WithMany(p => p.ApplicationDetails)
+                    .HasForeignKey(d => d.HighSchoolId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ApplicationDetail_HighSchool");
             });
 
             modelBuilder.Entity<Attempt>(entity =>

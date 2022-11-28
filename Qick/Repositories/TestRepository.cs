@@ -20,7 +20,7 @@ namespace Qick.Repositories
             var testMember = await _context.Tests
                 .Where(u => u.Status == Status.ACTIVE)
                 .Include(i => i.Creator)
-                .Include(u => u.QuizType)
+                .Include(u => u.TestType)
                 .ToListAsync();
 
             return testMember;
@@ -39,7 +39,7 @@ namespace Qick.Repositories
             var testDetail = await _context.Tests
                 .Where(a => a.Id == testId)
                 .Include(i => i.Creator)
-                .Include(u => u.QuizType)
+                .Include(u => u.TestType)
                 .FirstOrDefaultAsync();
             return testDetail;
         }
@@ -64,8 +64,8 @@ namespace Qick.Repositories
                 Test test = new()
                 {
                     CreatorId = userId,
-                    QuizName = request.QuizName,
-                    QuizTypeId = request.QuizTypeId,
+                    TestName = request.QuizName,
+                    TestTypeId = request.QuizTypeId,
                     TotalQuestion = request.TotalQuestion,
                     CreatedDate = DateTime.Now,
                     Introduction =  request.Introduction,
@@ -97,7 +97,7 @@ namespace Qick.Repositories
         public async Task<IEnumerable<Test>> GetListAllTest(Guid userId)
         {
             var testMember = await _context.Tests
-                .Include(u => u.QuizType)
+                .Include(u => u.TestType)
                 .Include(i => i.Creator)
                 .ToListAsync();
 
@@ -117,7 +117,7 @@ namespace Qick.Repositories
                    ResultSuccessRule   = request.ResultSuccessRule,
                    ResultSummary = request.ResultSummary,
                    ResultShortName = request.ResultShortName,
-                   ResultPicture = request.ResultPicture,
+                   ResultPictureUrl = request.ResultPicture,
                    ResultCareer = request.ResultCareer
                 };
                 await _context.Characters.AddAsync(addResult);
@@ -139,7 +139,7 @@ namespace Qick.Repositories
                     .FirstOrDefaultAsync();
                 if (testDb != null)
                 {
-                    testDb.QuizName = test.QuizName;
+                    testDb.TestName = test.QuizName;
                     testDb.TotalQuestion = test.TotalQuestion;
                     testDb.Introduction = test.Introduction;
                     testDb.History = test.History;
@@ -168,10 +168,10 @@ namespace Qick.Repositories
                 string typeResult = "";
                 var type = await _context.Tests
                     .Where(i => i.Id == request.TestId)
-                    .Include(u => u.QuizType)
+                    .Include(u => u.TestType)
                     .FirstOrDefaultAsync();
 
-                if (type.QuizType.QuizTypeName.Equals(TestTypeName.MBTI))
+                if (type.TestType.TestTypeName.Equals(TestTypeName.MBTI))
                 {
                     
                     int

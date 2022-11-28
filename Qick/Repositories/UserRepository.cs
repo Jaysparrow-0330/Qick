@@ -219,11 +219,9 @@ namespace Qick.Repositories
                     Id = Guid.NewGuid(),
                     UserId = userId,
                     AcademicRank = request.AcademicRank,
-                    AvarageScore = request.AvarageScore,
+                    AverageScore = request.AverageScore,
                     GraduationYear = request.GraduationYear,
-                    HighSchoolAddress = request.HighSchoolAddress,
-                    HighSchoolCode = request.HighSchoolCode,
-                    HighSchoolName = request.HighSchoolName,
+                    HighSchoolId = request.HighSchoolId,
                     SchoolReport1Url = request.SchoolReport1Url,
                     SchoolReport2Url = request.SchoolReport2Url,
                     SchoolReport3Url = request.SchoolReport3Url,
@@ -250,11 +248,9 @@ namespace Qick.Repositories
                 if (profile != null)
                 {
                     profile.AcademicRank = request.AcademicRank;
-                    profile.AvarageScore = request.AvarageScore;
+                    profile.AverageScore = request.AverageScore;
                     profile.GraduationYear = request.GraduationYear;
-                    profile.HighSchoolAddress = request.HighSchoolAddress;
-                    profile.HighSchoolCode = request.HighSchoolCode;
-                    profile.HighSchoolName = request.HighSchoolName;
+                    profile.HighSchoolId = request.HighSchoolId;
                     profile.SchoolReport1Url = request.SchoolReport1Url;
                     profile.SchoolReport2Url = request.SchoolReport2Url;
                     profile.SchoolReport3Url = request.SchoolReport3Url;
