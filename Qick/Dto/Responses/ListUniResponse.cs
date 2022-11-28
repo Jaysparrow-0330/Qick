@@ -4,6 +4,7 @@
     {
         public Guid Id { get; set; }
         public string? UniName { get; set; }
+        public string? UniCode { get; set; }
         public string? AddressNumber { get; set; }
         public string? Phone { get; set; }
         public string? Email { get; set; }

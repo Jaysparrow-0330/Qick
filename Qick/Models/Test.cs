@@ -14,8 +14,8 @@ namespace Qick.Models
 
         public int Id { get; set; }
         public Guid CreatorId { get; set; }
-        public int? QuizTypeId { get; set; }
-        public string? QuizName { get; set; }
+        public int? TestTypeId { get; set; }
+        public string? TestName { get; set; }
         public int? TotalQuestion { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string? Status { get; set; }
@@ -26,7 +26,7 @@ namespace Qick.Models
         public string? BackgroundUrl { get; set; }
 
         public virtual User Creator { get; set; } = null!;
-        public virtual TestType? QuizType { get; set; }
+        public virtual TestType? TestType { get; set; }
         public virtual ICollection<Attempt> Attempts { get; set; }
         public virtual ICollection<Character> Characters { get; set; }
         public virtual ICollection<Question> Questions { get; set; }

@@ -64,9 +64,15 @@ namespace Qick.Models
             {
                 entity.ToTable("AcademicProfile");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id)
+                    .ValueGeneratedNever()
+                    .HasComment("Unique id of academic profile");
 
-                entity.Property(e => e.HighSchoolName).HasColumnName("HIghSchoolName");
+                entity.HasOne(d => d.HighSchool)
+                    .WithMany(p => p.AcademicProfiles)
+                    .HasForeignKey(d => d.HighSchoolId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AcademicProfile_HighSchool");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AcademicProfiles)
@@ -161,9 +167,9 @@ namespace Qick.Models
                     .HasForeignKey(d => d.CharacterId)
                     .HasConstraintName("FK_Attempt_Character");
 
-                entity.HasOne(d => d.Quiz)
+                entity.HasOne(d => d.Test)
                     .WithMany(p => p.Attempts)
-                    .HasForeignKey(d => d.QuizId)
+                    .HasForeignKey(d => d.TestId)
                     .HasConstraintName("FK_TblAttempt_TblQuiz");
 
                 entity.HasOne(d => d.User)
@@ -462,9 +468,9 @@ namespace Qick.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TblQuiz_TblUser");
 
-                entity.HasOne(d => d.QuizType)
+                entity.HasOne(d => d.TestType)
                     .WithMany(p => p.Tests)
-                    .HasForeignKey(d => d.QuizTypeId)
+                    .HasForeignKey(d => d.TestTypeId)
                     .HasConstraintName("FK_TblQuiz_TblQuizType");
             });
 
