@@ -11,7 +11,7 @@ namespace Qick.Services.AutoMapper
             CreateMap<Test, TakingTestResponse>()
                 .ForMember(m => m.questions, n => n.MapFrom(i => i.Questions.ToList()));
             CreateMap<Test, ListTestForAdminResponse>()
-                .ForMember(m => m.QuizTypeName, i => i.MapFrom(s => s.TestType.TestTypeName))
+                .ForMember(m => m.TestTypeName, i => i.MapFrom(s => s.TestType.TestTypeName))
                 .ForMember(m => m.UserName, i => i.MapFrom(s => s.Creator.UserName));
             CreateMap<Test, TakingTestResponse>()
                 .ForMember(m => m.questions, n => n.MapFrom(i => i.Questions.ToList()));
