@@ -62,7 +62,28 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
-
+        public async Task<bool> CreateHighSchool(CreateHighSchoolRequest request)
+        {
+            try
+            {
+                HighSchool addSchool = new()
+                {
+                    Id = Guid.NewGuid(),
+                    HighSchoolName = request.HighSchoolName,
+                    HighSchoolCode = request.HighSchoolCode,
+                    HighSchoolAddress = request.HighSchoolAddress,
+                    WardId = request.WardId,
+                    Status = Status.ACTIVE
+                };
+                await _context.HighSchools.AddAsync(addSchool);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public async Task<ApplicationDetail> CreateApplicationDetail(CreateApplicationDetailRequest request)
         {
             try
