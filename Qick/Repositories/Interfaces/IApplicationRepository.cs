@@ -18,6 +18,7 @@ namespace Qick.Repositories.Interfaces
         Task<IEnumerable<Application>> GetApplicationByUniId(Guid? uniId);
         // get 
         Task<IEnumerable<Application>> GetApplicationByUserId(Guid? userId);
+        Task<IEnumerable<HighSchool>> GetHighSchool();
 
         // get application detail
         Task<Application> GetApplicationDetail(Guid? appId);

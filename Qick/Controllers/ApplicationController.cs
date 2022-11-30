@@ -120,6 +120,23 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
+        // Get list all question by test id
+        [HttpGet("highschool")]
+        public async Task<IActionResult> GetHighSchool()
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                string Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
+                var highSchool = await _repo.GetHighSchool();
+                var response = _mapper.Map<IEnumerable<ListHighSchoolResponse>>(highSchool);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
 
         //Update app status
         [HttpPut("update-app-status")]

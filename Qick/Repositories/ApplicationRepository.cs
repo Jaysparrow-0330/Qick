@@ -135,7 +135,21 @@ namespace Qick.Repositories
                 throw;
             }
         }
+        public async Task<IEnumerable<HighSchool>> GetHighSchool()
+        {
+            try
+            {
+                var result = await _context.HighSchools
+                    .Where(a => a.Status == Status.ACTIVE)
+                    .ToListAsync();
+                return result;
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
+        }
         public async Task<Application> GetApplicationDetail(Guid? appId)
         {
             try
