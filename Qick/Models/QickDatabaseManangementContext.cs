@@ -47,6 +47,7 @@ namespace Qick.Models
         public virtual DbSet<University> Universities { get; set; } = null!;
         public virtual DbSet<UniversitySpecialization> UniversitySpecializations { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<UserOtp> UserOtps { get; set; } = null!;
         public virtual DbSet<UserRole> UserRoles { get; set; } = null!;
         public virtual DbSet<Ward> Wards { get; set; } = null!;
 
@@ -573,6 +574,22 @@ namespace Qick.Models
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.WardId)
                     .HasConstraintName("FK_User_Ward");
+            });
+
+            modelBuilder.Entity<UserOtp>(entity =>
+            {
+                entity.ToTable("UserOtp");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.CreateDate).HasColumnType("datetime");
+
+                entity.Property(e => e.ValidateUntil).HasColumnType("datetime");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserOtps)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_UserOtp_User");
             });
 
             modelBuilder.Entity<UserRole>(entity =>

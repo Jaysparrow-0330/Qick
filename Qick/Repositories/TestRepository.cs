@@ -387,7 +387,7 @@ namespace Qick.Repositories
                     .Where(a => a.Dimension == "D" && a.Value == isD)
                     .FirstOrDefaultAsync();
                 var I = await _context.IntensityIndices
-                    .Where(a => a.Dimension == "I" && a.Value == isI)
+                    .Where(a => a.Dimension == "i" && a.Value == isI)
                     .FirstOrDefaultAsync();
                 var S = await _context.IntensityIndices
                     .Where(a => a.Dimension == "S" && a.Value == isS)

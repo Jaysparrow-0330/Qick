@@ -98,10 +98,10 @@ namespace Qick.Repositories
                    CredentialFrontImgUrl = request.CredentialFrontImgUrl,
                    GraduationYear = request.GraduationYear,
                    HighSchoolId = request.HighSchoolId,
-                    SchoolReport1Url = request.SchoolReport1Url,
-                    SchoolReport2Url = request.SchoolReport2Url,
-                    SchoolReport3Url = request.SchoolReport3Url,
-                    SchoolReport4Url = request.SchoolReport4Url
+                   SchoolReport1Url = request.SchoolReport1Url,
+                   SchoolReport2Url = request.SchoolReport2Url,
+                   SchoolReport3Url = request.SchoolReport3Url,
+                   SchoolReport4Url = request.SchoolReport4Url
                 };
                 await _context.ApplicationDetails.AddAsync(addApp);
                 await _context.SaveChangesAsync();

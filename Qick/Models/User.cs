@@ -14,6 +14,7 @@ namespace Qick.Models
             MailBoxes = new HashSet<MailBox>();
             SavedUnis = new HashSet<SavedUni>();
             Tests = new HashSet<Test>();
+            UserOtps = new HashSet<UserOtp>();
         }
 
         public Guid Id { get; set; }
@@ -49,5 +50,6 @@ namespace Qick.Models
         public virtual ICollection<MailBox> MailBoxes { get; set; }
         public virtual ICollection<SavedUni> SavedUnis { get; set; }
         public virtual ICollection<Test> Tests { get; set; }
+        public virtual ICollection<UserOtp> UserOtps { get; set; }
     }
 }
