@@ -406,7 +406,7 @@ namespace Qick.Repositories
                         typeResult = list.ToList()[0].Dimension + list.ToList()[1].Dimension;
                         break;
                     case >= 3:
-                        if (list.ToList()[1].Percentage > list.ToList()[2].Percentage)
+                        if (list.ToList()[1].Segment > list.ToList()[2].Segment)
                         {
                             typeResult = list.ToList()[0].Dimension + list.ToList()[1].Dimension;
                         }
