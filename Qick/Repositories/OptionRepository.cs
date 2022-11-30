@@ -49,12 +49,26 @@ namespace Qick.Repositories
             catch (Exception ex) { throw ex; }
         }
 
-        public async Task<Option> GetOptionById(int optionId)
+        public async Task<Option> GetOptionById(int? optionId)
         {
-            var optionDetail = await _context.Options
+            try
+            {
+                var optionDetail = await _context.Options
                 .Where(a => a.Id == optionId)
                 .FirstOrDefaultAsync();
-            return optionDetail;
+                if (optionDetail != null)
+                {
+                    return optionDetail;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                  throw;
+            }
         }
 
         public async Task<Option> UpdateOptionInformation(OptionRequest option)
@@ -73,7 +87,7 @@ namespace Qick.Repositories
                 }
                 else
                 {
-                    { throw new Exception("Question does not exist"); }
+                    { throw new Exception("Option does not exist"); }
                 }
 
                 await _context.SaveChangesAsync();

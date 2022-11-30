@@ -13,7 +13,7 @@ namespace Qick.Repositories.Interfaces
         Task<bool> CreateOption(Question question, OptionRequest opt);
 
         // get option  by optionId
-        Task<Option> GetOptionById(int optionId);
+        Task<Option> GetOptionById(int? optionId);
 
         // update option
         Task<Option> UpdateOptionInformation(OptionRequest option);

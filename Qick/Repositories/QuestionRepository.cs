@@ -63,10 +63,22 @@ namespace Qick.Repositories
 
         public async Task<Question> GetQuestionById(int? questionId)
         {
-            var questionDetail = await _context.Questions
-                .Where(a => a.Id == questionId)
-                .FirstOrDefaultAsync();
-            return questionDetail;
+            try
+            {
+                var questionDetail = await _context.Questions
+                                .Where(a => a.Id == questionId)
+                                .FirstOrDefaultAsync();
+                if (questionDetail != null)
+                {
+                    return questionDetail;
+                }
+                else
+                {
+                    return null;
+                }
+                
+            }
+            catch (Exception ex) { throw ex; }
         }
 
         public async Task<Question> UpdateQuestionInformation(QuestionRequest question)
