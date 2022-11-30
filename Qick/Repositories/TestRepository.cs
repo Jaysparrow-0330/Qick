@@ -395,7 +395,7 @@ namespace Qick.Repositories
                 var C = await _context.IntensityIndices
                     .Where(a => a.Dimension == "C" && a.Value == isC)
                     .FirstOrDefaultAsync();
-                var list = checkGraphDisc(D,I,S,C).OrderBy(a => a.Percentage);
+                var list = checkGraphDisc(D,I,S,C).OrderByDescending(a => a.Percentage);
 
                 switch (list.Count())
                 {
@@ -445,7 +445,7 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
-
+        
         private List<IntensityIndex> checkGraphDisc (IntensityIndex isD, IntensityIndex isI, IntensityIndex isS, IntensityIndex isC)
         {
             List<IntensityIndex> list = new List<IntensityIndex>();   
