@@ -293,15 +293,8 @@ namespace Qick.Repositories
 
 
                 }
-                var result = await _context.Characters
-                    .Where(a => a.ResultShortName == typeResult)
-                    .FirstOrDefaultAsync();
-                SubmitResponse response = new()
-                {
-                    Id = request.TestId,
-                    ResultShortName = result.ResultShortName
-                }; 
-                return response;
+                var result = getTestResult(typeResult, request.TestId);
+                return result.Result;
             }
             catch (Exception ex)
             {
@@ -311,13 +304,140 @@ namespace Qick.Repositories
 
 
         }
+        private async Task<SubmitResponse> getTestResult (string typeResult, int testId)
+        {
+            var result = await _context.Characters
+                    .Where(a => a.ResultShortName.ToLower() == typeResult.ToLower())
+                    .FirstOrDefaultAsync();
 
-        public async Task<string> CalculateDiscResult(CalculateResultRequest request)
+            SubmitResponse response = new()
+            {
+                Id = testId,
+                ResultShortName = result.ResultShortName
+            };
+            return response;
+        }
+        public async Task<SubmitResponse> CalculateDiscResult(CalculateResultRequest request)
         {
             try
             {
+                string typeResult = "";
+                int
+                    yD = 0,
+                    nD = 0,
+                    yI = 0,
+                    nI = 0,
+                    yS = 0,
+                    nS = 0,
+                    yC = 0,
+                    nC = 0;
+                
+                foreach (var question in request.questions)
+                {
+                    foreach (var option in question.Options)
+                    {
+                        if (option.selectedField == true )
+                        {
+                            switch (option.optionValue[0])
+                            {
+                                case 'O':
+                                    yD += 1;
+                                    break;
+                                case 'A':
+                                    yI += 1;
+                                    break;
+                                case 'B':
+                                    yS += 1;
+                                    break;
+                                case 'P':
+                                    yC += 1;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            switch (option.optionValue[0])
+                            {
+                                case 'O':
+                                    nD += 1;
+                                    break;
+                                case 'A':
+                                    nI += 1;
+                                    break;
+                                case 'B':
+                                    nS += 1;
+                                    break;
+                                case 'P':
+                                    nC += 1;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                }
+                int
+                    isD = yD - nD,
+                    isI = yI - nI,
+                    isS = yS - nS,
+                    isC = yC - nC;
+                var D = await _context.IntensityIndices
+                    .Where(a => a.Dimension == "D" && a.Value == isD)
+                    .FirstOrDefaultAsync();
+                var I = await _context.IntensityIndices
+                    .Where(a => a.Dimension == "I" && a.Value == isI)
+                    .FirstOrDefaultAsync();
+                var S = await _context.IntensityIndices
+                    .Where(a => a.Dimension == "S" && a.Value == isS)
+                    .FirstOrDefaultAsync();
+                var C = await _context.IntensityIndices
+                    .Where(a => a.Dimension == "C" && a.Value == isC)
+                    .FirstOrDefaultAsync();
+                var list = checkGraphDisc(D,I,S,C).OrderBy(a => a.Percentage);
 
-                return string.Empty;
+                switch (list.Count())
+                {
+                    case 1:
+                        typeResult = list.ToList()[0].Dimension;  
+                        break;
+                    case 2:
+                        typeResult = list.ToList()[0].Dimension + list.ToList()[1].Dimension;
+                        break;
+                    case >= 3:
+                        if (list.ToList()[1].Percentage > list.ToList()[2].Percentage)
+                        {
+                            typeResult = list.ToList()[0].Dimension + list.ToList()[1].Dimension;
+                        }
+                        else
+                        {
+                            typeResult = list.ToList()[0].Dimension;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+                switch (typeResult)
+                {
+                    case "DS":
+                        typeResult = "D";
+                        break;
+                    case "SD":
+                        typeResult = "S";
+                        break;
+                    case "IC":
+                        typeResult = "I";
+                        break;
+                    case "CI":
+                        typeResult = "C";
+                        break;
+                    default:
+                        break;
+                }
+                var result = getTestResult(typeResult, request.TestId);
+                return result.Result;
             }
             catch (Exception ex)
             {
@@ -326,6 +446,27 @@ namespace Qick.Repositories
             }
         }
 
+        private List<IntensityIndex> checkGraphDisc (IntensityIndex isD, IntensityIndex isI, IntensityIndex isS, IntensityIndex isC)
+        {
+            List<IntensityIndex> list = new List<IntensityIndex>();   
+            if (isD.Segment > 4)
+            {
+                list.Add(isD);
+            }
+            if (isI.Segment > 4)
+            {
+                list.Add(isI);
+            }
+            if (isS.Segment > 4)
+            {
+                list.Add(isS);
+            }
+            if (isC.Segment > 4)
+            {
+                list.Add(isC);
+            }
+            return list;
+        } 
         public async Task<Test> UpdateTotalQuestion(int total, int testId)
         {
             try

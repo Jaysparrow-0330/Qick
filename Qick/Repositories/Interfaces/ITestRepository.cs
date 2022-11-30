@@ -39,7 +39,7 @@ namespace Qick.Repositories.Interfaces
         Task<SubmitResponse> CalculateTestResult(CalculateResultRequest request);
 
         // create result  by test Id ony admin or godad
-        Task<string> CalculateDiscResult(CalculateResultRequest request);
+        Task<SubmitResponse> CalculateDiscResult(CalculateResultRequest request);
 
         // get all testType
         Task<IEnumerable<Models.TestType>> GetActiveTestType();

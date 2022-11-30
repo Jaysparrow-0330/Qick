@@ -119,5 +119,22 @@ namespace Qick.Controllers
             }
 
         }
+
+        // submit test response test's result by guest
+        [AllowAnonymous]
+        [HttpPost("disc")]
+        public async Task<IActionResult> SubmitTestDisc(CalculateResultRequest request)
+        {
+            try
+            {
+                var result = await _repo.CalculateDiscResult(request);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+
+        }
     }
 }
