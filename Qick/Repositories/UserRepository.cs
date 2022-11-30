@@ -392,5 +392,31 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
+
+        public async Task<User> RoleUser(Guid UserId, string roleChange)
+        {
+            try
+            {
+                var user = await _context.Users
+                    .Where(u => u.Id == UserId)
+                    .FirstOrDefaultAsync();
+
+                if (user != null)
+                {
+                   user.RoleId = roleChange;
+                }
+                else
+                {
+                    { throw new Exception("User does not exist"); }
+                }
+
+                await _context.SaveChangesAsync();
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

@@ -9,16 +9,16 @@ namespace Qick.Repositories.Interfaces
         Task<IEnumerable<Question>> GetListQuestionBasedOnTestId(int testId);
 
         // create question  by creatorId ony admin or godad
-        Task<Question> CreateQuestion(CreateQuestionRequest request);
+        Task<Question> CreateQuestion(QuestionRequest request);
 
         // get all questionType
         Task<IEnumerable<QuestionType>> GetActiveQuestionType();
 
         // get question  by questionId
-        Task<Question> GetQuestionById(int questionId);
+        Task<Question> GetQuestionById(int? questionId);
 
         // update question
-        Task<Question> UpdateQuestionInformation(UpdateQuestionRequest question);
+        Task<Question> UpdateQuestionInformation(QuestionRequest question);
 
     }
 }

@@ -15,7 +15,7 @@ namespace Qick.Repositories
             _context = context;
         }
 
-        public async Task<Question> CreateQuestion(CreateQuestionRequest request)
+        public async Task<Question> CreateQuestion(QuestionRequest request)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace Qick.Repositories
             return listQuestionType;
         }
 
-        public async Task<Question> GetQuestionById(int questionId)
+        public async Task<Question> GetQuestionById(int? questionId)
         {
             var questionDetail = await _context.Questions
                 .Where(a => a.Id == questionId)
@@ -69,13 +69,13 @@ namespace Qick.Repositories
             return questionDetail;
         }
 
-        public async Task<Question> UpdateQuestionInformation(UpdateQuestionRequest question)
+        public async Task<Question> UpdateQuestionInformation(QuestionRequest question)
         {
             try
             {
                 var questionDb = await _context.Questions
-                    .Where(u => u.Id == question.Id)
-                    .FirstOrDefaultAsync();
+                    .Where(u => u.Id == question.QuestionId)
+                    .FirstOrDefaultAsync(); 
 
                 if (questionDb != null)
                 {

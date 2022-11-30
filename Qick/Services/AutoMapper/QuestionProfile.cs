@@ -15,7 +15,7 @@ namespace Qick.Services.AutoMapper
             CreateMap<QuestionType,QuestionTypeResponse>();
             CreateMap<Question, QuestionForAdminResponse>();
             CreateMap<UpdateQuestionRequest, Question>();
-            CreateMap<UpdateQuestionRequest, CreateQuestionRequest>();
+            CreateMap<UpdateQuestionRequest, QuestionRequest>();
         }
     }
 }

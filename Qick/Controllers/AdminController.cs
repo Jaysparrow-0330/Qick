@@ -268,29 +268,46 @@ namespace Qick.Controllers
             try
             {
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                var response = false;
                 var testUpdate = _repoTest.UpdateTotalQuestion(request.TotalQuestion, request.Questions.FirstOrDefault().TestId);
-                foreach (var ques in request.Questions)
+                foreach (var question in request.Questions)
                 {
-                    if (ques.QuestionId == null)
+                    var checkQuestion = await _repoQuestion.GetQuestionById(question.QuestionId);
+                    if (checkQuestion != null)
                     {
-                        var question = await _repoQuestion.CreateQuestion(ques);
-                        foreach (var opt in ques.Options)
+                        var updateQuestion = await _repoQuestion.UpdateQuestionInformation(question);
+                        foreach (var option in question.Options)
                         {
-                            var check = await _repoOption.CreateOption(question, opt);
-                            response = check;
+                            var checkOption = await _repoOption.UpdateOptionInformation(option);
+                            if (checkOption != null)
+                            {
+                                var updateOption = await _repoOption.UpdateOptionInformation(option);
+                            }
+                            else
+                            {
+                                var newOption = _mapper.Map<OptionRequest>(option);
+                                var check = await _repoOption.CreateOption(updateQuestion, newOption);
+                                if (!check)
+                                {
+                                    return Ok(new HttpStatusCodeResponse(204));
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var newQuestion = _mapper.Map<QuestionRequest>(question);
+                        var addQuestion = await _repoQuestion.CreateQuestion(newQuestion);
+                        foreach (var opt in newQuestion.Options)
+                        {
+                            var check = await _repoOption.CreateOption(addQuestion, opt);
+                            if (!check)
+                            {
+                                return Ok(new HttpStatusCodeResponse(204));
+                            }
                         }
                     }
                 }
-
-                if (response)
-                {
-                    return Ok(new HttpStatusCodeResponse(200));
-                }
-                else
-                {
-                    return Ok(new HttpStatusCodeResponse(204));
-                }
+                return Ok(new HttpStatusCodeResponse(200));
             }
             catch (Exception ex)
             {
@@ -399,57 +416,87 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
-        //Update List Question
-        [HttpPut("update-questions")]
-        public async Task<IActionResult> UpdateQuestionByAdmin(UpdateListQuestionRequest request)
+        //Update ACc Profiel
+        [HttpPut("role")]
+        public async Task<IActionResult> ChangeRoleUser(Guid userId, string roleId)
         {
             try
             {
-                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                foreach (var question in request.questions)
+                if (userId != null)
                 {
-                    var checkQuestion = await _repoQuestion.GetQuestionById(question.Id);
-                    if (checkQuestion != null)
+                    var check = await _repoUser.RoleUser(userId, roleId);
+                    if (check != null)
                     {
-                        var updateQuestion = await _repoQuestion.UpdateQuestionInformation(question);
-                        foreach (var option in question.Options)
-                        {
-                            var checkOption = await _repoOption.UpdateOptionInformation(option);
-                            if (checkOption != null)
-                            {
-                                var updateOption = await _repoOption.UpdateOptionInformation(option);
-                            }
-                            else
-                            {
-                                var newOption = _mapper.Map<CreateOptionRequest>(option);
-                                var check = await _repoOption.CreateOption(updateQuestion, newOption);
-                                if (!check)
-                                {
-                                    return Ok(new HttpStatusCodeResponse(204));
-                                }
-                            }
-                        }
+                        return Ok(check);
                     }
                     else
                     {
-                        var newQuestion = _mapper.Map<CreateQuestionRequest>(question);
-                        var addQuestion = await _repoQuestion.CreateQuestion(newQuestion);
-                        foreach (var opt in newQuestion.Options)
-                        {
-                            var check = await _repoOption.CreateOption(addQuestion, opt);
-                            if (!check)
-                            {
-                                return Ok(new HttpStatusCodeResponse(204));
-                            }
-                        }
+                        return Ok(new HttpStatusCodeResponse(204));
                     }
                 }
-                return Ok(new HttpStatusCodeResponse(200));
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+
             }
             catch (Exception ex)
             {
                 return Ok(ex.Message);
             }
         }
+        //Update List Question
+        //[HttpPut("update-questions")]
+        //public async Task<IActionResult> UpdateQuestionByAdmin(CreateTestStepTwoRequest request)
+        //{
+        //    try
+        //    {
+        //        Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+        //        var testUpdate = _repoTest.UpdateTotalQuestion(request.TotalQuestion, request.Questions.FirstOrDefault().TestId);
+        //        foreach (var question in request.Questions)
+        //        {
+        //            var checkQuestion = await _repoQuestion.GetQuestionById(question.QuestionId);
+        //            if (checkQuestion != null)
+        //            {
+        //                var updateQuestion = await _repoQuestion.UpdateQuestionInformation(question);
+        //                foreach (var option in question.Options)
+        //                {
+        //                    var checkOption = await _repoOption.UpdateOptionInformation(option);
+        //                    if (checkOption != null)
+        //                    {
+        //                        var updateOption = await _repoOption.UpdateOptionInformation(option);
+        //                    }
+        //                    else
+        //                    {
+        //                        var newOption = _mapper.Map<OptionRequest>(option);
+        //                        var check = await _repoOption.CreateOption(updateQuestion, newOption);
+        //                        if (!check)
+        //                        {
+        //                            return Ok(new HttpStatusCodeResponse(204));
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //            else
+        //            {
+        //                var newQuestion = _mapper.Map<QuestionRequest>(question);
+        //                var addQuestion = await _repoQuestion.CreateQuestion(newQuestion);
+        //                foreach (var opt in newQuestion.Options)
+        //                {
+        //                    var check = await _repoOption.CreateOption(addQuestion, opt);
+        //                    if (!check)
+        //                    {
+        //                        return Ok(new HttpStatusCodeResponse(204));
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        return Ok(new HttpStatusCodeResponse(200));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Ok(ex.Message);
+        //    }
+        //}
     }
 }

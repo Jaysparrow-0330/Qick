@@ -11,8 +11,8 @@ namespace Qick.Services.AutoMapper
         {
             CreateMap<Option, OptionResponse>();
             CreateMap<Option, OptionForAdminResponse>();
-            CreateMap<UpdateQuestionRequest, CreateOptionRequest>();
-            CreateMap<UpdateOptionRequest, CreateOptionRequest>();
+            CreateMap<UpdateQuestionRequest, OptionRequest>();
+            CreateMap<UpdateOptionRequest, OptionRequest>();
             CreateMap<ListResponse<Option>, ListResponse<OptionResponse>>();
         }
     }

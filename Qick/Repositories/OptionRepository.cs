@@ -15,7 +15,7 @@ namespace Qick.Repositories
             _context = context;
         }
 
-        public async Task<bool> CreateOption(Question question, CreateOptionRequest opt)
+        public async Task<bool> CreateOption(Question question, OptionRequest opt)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace Qick.Repositories
             return optionDetail;
         }
 
-        public async Task<Option> UpdateOptionInformation(UpdateOptionRequest option)
+        public async Task<Option> UpdateOptionInformation(OptionRequest option)
         {
             try
             {

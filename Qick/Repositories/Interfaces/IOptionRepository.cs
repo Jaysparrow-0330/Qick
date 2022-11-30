@@ -10,12 +10,12 @@ namespace Qick.Repositories.Interfaces
         Task<IEnumerable<Option>> GetListOptionBasedOnQuestionId(int questionId);
 
         // create option  by question id ony admin or godad
-        Task<bool> CreateOption(Question question, CreateOptionRequest opt);
+        Task<bool> CreateOption(Question question, OptionRequest opt);
 
         // get option  by optionId
         Task<Option> GetOptionById(int optionId);
 
         // update option
-        Task<Option> UpdateOptionInformation(UpdateOptionRequest option);
+        Task<Option> UpdateOptionInformation(OptionRequest option);
     }
 }
