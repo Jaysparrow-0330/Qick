@@ -358,7 +358,7 @@ namespace Qick.Repositories
                         }
                         else
                         {
-                            switch (option.optionValue[0])
+                            switch (option.optionValue[2])
                             {
                                 case 'O':
                                     nD += 1;
