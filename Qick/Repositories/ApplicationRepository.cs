@@ -181,6 +181,8 @@ namespace Qick.Repositories
                 var result = await _context.Applications
                              .Include(u => u.Uni)
                              .Where(a => a.UniSpecId == a.UniSpec.Id)
+                             .Include(u => u.ApplicationDetails)
+                             .ThenInclude(x => x.HighSchool)
                              .Include(u => u.UniSpec)
                              .Where(a => a.UniSpecId == a.UniSpec.Id)
                              .Include(u => u.User)
