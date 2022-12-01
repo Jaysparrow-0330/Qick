@@ -8,7 +8,11 @@ namespace Qick.Services.AutoMapper
     {
         public ApplicationProfile()
         {
-            CreateMap<HighSchool, ListHighSchoolResponse>();
+            CreateMap<HighSchool, ListHighSchoolResponse>()
+            .ForMember(m => m.WardId, n => n.MapFrom(i => i.Ward.Id))
+            .ForMember(m => m.DistrictId, n => n.MapFrom(i => i.Ward.District.Id))
+            .ForMember(m => m.ProvinceId, n => n.MapFrom(i => i.Ward.District.Province.Id));
+
             CreateMap<Application, ListApplicationResponse>()
             .ForMember(m => m.AddressNumber, n => n.MapFrom(i => i.User.AddressNumber))
             .ForMember(m => m.AvatarUrl, n => n.MapFrom(i => i.User.AvatarUrl))

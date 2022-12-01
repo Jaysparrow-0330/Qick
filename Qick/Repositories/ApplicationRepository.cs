@@ -162,6 +162,9 @@ namespace Qick.Repositories
             {
                 var result = await _context.HighSchools
                     .Where(a => a.Status == Status.ACTIVE)
+                    .Include(x => x.Ward)
+                    .ThenInclude(a => a.District)
+                    .ThenInclude(u => u.Province)
                     .ToListAsync();
                 return result;
             }
@@ -177,6 +180,8 @@ namespace Qick.Repositories
             {
                 var result = await _context.Applications
                              .Include(u => u.Uni)
+                             .Where(a => a.UniSpecId == a.UniSpec.Id)
+                             .Include(u => u.UniSpec)
                              .Where(a => a.UniSpecId == a.UniSpec.Id)
                              .Include(u => u.User)
                              .Where(a => a.UserId == a.User.Id)

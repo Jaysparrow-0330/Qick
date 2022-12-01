@@ -8,5 +8,7 @@
         public string? Status { get; set; }
         public string? HighSchoolAddress { get; set; }
         public int? WardId { get; set; }
+        public int? ProvinceId { get; set; }
+        public int? DistrictId { get; set; }
     }
 }
