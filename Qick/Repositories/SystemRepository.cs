@@ -172,7 +172,7 @@ namespace Qick.Repositories
                 }
                 else
                 {
-                    { throw new Exception("Major does not exist"); }
+                    { throw new Exception("Spec does not exist"); }
                 }
 
                 await _context.SaveChangesAsync();

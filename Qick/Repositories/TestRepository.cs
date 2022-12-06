@@ -146,6 +146,7 @@ namespace Qick.Repositories
                     testDb.CriteriaInformation = test.CriteriaInformation;
                     testDb.BannerUrl = test.BannerUrl;
                     testDb.BackgroundUrl = test.BackgroundUrl;
+                    testDb.Status = test.Status;
                 } 
                 else
                 {

@@ -22,6 +22,9 @@ namespace Qick.Repositories.Interfaces
 
         // get university detail
         Task<University> GetUniversityDetail(Guid? uniId);
+        Task<University> UpdateUni(UpdateUniRequest request, Guid uniId);
+        Task<University> GetUniversityById(Guid? uniId);
+        Task<University> BanUni(Guid uniId);
 
     }
 }

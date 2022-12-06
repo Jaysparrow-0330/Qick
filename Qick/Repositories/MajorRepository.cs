@@ -17,6 +17,7 @@ namespace Qick.Repositories
             try
             {
                 var response = await _context.Majors
+                    .Where(a => a.Specializations.ToList().Count() > 0)
                     .ToListAsync();
                 return response;
             }
@@ -32,7 +33,7 @@ namespace Qick.Repositories
             try
             {
                 var response = await _context.Majors
-                    .Where(a => a.Id == majorId)
+                    .Where(a => a.Id == majorId )
                     .FirstOrDefaultAsync();
                 return response;
             }
@@ -79,7 +80,7 @@ namespace Qick.Repositories
                 var response = await _context.Majors
                     .Where(x => x.Id == x.JobMajors
                     .Where(a => a.JobId == JobId)
-                    .FirstOrDefault().MajorId)
+                    .FirstOrDefault().MajorId && x.Specializations.ToList().Count() > 0)
                     .ToListAsync();
 
                 return response;
@@ -101,7 +102,7 @@ namespace Qick.Repositories
             try
             {
                 var response = await _context.Specializations
-                    .Where(x => x.MajorId == MajorId)
+                    .Where(x => x.MajorId == MajorId && x.UniversitySpecializations.ToList().Count() > 0)
                     .ToListAsync();
 
                 return response;

@@ -17,6 +17,7 @@ namespace Qick.Repositories
             try
             {
                 var response = await _context.Jobs
+                    .Where(a => a.JobMajors.ToList().Count() > 0)
                     .ToListAsync();
                 return response;
             }
@@ -34,7 +35,7 @@ namespace Qick.Repositories
                 var response = await _context.Jobs
                     .Where(x => x.Id == x.JobMappings
                     .Where(a => a.CharacterId == characterId)
-                    .FirstOrDefault().JobId)
+                    .FirstOrDefault().JobId && x.JobMajors.ToList().Count() > 0)
                     .ToListAsync();
 
                 return response;

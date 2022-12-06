@@ -494,6 +494,35 @@ namespace Qick.Controllers
             }
         }
         //Update ACc Profiel
+        [HttpPut("ban/unban-uni")]
+        public async Task<IActionResult> BanUnbanUni(Guid uniId)
+        {
+            try
+            {
+                if (uniId != null)
+                {
+                    var check = await _repoUni.BanUni(uniId);
+                    if (check != null)
+                    {
+                        return Ok(check);
+                    }
+                    else
+                    {
+                        return Ok(new HttpStatusCodeResponse(204));
+                    }
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+        //Update ACc Profiel
         [HttpPut("role")]
         public async Task<IActionResult> ChangeRoleUser(Guid userId, string roleId)
         {

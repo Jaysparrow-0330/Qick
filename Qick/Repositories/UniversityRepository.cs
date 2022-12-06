@@ -116,7 +116,7 @@ namespace Qick.Repositories
             try
             {
                     var listSpec = await _context.Specializations
-                    .Where(a => a.MajorId == majorId)
+                    .Where(a => a.MajorId == majorId && a.UniversitySpecializations.ToList().Count() > 0)
                     .Select(r => r.Id)
                     .ToListAsync();
                 var responseList = new List<University>();
@@ -166,5 +166,90 @@ namespace Qick.Repositories
                 throw;
             }
         }
+
+        public async Task<University> GetUniversityById(Guid? uniId)
+        {
+            try
+            {
+                var result = await _context.Universities
+                             .Where(a => a.Id == uniId)
+                             .FirstOrDefaultAsync();
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public async Task<University> UpdateUni(UpdateUniRequest request, Guid uniId)
+        {
+            try
+            {
+                var uni = await _context.Universities
+                    .Where(u => u.Id == uniId)
+                    .FirstOrDefaultAsync();
+
+                if (uni != null)
+                {
+                    uni.UniName = request.UniName;
+                    uni.AddressNumber = request.AddressNumber;
+                    uni.Phone = request.Phone;
+                    uni.Email = request.Email;
+                    uni.WebsiteUrl = request.WebsiteUrl;
+                    uni.AvatarUrl = request.AvatarUrl;
+                    uni.CoverPhotoUrl = request.CoverPhotoUrl;
+                    uni.UniCode = request.UniCode;
+                    uni.Description = request.Description;
+                    uni.WardId = request.WardId;
+                }
+                else
+                {
+                    { throw new Exception("University does not exist"); }
+                }
+
+                await _context.SaveChangesAsync();
+                return uni;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<University> BanUni(Guid uniId)
+        {
+            try
+            {
+                var uni = await _context.Universities
+                    .Where(u => u.Id == uniId)
+                    .FirstOrDefaultAsync();
+
+                if (uni != null)
+                {
+                    if (uni.Status == Status.ACTIVE)
+                    {
+                        uni.Status = Status.BANNED;
+                    }
+                    else if (uni.Status == Status.BANNED)
+                    {
+                        uni.Status = Status.ACTIVE;
+                    }
+
+                }
+                else
+                {
+                    { throw new Exception("University does not exist"); }
+                }
+
+                await _context.SaveChangesAsync();
+                return uni;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        
     }
 }
