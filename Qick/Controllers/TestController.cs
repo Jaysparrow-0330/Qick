@@ -110,8 +110,17 @@ namespace Qick.Controllers
         {
             try
             {
-                var result = await _repo.CalculateTestResult(request);
-                return Ok(result);
+                var user = User.ToString();
+                if (user == null)
+                {
+                    var result = await _repo.CalculateTestResult(request,null);
+                    return Ok(result);
+                } else
+                {
+                    Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                    var result = await _repo.CalculateTestResult(request, userId);
+                    return Ok(result);
+                }
             }
             catch (Exception ex)
             {
@@ -127,8 +136,20 @@ namespace Qick.Controllers
         {
             try
             {
-                var result = await _repo.CalculateDiscResult(request);
-                return Ok(result);
+                
+                var user = User.ToString();
+                if (user == null)
+                {
+                    var result = await _repo.CalculateDiscResult(request,null);
+                    return Ok(result);
+                }
+                else
+                {
+                    Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                    //Guid userId = Guid.Parse(User.FindFirst)
+                    var result = await _repo.CalculateDiscResult(request,userId);
+                    return Ok(result);
+                }
             }
             catch (Exception ex)
             {

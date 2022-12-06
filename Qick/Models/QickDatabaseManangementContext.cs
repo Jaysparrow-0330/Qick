@@ -18,7 +18,7 @@ namespace Qick.Models
 
         public virtual DbSet<AcademicProfile> AcademicProfiles { get; set; } = null!;
         public virtual DbSet<AddmissionCampaign> AddmissionCampaigns { get; set; } = null!;
-        public virtual DbSet<AddmissionNew> AddmissionNews { get; set; } = null!;
+        public virtual DbSet<AddmissionNews> AddmissionNews { get; set; } = null!;
         public virtual DbSet<Application> Applications { get; set; } = null!;
         public virtual DbSet<ApplicationDetail> ApplicationDetails { get; set; } = null!;
         public virtual DbSet<Attempt> Attempts { get; set; } = null!;
@@ -95,10 +95,8 @@ namespace Qick.Models
                     .HasConstraintName("FK_TblAddmissionCampaign_TblUniversity");
             });
 
-            modelBuilder.Entity<AddmissionNew>(entity =>
+            modelBuilder.Entity<AddmissionNews>(entity =>
             {
-                entity.ToTable("AddmissionNew");
-
                 entity.HasOne(d => d.Uni)
                     .WithMany(p => p.AddmissionNews)
                     .HasForeignKey(d => d.UniId)
@@ -165,12 +163,9 @@ namespace Qick.Models
 
                 entity.Property(e => e.AttemptDate).HasColumnType("datetime");
 
-                entity.Property(e => e.Status).HasMaxLength(50);
+                entity.Property(e => e.ResultShortName).HasMaxLength(50);
 
-                entity.HasOne(d => d.Character)
-                    .WithMany(p => p.Attempts)
-                    .HasForeignKey(d => d.CharacterId)
-                    .HasConstraintName("FK_Attempt_Character");
+                entity.Property(e => e.Status).HasMaxLength(50);
 
                 entity.HasOne(d => d.Test)
                     .WithMany(p => p.Attempts)
@@ -189,16 +184,20 @@ namespace Qick.Models
 
                 entity.ToTable("AttemptDetail");
 
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+
                 entity.Property(e => e.Status).HasMaxLength(50);
 
                 entity.HasOne(d => d.Attempt)
                     .WithMany()
                     .HasForeignKey(d => d.AttemptId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TblAttemptDetail_TblAttempt");
 
                 entity.HasOne(d => d.Option)
                     .WithMany()
                     .HasForeignKey(d => d.OptionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TblAttemptDetail_TblOption");
             });
 
@@ -583,6 +582,8 @@ namespace Qick.Models
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.CreateDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Status).HasMaxLength(50);
 
                 entity.Property(e => e.ValidateUntil).HasColumnType("datetime");
 

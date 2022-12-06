@@ -160,8 +160,68 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
+        public async Task<int> CreateAttempt(int testId, Guid? userId, string result)
+        {
+            try
+            {
+                Attempt attempt = new()
+                {
+                    TestId = testId,
+                    UserId = userId,
+                    ResultShortName = result,
+                    AttemptDate = DateTime.Now,
+                    Status = Status.ACTIVE
+                };
+                await _context.Attempts.AddAsync(attempt);
+                await _context.SaveChangesAsync();
+                var attemptId = await _context.Attempts
+                    .Where(i => i.TestId == testId)
+                    .FirstOrDefaultAsync();
+                return attemptId.Id;
+            }
+            catch (Exception)
+            {
 
-        public async Task<SubmitResponse> CalculateTestResult(CalculateResultRequest request)
+                throw;
+            }
+        }
+        public async Task<bool> CreateAttemptDetail(int attemptId, QuestionResultRequest request)
+        {
+            try
+            {
+                foreach (var option in request.Options)
+                {
+                    AttemptDetail addDetail = new()
+                    {
+                        AttemptId = attemptId,
+                        OptionId = option.optionId,
+                        Status = Status.ACTIVE,
+                    };
+                    await _context.AttemptDetails.AddAsync(addDetail);
+                }
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        private async Task<SubmitResponse> getTestResult(string typeResult, int testId)
+        {
+            var result = await _context.Characters
+                    .Where(a => a.ResultShortName.ToLower() == typeResult.ToLower())
+                    .FirstOrDefaultAsync();
+
+            SubmitResponse response = new()
+            {
+                Id = testId,
+                ResultShortName = result.ResultShortName
+            };
+            return response;
+        }
+        public async Task<SubmitResponse> CalculateTestResult(CalculateResultRequest request, Guid? userId)
         {
             try
             {
@@ -294,6 +354,15 @@ namespace Qick.Repositories
 
                 }
                 var result = getTestResult(typeResult, request.TestId);
+                if (userId != null)
+                {
+                    var attempt = CreateAttempt(result.Result.Id, userId, result.Result.ResultShortName);
+                    foreach ( var question in request.questions)
+                    {
+                        var detail = CreateAttemptDetail(attempt.Result, question);
+                    }
+                }
+                
                 return result.Result;
             }
             catch (Exception ex)
@@ -304,20 +373,8 @@ namespace Qick.Repositories
 
 
         }
-        private async Task<SubmitResponse> getTestResult (string typeResult, int testId)
-        {
-            var result = await _context.Characters
-                    .Where(a => a.ResultShortName.ToLower() == typeResult.ToLower())
-                    .FirstOrDefaultAsync();
-
-            SubmitResponse response = new()
-            {
-                Id = testId,
-                ResultShortName = result.ResultShortName
-            };
-            return response;
-        }
-        public async Task<SubmitResponse> CalculateDiscResult(CalculateResultRequest request)
+        
+        public async Task<SubmitResponse> CalculateDiscResult(CalculateResultRequest request, Guid? userId)
         {
             try
             {
@@ -437,6 +494,14 @@ namespace Qick.Repositories
                         break;
                 }
                 var result = getTestResult(typeResult, request.TestId);
+                if (userId != null)
+                {
+                    var attempt = CreateAttempt(result.Result.Id, userId, result.Result.ResultShortName);
+                    foreach (var question in request.questions)
+                    {
+                        var detail = CreateAttemptDetail(attempt.Result, question);
+                    }
+                }
                 return result.Result;
             }
             catch (Exception ex)

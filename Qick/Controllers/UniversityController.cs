@@ -66,6 +66,23 @@ namespace Qick.Controllers
             }
         }
 
+      
+        //Get University by Major Id
+        [AllowAnonymous]
+        [HttpGet("get-uni-major")]
+        public async Task<IActionResult> GetUniversityByMajorId(Guid majorId)
+        {
+            try
+            {
+                var response = await _repo.GetUniversityByMajorId(majorId);
+                var ListUniResponse = _mapper.Map<IEnumerable<ListUniResponse>>(response);
+                return Ok(ListUniResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
         //Create Test step one create basic information of test , return test to create questions, option, etc.
         [HttpPost("unispec-create")]
         public async Task<IActionResult> CreateUniSpec(CreateUniSpecRequest request)
@@ -82,22 +99,6 @@ namespace Qick.Controllers
                 {
                     return Ok(new HttpStatusCodeResponse(204));
                 }
-            }
-            catch (Exception ex)
-            {
-                return Ok(ex.Message);
-            }
-        }
-        //Get University by Major Id
-        [AllowAnonymous]
-        [HttpGet("get-uni-major")]
-        public async Task<IActionResult> GetUniversityByMajorId(Guid majorId)
-        {
-            try
-            {
-                var response = await _repo.GetUniversityByMajorId(majorId);
-                var ListUniResponse = _mapper.Map<IEnumerable<ListUniResponse>>(response);
-                return Ok(ListUniResponse);
             }
             catch (Exception ex)
             {

@@ -9,6 +9,7 @@
             PENDING = "PENDING",
             APRROVED = "APPRROVED",
             BANNED = "BANNED",
+            ETERNAL = "ETERNAL",
             DENIED = "DENIED";
            
     }

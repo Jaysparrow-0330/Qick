@@ -24,51 +24,7 @@ namespace Qick.Controllers
             _mapper = mapper;
         }
 
-        //Create Academic profile
-        [HttpPost("create-application")]
-        public async Task<IActionResult> CreateApplication(CreateApplicationRequest request)
-        {
-            try
-            {
-                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                var response = await _repo.CreateApplication(request);
-                if (response != null)
-                {
-                    return Ok(response);
-                }
-                else
-                {
-                    return Ok(new HttpStatusCodeResponse(204));
-                }
-            }
-            catch (Exception ex)
-            {
-                return Ok(ex.Message);
-            }
-        }
-
-        //Create Academic profile
-        [HttpPost("create-application-detail")]
-        public async Task<IActionResult> CreateApplicationDetail(CreateApplicationDetailRequest AppDetail)
-        {
-            try
-            {
-                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                var response = await _repo.CreateApplicationDetail(AppDetail);
-                if (response != null)
-                {
-                    return Ok(response);
-                }
-                else
-                {
-                    return Ok(new HttpStatusCodeResponse(204));
-                }
-            }
-            catch (Exception ex)
-            {
-                return Ok(ex.Message);
-            }
-        }
+      
 
         // Get list all question by test id
         [HttpGet("get-all-application")]
@@ -137,7 +93,51 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
+        //Create Academic profile
+        [HttpPost("create-application")]
+        public async Task<IActionResult> CreateApplication(CreateApplicationRequest request)
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var response = await _repo.CreateApplication(request);
+                if (response != null)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
 
+        //Create Academic profile
+        [HttpPost("create-application-detail")]
+        public async Task<IActionResult> CreateApplicationDetail(CreateApplicationDetailRequest AppDetail)
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var response = await _repo.CreateApplicationDetail(AppDetail);
+                if (response != null)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
         //Update app status
         [HttpPut("update-app-status")]
         public async Task<IActionResult> UpdateApplicationStatus(string status, Guid? AppId)

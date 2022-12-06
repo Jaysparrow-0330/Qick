@@ -5,7 +5,6 @@
 
         // Role for Authenticated User
         public const string
-            GOD = "GOD",
             ADMIN = "ADMIN",
             MEMBER = "MEMBER",
             MANAGER = "UNIMA",

@@ -5,11 +5,12 @@ namespace Qick.Models
 {
     public partial class AttemptDetail
     {
-        public int? AttemptId { get; set; }
-        public int? OptionId { get; set; }
+        public int AttemptId { get; set; }
+        public int OptionId { get; set; }
         public string? Status { get; set; }
+        public int Id { get; set; }
 
-        public virtual Attempt? Attempt { get; set; }
-        public virtual Option? Option { get; set; }
+        public virtual Attempt Attempt { get; set; } = null!;
+        public virtual Option Option { get; set; } = null!;
     }
 }

@@ -24,6 +24,55 @@ namespace Qick.Controllers
             _mapper = mapper;
         }
 
+
+        // Get list all question by test id
+        [HttpGet("mailbox")]
+        public async Task<IActionResult> GetAllMailBoxById()
+        {
+            try
+            {
+                string Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
+                if (Role.Equals(Roles.MEMBER) || Role.Equals(Roles.STUDENT))
+                {
+                    Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                    var list = await _repo.GetMailBoxByUserId(userId);
+                    var response = _mapper.Map<IEnumerable<MailBoxResponse>>(list);
+                    return Ok(response);
+                }
+                else if (Role.Equals(Roles.STAFF) || Role.Equals(Roles.MANAGER))
+                {
+                    Guid uniId = Guid.Parse(User.FindFirst("university").Value);
+                    var list = await _repo.GetMailBoxByUniId(uniId);
+                    var response = _mapper.Map<IEnumerable<MailBoxResponse>>(list);
+                    return Ok(response);
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
+        // Get list all question by test id
+        [HttpGet("message")]
+        public async Task<IActionResult> GetAllMessageById(Guid MailId)
+        {
+            try
+            {
+                    var list = await _repo.GetMessByMailId(MailId);
+                    return Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
         //Create Result for test
         [HttpPost("send")]
         public async Task<IActionResult> Send(CreateMessRequest request)
@@ -33,10 +82,10 @@ namespace Qick.Controllers
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 var check = false;
                 string Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
-                
+
                 if (Role.Equals(Roles.MEMBER) || Role.Equals(Roles.STUDENT))
                 {
-                    var response = await _repo.CreateMail(request, userId,MailType.SEND);
+                    var response = await _repo.CreateMail(request, userId, MailType.SEND);
                     var messResponse = await _repo.CreateMess(response.Id, request.MessageContent, MailType.SEND);
                     check = messResponse;
                 }
@@ -96,54 +145,6 @@ namespace Qick.Controllers
                 {
                     return Ok(new HttpStatusCodeResponse(204));
                 }
-            }
-            catch (Exception ex)
-            {
-                return Ok(ex.Message);
-            }
-        }
-
-        // Get list all question by test id
-        [HttpGet("mailbox")]
-        public async Task<IActionResult> GetAllMailBoxById()
-        {
-            try
-            {
-                string Role = User.FindFirst(ClaimTypes.Role).Value.ToString();
-                if (Role.Equals(Roles.MEMBER) || Role.Equals(Roles.STUDENT))
-                {
-                    Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                    var list = await _repo.GetMailBoxByUserId(userId);
-                    var response = _mapper.Map<IEnumerable<MailBoxResponse>>(list);
-                    return Ok(response);
-                }
-                else if (Role.Equals(Roles.STAFF) || Role.Equals(Roles.MANAGER))
-                {
-                    Guid uniId = Guid.Parse(User.FindFirst("university").Value);
-                    var list = await _repo.GetMailBoxByUniId(uniId);
-                    var response = _mapper.Map<IEnumerable<MailBoxResponse>>(list);
-                    return Ok(response);
-                }
-                else
-                {
-                    return Ok(new HttpStatusCodeResponse(204));
-                }
-
-            }
-            catch (Exception ex)
-            {
-                return Ok(ex.Message);
-            }
-        }
-
-        // Get list all question by test id
-        [HttpGet("message")]
-        public async Task<IActionResult> GetAllMessageById(Guid MailId)
-        {
-            try
-            {
-                    var list = await _repo.GetMessByMailId(MailId);
-                    return Ok(list);
             }
             catch (Exception ex)
             {

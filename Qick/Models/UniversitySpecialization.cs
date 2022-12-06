@@ -7,7 +7,7 @@ namespace Qick.Models
     {
         public UniversitySpecialization()
         {
-            AddmissionNews = new HashSet<AddmissionNew>();
+            AddmissionNews = new HashSet<AddmissionNews>();
             Applications = new HashSet<Application>();
         }
 
@@ -20,7 +20,7 @@ namespace Qick.Models
 
         public virtual Specialization? Spec { get; set; }
         public virtual University? Uni { get; set; }
-        public virtual ICollection<AddmissionNew> AddmissionNews { get; set; }
+        public virtual ICollection<AddmissionNews> AddmissionNews { get; set; }
         public virtual ICollection<Application> Applications { get; set; }
     }
 }

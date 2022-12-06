@@ -13,12 +13,14 @@ namespace Qick.Controllers
     {
         private readonly IUserRepository _repo;
         private readonly ICreateTokenService _token;
+        private readonly IGenerateRandomService _random;
 
         // constructor
-        public AuthController(IUserRepository repo, ICreateTokenService token )
+        public AuthController(IUserRepository repo, ICreateTokenService token, IGenerateRandomService random)
         {
             _repo = repo;
             _token = token;
+            _random = random;
         }
 
 
@@ -74,7 +76,8 @@ namespace Qick.Controllers
             {
                 return Ok(new HttpStatusCodeResponse(410));
             }
-            var user = await _repo.Register(request);
+                string code = _random.GenerateRandomNumber(6);
+                var user = await _repo.Register(request, code);
 
             if (!(user == null))
             {

@@ -10,7 +10,7 @@ using System.Security.Claims;
 
 namespace Qick.Controllers
 {
-    [Authorize(Roles = Roles.GOD + "," + Roles.ADMIN)]
+    [Authorize(Roles = Roles.ADMIN)]
     [Route("api/admin")]
     [ApiController]
     public class AdminController : ControllerBase

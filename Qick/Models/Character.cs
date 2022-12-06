@@ -7,7 +7,6 @@ namespace Qick.Models
     {
         public Character()
         {
-            Attempts = new HashSet<Attempt>();
             JobMappings = new HashSet<JobMapping>();
         }
 
@@ -23,7 +22,6 @@ namespace Qick.Models
         public string? Value { get; set; }
 
         public virtual Test? Test { get; set; }
-        public virtual ICollection<Attempt> Attempts { get; set; }
         public virtual ICollection<JobMapping> JobMappings { get; set; }
     }
 }

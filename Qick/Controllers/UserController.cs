@@ -24,84 +24,6 @@ namespace Qick.Controllers
             _mapper = mapper;
         }
 
-        //Update User Profiel
-        [HttpPut("update-user")]
-        public async Task<IActionResult> UpdateUser(UserProfileUpdateRequest request)
-        {
-            try
-            {
-                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                if (userId != null)
-                {
-                    var user = await _repo.UpdateProfile(request, userId);
-                    return Ok(user);
-                }
-                else
-                {
-                    return Ok(new HttpStatusCodeResponse(204));
-                }
-                
-            }
-            catch (Exception ex)
-            {
-                return Ok(ex.Message);
-            }
-        }
-
-        //Update ACc Profiel
-        [HttpPut("update-aca")]
-        public async Task<IActionResult> UpdateUserAcedemicProfile(UpdateAcademyRequest request)
-        {
-            try
-            {
-                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                if (userId != null)
-                {
-                    var user = await _repo.UpdateAcademicProfile(request);
-                    return Ok(user);
-                }
-                else
-                {
-                    return Ok(new HttpStatusCodeResponse(204));
-                }
-                
-            }
-            catch (Exception ex)
-            {
-                return Ok(ex.Message);
-            }
-        }
-
-        //Update ACc Profiel
-        [HttpPut("public")]
-        public async Task<IActionResult> UpdatePublicProfile( )
-        {
-            try
-            {
-                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                if (userId != null)
-                {
-                    var check = await _repo.PublicProfileUser(userId);
-                    if (check)
-                    {
-                        return Ok(new HttpStatusCodeResponse(200));
-                    }
-                    else
-                    {
-                        return Ok(new HttpStatusCodeResponse(204));
-                    }
-                }
-                else
-                {
-                    return Ok(new HttpStatusCodeResponse(204));
-                }
-
-            }
-            catch (Exception ex)
-            {
-                return Ok(ex.Message);
-            }
-        }
 
         //Get profile
         [HttpGet("get-profile")]
@@ -172,6 +94,85 @@ namespace Qick.Controllers
                     {
                         return Ok(new HttpStatusCodeResponse(204));
                     }
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
+        //Update User Profiel
+        [HttpPut("update-user")]
+        public async Task<IActionResult> UpdateUser(UserProfileUpdateRequest request)
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                if (userId != null)
+                {
+                    var user = await _repo.UpdateProfile(request, userId);
+                    return Ok(user);
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
+        //Update ACc Profiel
+        [HttpPut("update-aca")]
+        public async Task<IActionResult> UpdateUserAcedemicProfile(UpdateAcademyRequest request)
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                if (userId != null)
+                {
+                    var user = await _repo.UpdateAcademicProfile(request);
+                    return Ok(user);
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
+        //Update ACc Profiel
+        [HttpPut("public")]
+        public async Task<IActionResult> UpdatePublicProfile()
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                if (userId != null)
+                {
+                    var check = await _repo.PublicProfileUser(userId);
+                    if (check)
+                    {
+                        return Ok(new HttpStatusCodeResponse(200));
+                    }
+                    else
+                    {
+                        return Ok(new HttpStatusCodeResponse(204));
+                    }
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+
             }
             catch (Exception ex)
             {

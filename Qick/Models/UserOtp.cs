@@ -10,7 +10,7 @@ namespace Qick.Models
         public string? Otp { get; set; }
         public DateTime? CreateDate { get; set; }
         public DateTime? ValidateUntil { get; set; }
-        public int? Status { get; set; }
+        public string? Status { get; set; }
 
         public virtual User? User { get; set; }
     }

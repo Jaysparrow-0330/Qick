@@ -67,7 +67,7 @@ namespace Qick.Repositories
         }
 
 
-        public async Task<User> Register(RegisterRequest register)
+        public async Task<User> Register(RegisterRequest register, string code)
         {
             try
             {
@@ -85,6 +85,7 @@ namespace Qick.Repositories
                     Status = Status.ACTIVE,
                     PublicProfile = PublicProfile.INACTIVE
                 };
+                CreateOtp(user.Id, code, Status.ETERNAL);
                 await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
                 return user;
@@ -94,7 +95,60 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
-
+        private void CreateOtp(Guid userId, string code, string status)
+        {
+            try
+            {
+                DateTime? valiTime = null;
+                if (!status.Equals(Status.ETERNAL))
+                {
+                    valiTime = DateTime.Now.AddMinutes(10);
+                }
+                UserOtp otp = new()
+                {
+                    Id = Guid.NewGuid(),
+                    CreateDate = DateTime.Now,
+                    ValidateUntil = valiTime,
+                    UserId = userId,
+                    Otp = code,
+                    Status = status
+                };
+                _context.UserOtps.AddAsync(otp);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        private async Task<bool> CheckOtp(Guid userId, string code, string status)
+        {
+            try
+            {
+                UserOtp otp;
+                if (!status.Equals (Status.ETERNAL))
+                {
+                    otp = await _context.UserOtps.Where(a => a.UserId.Equals(userId) && a.Status != Status.ETERNAL && a.ValidateUntil > DateTime.Now).OrderByDescending(a => a.CreateDate).FirstOrDefaultAsync();
+                }
+                else
+                {
+                    otp = await _context.UserOtps.Where(a => a.UserId.Equals(userId) && a.Status == Status.ETERNAL).FirstOrDefaultAsync();
+                }
+                if (otp != null)
+                {
+                    if (otp.Otp.Equals(code))
+                    {
+                        var otps = await _context.UserOtps.Where(a => a.Status == status && a.UserId.Equals(userId)).ToListAsync();
+                        _context.UserOtps.RemoveRange(otps);
+                        return true;
+                    }
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             var hmac = new HMACSHA512(passwordSalt);
@@ -123,7 +177,7 @@ namespace Qick.Repositories
             try
             {
                 var user = await _context.Users
-                    .Where(u => u.Email.Equals(login.Email.ToLower()) && (u.RoleId.Equals(Roles.ADMIN) || u.RoleId.Equals(Roles.GOD) || u.RoleId.Equals(Roles.MANAGER) || u.RoleId.Equals(Roles.STAFF)) && u.Status != Status.DISABLE)
+                    .Where(u => u.Email.Equals(login.Email.ToLower()) && (u.RoleId.Equals(Roles.ADMIN)  || u.RoleId.Equals(Roles.MANAGER) || u.RoleId.Equals(Roles.STAFF)) && u.Status != Status.DISABLE)
                     .FirstOrDefaultAsync();
                 if (user != null)
                 {

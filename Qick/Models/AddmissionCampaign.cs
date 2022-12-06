@@ -7,7 +7,7 @@ namespace Qick.Models
     {
         public AddmissionCampaign()
         {
-            AddmissionNews = new HashSet<AddmissionNew>();
+            AddmissionNews = new HashSet<AddmissionNews>();
         }
 
         public Guid Id { get; set; }
@@ -18,6 +18,6 @@ namespace Qick.Models
         public string? Status { get; set; }
 
         public virtual University? Uni { get; set; }
-        public virtual ICollection<AddmissionNew> AddmissionNews { get; set; }
+        public virtual ICollection<AddmissionNews> AddmissionNews { get; set; }
     }
 }
