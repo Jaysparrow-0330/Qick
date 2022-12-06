@@ -6,6 +6,7 @@ using Qick.Models;
 using Qick.Repositories.Interfaces;
 using System.Security.Cryptography;
 using System.Text;
+using Qick.Dto.Exceptions;
 
 namespace Qick.Repositories
 {
@@ -24,15 +25,22 @@ namespace Qick.Repositories
         {
             try
             {
-                var user = await _context.Users.Where(u => u.Email.Equals(login.Email.ToLower()) && u.RoleId.Equals(Roles.MEMBER) && u.Status != Status.DISABLE).FirstOrDefaultAsync();
+                var user = await _context.Users.Where(u => u.Email.Equals(login.Email.ToLower()) && u.RoleId.Equals(Roles.MEMBER) && u.Status != Status.BANNED).FirstOrDefaultAsync();
                 if (user != null)
                 {
                     if (!VerifyPasswordHash(login.Password, user.PasswordHash, user.PasswordSalt))
                         return null;
                     else
                     {
-                        return user;
-                        
+                        if (user.Status == Status.PENDING)
+                        {
+                            throw new NotActiveException("User Not Active");
+                        }
+                        else
+                        {
+                            return user;
+                        }
+
                     }
                 }
                 else
@@ -232,7 +240,7 @@ namespace Qick.Repositories
             try
             {
                 var user = await _context.Users
-                    .Where(u => u.Email.Equals(login.Email.ToLower()) && (u.RoleId.Equals(Roles.ADMIN)  || u.RoleId.Equals(Roles.MANAGER) || u.RoleId.Equals(Roles.STAFF)) && u.Status != Status.DISABLE)
+                    .Where(u => u.Email.Equals(login.Email.ToLower()) && (u.RoleId.Equals(Roles.ADMIN)  || u.RoleId.Equals(Roles.MANAGER) || u.RoleId.Equals(Roles.STAFF)) && u.Status != Status.BANNED)
                     .FirstOrDefaultAsync();
                 if (user != null)
                 {
@@ -242,7 +250,14 @@ namespace Qick.Repositories
                     } 
                     else
                     {
-                        return user;
+                        if (user.Status == Status.PENDING)
+                        {
+                            throw new NotActiveException("Not Active");
+                        }
+                        else
+                        {
+                            return user;
+                        }
                     }
                 }
                 else
@@ -261,7 +276,7 @@ namespace Qick.Repositories
         {
             try
             {
-                var user = await _context.Users.Where(u => u.Email.Equals(login.Email.ToLower()) && u.RoleId.Equals(Roles.MANAGER) || u.RoleId.Equals(Roles.STAFF) && u.Status != Status.DISABLE).FirstOrDefaultAsync();
+                var user = await _context.Users.Where(u => u.Email.Equals(login.Email.ToLower()) && u.RoleId.Equals(Roles.MANAGER) || u.RoleId.Equals(Roles.STAFF) && u.Status != Status.BANNED).FirstOrDefaultAsync();
                 if (user != null)
                 {
                     if (!VerifyPasswordHash(login.Password, user.PasswordHash, user.PasswordSalt))
@@ -270,7 +285,14 @@ namespace Qick.Repositories
                     }
                     else
                     {
-                        return user;
+                        if (user.Status == Status.PENDING)
+                        {
+                            throw new NotActiveException("Not Active");
+                        }
+                        else
+                        {
+                            return user;
+                        }
                     }
                 }
                 else

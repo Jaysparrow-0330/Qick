@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Qick.Dto.Enum;
+using Qick.Dto.Exceptions;
 using Qick.Dto.Requests;
 using Qick.Dto.Responses;
 using Qick.Repositories.Interfaces;
@@ -40,6 +41,10 @@ namespace Qick.Controllers
                     return Ok(tk);
                 }
             }
+            catch (NotActiveException ex)
+            {
+                return Ok(new HttpStatusCodeResponse(210));
+            }
             catch (Exception ex)
             {
                 return Ok(new HttpStatusCodeResponse(400,ex.Message));
@@ -60,6 +65,10 @@ namespace Qick.Controllers
                     string tk = _token.CreateToken(check);
                     return Ok(tk);
                 }
+            }
+            catch (NotActiveException ex)
+            {
+                return Ok(new HttpStatusCodeResponse(210));
             }
             catch (Exception ex)
             {
