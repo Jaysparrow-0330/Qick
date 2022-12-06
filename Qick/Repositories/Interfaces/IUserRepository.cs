@@ -10,6 +10,8 @@ namespace Qick.Repositories.Interfaces
         Task<User> Login(LoginRequest user);
         Task<User> LoginAd(LoginRequest user);
         Task<User> LoginUni(LoginRequest user);
+        Task<User> RegisterStaff(RegisterRequest register, string code);
+        Task<User> RegisterUni(RegisterRequest register, string code);
         Task<User> Register(RegisterRequest register, string code);
         Task<bool> EmailExist(string email);
 

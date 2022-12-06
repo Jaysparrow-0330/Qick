@@ -126,5 +126,62 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
+
+        public async Task<Major> UpdateMajor(UpdateMajorRequest request)
+        {
+            try
+            {
+                var major = await _context.Majors
+                    .Where(u => u.Id == request.Id)
+                    .FirstOrDefaultAsync();
+
+                if (major != null)
+                {
+                    major.MajorName = request.MajorName;
+                    major.MajorCode = request.MajorCode;
+                    major.Description = request.Description;
+                    major.Status = request.Status;
+                }
+                else
+                {
+                    { throw new Exception("Major does not exist"); }
+                }
+
+                await _context.SaveChangesAsync();
+                return major;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<Specialization> UpdateSpec(UpdateSpecRequest request)
+        {
+            try
+            {
+                var spec = await _context.Specializations
+                    .Where(u => u.Id == request.Id)
+                    .FirstOrDefaultAsync();
+
+                if (spec != null)
+                {
+                    spec.SpecName = request.SpecName;
+                    spec.MajorId = request.MajorId;
+                    spec.Status = request.Status;
+                }
+                else
+                {
+                    { throw new Exception("Major does not exist"); }
+                }
+
+                await _context.SaveChangesAsync();
+                return spec;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

@@ -65,8 +65,63 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
+        public async Task<User> RegisterUni(RegisterRequest register, string code)
+        {
+            try
+            {
+                byte[] passwordHash, passwordSalt;
+                CreatePasswordHash(register.Password, out passwordHash, out passwordSalt);
+                User user = new()
+                {
+                    Id = Guid.NewGuid(),
+                    Email = register.Email.ToLower(),
+                    UserName = register.Name,
+                    SignUpDate = DateTime.Now,
+                    RoleId = Roles.MANAGER,
+                    PasswordHash = passwordHash,
+                    PasswordSalt = passwordSalt,
+                    Status = Status.PENDING,
+                    PublicProfile = PublicProfile.INACTIVE
+                };
+                CreateOtp(user.Id, code, Status.ETERNAL);
+                await _context.Users.AddAsync(user);
+                await _context.SaveChangesAsync();
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
-
+        public async Task<User> RegisterStaff(RegisterRequest register, string code)
+        {
+            try
+            {
+                byte[] passwordHash, passwordSalt;
+                CreatePasswordHash(register.Password, out passwordHash, out passwordSalt);
+                User user = new()
+                {
+                    Id = Guid.NewGuid(),
+                    Email = register.Email.ToLower(),
+                    UserName = register.Name,
+                    SignUpDate = DateTime.Now,
+                    RoleId = Roles.STAFF,
+                    PasswordHash = passwordHash,
+                    PasswordSalt = passwordSalt,
+                    Status = Status.PENDING,
+                    PublicProfile = PublicProfile.INACTIVE
+                };
+                CreateOtp(user.Id, code, Status.ETERNAL);
+                await _context.Users.AddAsync(user);
+                await _context.SaveChangesAsync();
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public async Task<User> Register(RegisterRequest register, string code)
         {
             try
@@ -82,7 +137,7 @@ namespace Qick.Repositories
                     RoleId = Roles.MEMBER,
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
-                    Status = Status.ACTIVE,
+                    Status = Status.PENDING,
                     PublicProfile = PublicProfile.INACTIVE
                 };
                 CreateOtp(user.Id, code, Status.ETERNAL);

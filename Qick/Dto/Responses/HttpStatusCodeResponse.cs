@@ -39,7 +39,12 @@
                 case 310:
                     Message = "Test Not Exist";
                     break;
-
+                case 510:
+                    Message = "Major Not Exist";
+                    break;
+                case 610:
+                    Message = "Specialization Not Exist";
+                    break;
                 default:
                     Code = 400;
                     Message = "Error";

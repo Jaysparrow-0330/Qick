@@ -20,5 +20,7 @@ namespace Qick.Repositories.Interfaces
 
         // create Mapping Job
         Task<bool> CreateJobMajorMapping(JobMajorMappingRequest request);
+        Task<Major> UpdateMajor(UpdateMajorRequest request);
+        Task<Specialization> UpdateSpec(UpdateSpecRequest request);
     }
 }

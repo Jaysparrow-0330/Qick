@@ -22,10 +22,11 @@ namespace Qick.Controllers
         private readonly IUniversityRepository _repoUni;
         private readonly IJobRepository _repoJob;
         private readonly IUserRepository _repoUser;
+        private readonly IMajorRepository _repoMajor;
         private readonly IApplicationRepository _repoApp;
         private readonly IMapper _mapper;
 
-        public AdminController(IApplicationRepository repoApp,IUserRepository repoUser,IJobRepository repoJob,IUniversityRepository repoUni,ISystemRepository repoSystem,ITestRepository repoTest, IMapper mapper, IQuestionRepository repoQuestion, IOptionRepository repoOption)
+        public AdminController(IMajorRepository repoMajor,IApplicationRepository repoApp,IUserRepository repoUser,IJobRepository repoJob,IUniversityRepository repoUni,ISystemRepository repoSystem,ITestRepository repoTest, IMapper mapper, IQuestionRepository repoQuestion, IOptionRepository repoOption)
         {
             _repoTest = repoTest;
             _mapper = mapper;
@@ -36,6 +37,7 @@ namespace Qick.Controllers
             _repoJob = repoJob;
             _repoUser = repoUser;
             _repoApp = repoApp;
+            _repoMajor = repoMajor;
         }
 
         // Get list all question by test id
@@ -410,7 +412,58 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
-
+        //Update Test
+        [HttpPut("update-major")]
+        public async Task<IActionResult> UpdateMajorByAdmin(ListMajorRequest request)
+        {
+            try
+            {
+                bool Complete = true;
+                foreach (var major in request.majors)
+                {
+                    var check = await _repoMajor.GetMajorById(major.Id);
+                    if (check != null)
+                    {
+                        var response = await _repoSystem.UpdateMajor(major);
+                    }
+                    else
+                    {
+                        return Ok(new HttpStatusCodeResponse(510));
+                    }
+                }
+                return Ok(new HttpStatusCodeResponse(200));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+        //Update Test
+        [HttpPut("update-spec")]
+        public async Task<IActionResult> UpdateSpecByAdmin(ListSpecRequest request)
+        {
+            try
+            {
+                bool Complete = true;
+                foreach (var spec in request.specs)
+                {
+                    var check = await _repoMajor.GetSpecById(spec.Id);
+                    if (check != null)
+                    {
+                        var response = await _repoSystem.UpdateSpec(spec);
+                    }
+                    else
+                    {
+                        return Ok(new HttpStatusCodeResponse(510));
+                    }
+                }
+                return Ok(new HttpStatusCodeResponse(200));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
         //Update ACc Profiel
         [HttpPut("ban/unban")]
         public async Task<IActionResult> BanUnbanUser(Guid userId)
