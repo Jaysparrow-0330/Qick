@@ -59,7 +59,8 @@ namespace Qick.Controllers
             {
                 Guid uniId = Guid.Parse(User.FindFirst("university").Value);
                 var response = await _repoUser.GetListAllStaff(uniId);
-                return Ok(response);
+                var profile = _mapper.Map<IEnumerable<ListUserResponse>>(response);
+                return Ok(profile);
             }
             catch (Exception ex)
             {
@@ -73,7 +74,8 @@ namespace Qick.Controllers
             {
                 Guid uniId = Guid.Parse(User.FindFirst("university").Value);
                 var response = await _repoUser.GetListActiveStaff(uniId);
-                return Ok(response);
+                var profile = _mapper.Map<IEnumerable<ListUserResponse>>(response);
+                return Ok(profile);
             }
             catch (Exception ex)
             {
