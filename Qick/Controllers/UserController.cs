@@ -52,7 +52,7 @@ namespace Qick.Controllers
             try
             {
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                var response = await _repo.GetUser();
+                var response = await _repo.GetAllUser();
                 var profile = _mapper.Map<IEnumerable<ProfileResponse>>(response);
                 return Ok(profile);
             }
@@ -124,7 +124,38 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
+        //Update User Profiel
+        [HttpPut("update-pass")]
+        public async Task<IActionResult> UpdatePass(UpdatePassRequest request)
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var user = await _repo.GetUserById(userId);
+                if (user != null)
+                {
+                    var update = await _repo.UpdatePassword(request, user);
 
+                    if (update != null)
+                    {
+                        return Ok(new HttpStatusCodeResponse(200));
+                    }
+                    else
+                    {
+                        return Ok(new HttpStatusCodeResponse(204));
+                    }
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
         //Update ACc Profiel
         [HttpPut("update-aca")]
         public async Task<IActionResult> UpdateUserAcedemicProfile(UpdateAcademyRequest request)

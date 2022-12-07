@@ -59,7 +59,7 @@ namespace Qick.Repositories
         {
             try
             {
-                if (await _context.Users.Where(a => a.RoleId != Roles.USER_GOOGLE).AnyAsync(x => x.Email.Equals(email.ToLower())))
+                if (await _context.Users.Where(a => a.RoleId == Roles.MEMBER).AnyAsync(x => x.Email.Equals(email.ToLower())))
                 {
                     return true;
                 }   
@@ -73,15 +73,54 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
-        public async Task<User> RegisterUni(RegisterRequest register, string code)
+
+        public async Task<bool> EmailExistUniMa(string email)
+        {
+            try
+            {
+                if (await _context.Users.Where(a => a.RoleId == Roles.MANAGER).AnyAsync(x => x.Email.Equals(email.ToLower())))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<bool> EmailExistStaff(string email)
+        {
+            try
+            {
+                if (await _context.Users.Where(a => a.RoleId == Roles.STAFF).AnyAsync(x => x.Email.Equals(email.ToLower())))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<User> RegisterUni(ManagerStaffRequest register, string code)
         {
             try
             {
                 byte[] passwordHash, passwordSalt;
-                CreatePasswordHash(register.Password, out passwordHash, out passwordSalt);
+                CreatePasswordHash(code, out passwordHash, out passwordSalt);
                 User user = new()
                 {
                     Id = Guid.NewGuid(),
+                    UniversityId = register.UniversityId,
                     Email = register.Email.ToLower(),
                     UserName = register.Name,
                     SignUpDate = DateTime.Now,
@@ -91,7 +130,6 @@ namespace Qick.Repositories
                     Status = Status.PENDING,
                     PublicProfile = PublicProfile.INACTIVE
                 };
-                CreateOtp(user.Id, code, Status.ETERNAL);
                 await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
                 return user;
@@ -102,15 +140,16 @@ namespace Qick.Repositories
             }
         }
 
-        public async Task<User> RegisterStaff(RegisterRequest register, string code)
+        public async Task<User> RegisterStaff(ManagerStaffRequest register, string code)
         {
             try
             {
                 byte[] passwordHash, passwordSalt;
-                CreatePasswordHash(register.Password, out passwordHash, out passwordSalt);
+                CreatePasswordHash(code, out passwordHash, out passwordSalt);
                 User user = new()
                 {
                     Id = Guid.NewGuid(),
+                    UniversityId = register.UniversityId,
                     Email = register.Email.ToLower(),
                     UserName = register.Name,
                     SignUpDate = DateTime.Now,
@@ -120,7 +159,6 @@ namespace Qick.Repositories
                     Status = Status.PENDING,
                     PublicProfile = PublicProfile.INACTIVE
                 };
-                CreateOtp(user.Id, code, Status.ETERNAL);
                 await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
                 return user;
@@ -151,6 +189,27 @@ namespace Qick.Repositories
                 CreateOtp(user.Id, code, Status.ETERNAL);
                 await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<User> GetUserByEmail(string email)
+        {
+            return await _context.Users.Where(u => u.Email.Equals(email.ToLower()) && u.RoleId != Roles.USER_GOOGLE).FirstOrDefaultAsync();
+        }
+
+        public async Task<User> ActiveUserStatus(User user, string code)
+        {
+            try
+            {
+                if (await CheckOtp(user.Id, code, Status.ETERNAL))
+                {
+                    user.Status = Status.ACTIVE;
+                }
                 return user;
             }
             catch (Exception ex)
@@ -287,7 +346,7 @@ namespace Qick.Repositories
                     {
                         if (user.Status == Status.PENDING)
                         {
-                            throw new NotActiveException("Not Active");
+                            throw new NotActiveException("Change Password for the first login");
                         }
                         else
                         {
@@ -367,7 +426,24 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
-
+        public async Task<User> UpdatePassword(UpdatePassRequest update, User user)
+        {
+            try
+            {
+                if (user == null) { throw new Exception("User Not Exist"); }
+                if (!VerifyPasswordHash(update.OldPassword, user.PasswordHash, user.PasswordSalt)) { throw new Exception("Wrong password"); }
+                byte[] passwordHash, passwordSalt;
+                CreatePasswordHash(update.NewPassword, out passwordHash, out passwordSalt);
+                user.PasswordHash = passwordHash;
+                user.PasswordSalt = passwordSalt;
+                await _context.SaveChangesAsync();
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public async Task<AcademicProfile> UpdateAcademicProfile(UpdateAcademyRequest request)
         {
             try
@@ -415,7 +491,20 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
-
+        public async Task<User> GetUserById(Guid UserId)
+        {
+            try
+            {
+                var user = await _context.Users
+                    .Where(a => a.Id == UserId)
+                    .FirstOrDefaultAsync();
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public async Task<User> GetProfile(Guid UserId)
         {
             try
@@ -470,7 +559,7 @@ namespace Qick.Repositories
             }
         }
 
-        public async Task<IEnumerable<User>> GetUser()
+        public async Task<IEnumerable<User>> GetAllUser()
         {
             try
             {

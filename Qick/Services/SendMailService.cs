@@ -1,4 +1,5 @@
 ﻿using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using Qick.Models;
@@ -28,6 +29,7 @@ namespace Qick.Services
                 //builder.TextBody = content;
                 email.Body = builder.ToMessageBody();
                 using var smtp = new SmtpClient();
+                smtp.Connect(_mail.Host, _mail.Port, SecureSocketOptions.StartTls);
                 smtp.Authenticate(_mail.Mail, _mail.Password);
                 await smtp.SendAsync(email);
                 smtp.Disconnect(true);

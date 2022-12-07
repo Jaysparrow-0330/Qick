@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Qick.Dto.Responses;
 using Qick.Repositories.Interfaces;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Qick.Controllers
 {

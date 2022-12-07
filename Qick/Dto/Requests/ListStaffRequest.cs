@@ -2,6 +2,6 @@
 {
     public class ListStaffRequest
     {
-        public ICollection<RegisterRequest> staffs { get; set; }
+        public ICollection<ManagerStaffRequest> staffs { get; set; }
     }
 }

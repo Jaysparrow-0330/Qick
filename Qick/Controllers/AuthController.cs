@@ -17,13 +17,15 @@ namespace Qick.Controllers
         private readonly IUserRepository _repo;
         private readonly ICreateTokenService _token;
         private readonly IGenerateRandomService _random;
+        private readonly ISendMailService _mail;
 
         // constructor
-        public AuthController(IUserRepository repo, ICreateTokenService token, IGenerateRandomService random)
+        public AuthController(ISendMailService mail,IUserRepository repo, ICreateTokenService token, IGenerateRandomService random)
         {
             _repo = repo;
             _token = token;
             _random = random;
+            _mail = mail;
         }
 
 
@@ -75,6 +77,30 @@ namespace Qick.Controllers
                 return Ok(new HttpStatusCodeResponse(400, ex.Message));
             }
         }
+
+        // Login admin page With Email And Password
+        [HttpPost("active")]
+        public async Task<ActionResult> ActiveUser(ActiveRequest request)
+        {
+            try
+            {
+                var user = await _repo.GetUserByEmail(request.Email);
+                if (user != null)
+                {
+                    var check = await _repo.ActiveUserStatus(user, request.Code);
+                    if (check == null) return null;
+                }
+                return Ok(new LoginResponse { Token = _token.CreateToken(user) });
+            }
+            catch (NotActiveException ex)
+            {
+                return Ok(new HttpStatusCodeResponse(210));
+            }
+            catch (Exception ex)
+            {
+                return Ok(new HttpStatusCodeResponse(400, ex.Message));
+            }
+        }
         /// <summary>
         /// Register to a member role
         [HttpPost("register")]
@@ -92,7 +118,8 @@ namespace Qick.Controllers
 
             if (!(user == null))
             {
-                return Ok(new HttpStatusCodeResponse(200));
+                    await _mail.SendMailAsync(request.Email, code, "Active Code", "HTMLTemplates/active-code-email.html");
+                    return Ok(new HttpStatusCodeResponse(200));
             }
             else
             {
@@ -106,20 +133,21 @@ namespace Qick.Controllers
         /// Register to a member role
         [Authorize(Roles = Roles.ADMIN)]
         [HttpPost("register-manager")]
-        public async Task<IActionResult> RegisterManager(RegisterRequest request)
+        public async Task<IActionResult> RegisterManager(ManagerStaffRequest request)
         {
             try
             {
-                var check = await _repo.EmailExist(request.Email);
+                var check = await _repo.EmailExistUniMa(request.Email);
                 if (check)
                 {
                     return Ok(new HttpStatusCodeResponse(410));
                 }
-                string code = _random.GenerateRandomNumber(6);
+                string code = _random.GenerateRandomString(12);
                 var user = await _repo.RegisterUni(request, code);
 
                 if (!(user == null))
                 {
+                    await _mail.SendMailAsync(request.Email, code, "Access Allowed", "HTMLTemplates/create-uni-email.html");
                     return Ok(new HttpStatusCodeResponse(200));
                 }
                 else
@@ -137,30 +165,26 @@ namespace Qick.Controllers
         {
             try
             {
-                bool Complete = true;
                 foreach (var staff in request.staffs)
                 {
-                    var check = await _repo.EmailExist(staff.Email);
+                    var check = await _repo.EmailExistStaff(staff.Email);
                     if (check)
                     {
                         return Ok(new HttpStatusCodeResponse(410));
                     }
-                    string code = _random.GenerateRandomNumber(6);
+                    string code = _random.GenerateRandomString(12);
                     var user = await _repo.RegisterStaff(staff, code);
 
                     if (user == null)
                     {
-                        Complete = false;
+                        return Ok(new HttpStatusCodeResponse(400));
+                    } 
+                    else
+                    {
+                        await _mail.SendMailAsync(staff.Email, code, "Access Allowed", "HTMLTemplates/create-uni-email.html");
                     }
                 }
-                if (Complete)
-                {
                     return Ok(new HttpStatusCodeResponse(200));
-                }
-                else
-                {
-                    return Ok(new HttpStatusCodeResponse(400));
-                }
                 
             }
             catch (Exception ex) { return BadRequest(ex); }

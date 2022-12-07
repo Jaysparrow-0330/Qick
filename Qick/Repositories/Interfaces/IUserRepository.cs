@@ -10,11 +10,16 @@ namespace Qick.Repositories.Interfaces
         Task<User> Login(LoginRequest user);
         Task<User> LoginAd(LoginRequest user);
         Task<User> LoginUni(LoginRequest user);
-        Task<User> RegisterStaff(RegisterRequest register, string code);
-        Task<User> RegisterUni(RegisterRequest register, string code);
+        Task<User> RegisterStaff(ManagerStaffRequest register, string code);
+        Task<User> RegisterUni(ManagerStaffRequest register, string code);
         Task<User> Register(RegisterRequest register, string code);
         Task<bool> EmailExist(string email);
-
+        Task<bool> EmailExistStaff(string email);
+        Task<bool> EmailExistUniMa(string email);
+        Task<User> GetUserByEmail(string email);
+        Task<User> UpdatePassword(UpdatePassRequest update, User user);
+        Task<User> GetUserById(Guid UserId);
+        Task<User> ActiveUserStatus(User user, string code);
         // update user profile
         Task<User> UpdateProfile(UserProfileUpdateRequest request, Guid id);
 
@@ -22,7 +27,7 @@ namespace Qick.Repositories.Interfaces
 
         Task<User> GetProfile(Guid UserId);
 
-        Task<IEnumerable<User>> GetUser();
+        Task<IEnumerable<User>> GetAllUser();
         Task<User> BanUser(Guid UserId);
         Task<User> RoleUser(Guid UserId,string roleChange);
 
