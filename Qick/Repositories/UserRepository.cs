@@ -215,14 +215,58 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
+
+        public async Task<IEnumerable<User>> GetListAllStaff(Guid? UniId)
+        {
+            try
+            {
+                var response = await _context.Users
+                .Where(a => a.UniversityId == UniId && a.RoleId == Roles.STAFF)
+                .ToListAsync();
+                return response;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public async Task<IEnumerable<User>> GetListActiveStaff(Guid? UniId)
+        {
+            try
+            {
+                var response = await _context.Users
+                .Where(a => a.UniversityId == UniId && a.RoleId == Roles.STAFF && a.Status == Status.ACTIVE)
+                .ToListAsync();
+                return response;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
         public async Task<User> GetUserByEmail(string email)
         {
             return await _context.Users.Where(u => u.Email.Equals(email.ToLower()) && u.RoleId != Roles.USER_GOOGLE).FirstOrDefaultAsync();
         }
 
-        public async Task<User> GetUnisSaved(Guid userId)
+        public async Task<IEnumerable<SavedUni>> GetAllUniSavedByUserId(Guid userId)
         {
-            return null;
+            try
+            {
+                var list = await _context.SavedUnis
+                    .Where(a => a.UserId == userId)
+                    .ToListAsync();
+
+                return list;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<User> ActiveUserStatus(User user, string code)
@@ -459,6 +503,10 @@ namespace Qick.Repositories
                 CreatePasswordHash(update.NewPassword, out passwordHash, out passwordSalt);
                 user.PasswordHash = passwordHash;
                 user.PasswordSalt = passwordSalt;
+                if (user.Status.Equals(Status.PENDING))
+                {
+                    user.Status = Status.ACTIVE;
+                }
                 await _context.SaveChangesAsync();
                 return user;
             }

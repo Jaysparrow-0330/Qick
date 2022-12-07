@@ -39,6 +39,19 @@ namespace Qick.Repositories
             }
         }
 
+        public async Task<IEnumerable<Question>> GetListAllQuestionBasedOnTestId(int testId)
+        {
+            try
+            {
+                var questions = _context.Questions
+                    .Where(m => m.TestId == testId)
+                    .Include(i => i.Options)
+                    .ToListAsync();
+                return await questions;
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
         public async Task<IEnumerable<Question>> GetListQuestionBasedOnTestId(int testId)
         {
             try

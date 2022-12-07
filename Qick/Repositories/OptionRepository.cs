@@ -48,7 +48,16 @@ namespace Qick.Repositories
             }
             catch (Exception ex) { throw ex; }
         }
-
+        public async Task<IEnumerable<Option>> GetListAllOptionBasedOnQuestionId(int questionId)
+        {
+            try
+            {
+                var options = _context.Options
+                    .Where(m => m.QuestionId == questionId ).ToListAsync();
+                return await options;
+            }
+            catch (Exception ex) { throw ex; }
+        }
         public async Task<Option> GetOptionById(int? optionId)
         {
             try

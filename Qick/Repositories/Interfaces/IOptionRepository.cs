@@ -8,6 +8,8 @@ namespace Qick.Repositories.Interfaces
 
         // get list option from database by user
         Task<IEnumerable<Option>> GetListOptionBasedOnQuestionId(int questionId);
+        // get list option from database by user
+        Task<IEnumerable<Option>> GetListAllOptionBasedOnQuestionId(int questionId);
 
         // create option  by question id ony admin or godad
         Task<bool> CreateOption(Question question, OptionRequest opt);

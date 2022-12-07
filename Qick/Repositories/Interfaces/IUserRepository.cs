@@ -29,6 +29,9 @@ namespace Qick.Repositories.Interfaces
 
         Task<IEnumerable<User>> GetAllUser();
         Task<User> BanUser(Guid UserId);
+        Task<IEnumerable<SavedUni>> GetAllUniSavedByUserId(Guid userId);
+        Task<IEnumerable<User>> GetListActiveStaff(Guid? UniId);
+        Task<IEnumerable<User>> GetListAllStaff(Guid? UniId);
         Task<bool> SaveUni(SaveUniRequest request, Guid userId);
         Task<User> RoleUser(Guid UserId,string roleChange);
 

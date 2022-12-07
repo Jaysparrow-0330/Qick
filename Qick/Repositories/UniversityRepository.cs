@@ -110,7 +110,7 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
-
+        
         public async Task<IEnumerable<University>> GetUniversityByMajorId(Guid majorId)
         {
             try
@@ -175,6 +175,29 @@ namespace Qick.Repositories
                              .Where(a => a.Id == uniId)
                              .FirstOrDefaultAsync();
                 return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> CheckUniSaved(Guid uniId, Guid userId)
+        {
+            try
+            {
+                var result = await _context.SavedUnis
+                             .Where(a => a.UserId == userId && a.UniversityId == uniId)
+                             .FirstOrDefaultAsync();
+                if (result == null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception)
             {
