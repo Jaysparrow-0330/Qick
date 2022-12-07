@@ -172,6 +172,7 @@ namespace Qick.Repositories
         {
             try
             {
+                if(register.Password.Length<8 || register.Password.Length>16) { throw new Exception("Password wrong format"); }
                 byte[] passwordHash, passwordSalt;
                 CreatePasswordHash(register.Password, out passwordHash, out passwordSalt);
                 User user = new()
@@ -499,6 +500,7 @@ namespace Qick.Repositories
             {
                 if (user == null) { throw new Exception("User Not Exist"); }
                 if (!VerifyPasswordHash(update.OldPassword, user.PasswordHash, user.PasswordSalt)) { throw new Exception("Wrong password"); }
+                if (update.NewPassword.Length < 8 || update.NewPassword.Length > 16) { throw new Exception("Password wrong format"); }
                 byte[] passwordHash, passwordSalt;
                 CreatePasswordHash(update.NewPassword, out passwordHash, out passwordSalt);
                 user.PasswordHash = passwordHash;
