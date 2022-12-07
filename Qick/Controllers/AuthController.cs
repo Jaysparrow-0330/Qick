@@ -62,21 +62,24 @@ namespace Qick.Controllers
             {
                 var check = await _repo.LoginAd(userIn);
                 if (check == null) return Unauthorized();
-                else
+                if (check.Status.Equals(Status.ACTIVE))
                 {
                     string tk = _token.CreateToken(check);
                     return Ok(tk);
+                } 
+                else if (check.Status.Equals(Status.PENDING))
+                {
+                    string tk = _token.CreateTokenForUniFirstLogin(check);
+                    return Ok(tk);
+                } 
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(400));
                 }
             }
             catch (NotActiveException ex)
             {
-                var check = await _repo.LoginAd(userIn);
-                if (check == null) return Unauthorized();
-                else
-                {
-                    string tk = _token.CreateTokenForUniFirstLogin(check);
-                    return Ok(tk);
-                }
+                return Ok(new HttpStatusCodeResponse(210));
             }
             catch (Exception ex)
             {

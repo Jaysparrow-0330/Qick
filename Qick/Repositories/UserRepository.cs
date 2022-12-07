@@ -377,14 +377,9 @@ namespace Qick.Repositories
                     } 
                     else
                     {
-                        if (user.Status == Status.PENDING)
-                        {
-                            throw new NotActiveException("Not Active");
-                        }
-                        else
-                        {
+                       
                             return user;
-                        }
+                        
                     }
                 }
                 else
