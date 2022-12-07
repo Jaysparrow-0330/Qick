@@ -61,7 +61,46 @@ namespace Qick.Services
                 throw ex;
             }
         }
+        public string CreateTokenForUniFirstLogin(User user)
+        {
+            try
+            {
+                DateTime expires = DateTime.Now;
+                if (user.RoleId.Equals(Roles.MANAGER) || user.RoleId.Equals(Roles.STAFF))
+                {
+                    expires = expires.AddMinutes(30);
+                }
+                else
+                {
+                    throw new InvalidOperationException();
+                }
 
+                var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.RoleId.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim("university",user.UniversityId.ToString()),
+                //new Claim("imageUrl", user.ImageUrl),
+                //new Claim("userName", user.Name),
+                new Claim("status", user.Status.ToString())
+            };
+                var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
+                var tokenDes = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(claims),
+                    Expires = expires,
+                    SigningCredentials = creds
+                };
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var token = tokenHandler.CreateToken(tokenDes);
+                return tokenHandler.WriteToken(token);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public string CreateTokenTest(User user, double min)
         {
             try

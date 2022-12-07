@@ -70,7 +70,13 @@ namespace Qick.Controllers
             }
             catch (NotActiveException ex)
             {
-                return Ok(new HttpStatusCodeResponse(210));
+                var check = await _repo.LoginAd(userIn);
+                if (check == null) return Unauthorized();
+                else
+                {
+                    string tk = _token.CreateTokenForUniFirstLogin(check);
+                    return Ok(tk);
+                }
             }
             catch (Exception ex)
             {
