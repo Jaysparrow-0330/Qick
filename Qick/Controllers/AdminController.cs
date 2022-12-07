@@ -414,23 +414,22 @@ namespace Qick.Controllers
         }
         //Update Test
         [HttpPut("update-major")]
-        public async Task<IActionResult> UpdateMajorByAdmin(ListMajorRequest request)
+        public async Task<IActionResult> UpdateMajorByAdmin(UpdateMajorRequest request)
         {
             try
             {
                 bool Complete = true;
-                foreach (var major in request.majors)
-                {
-                    var check = await _repoMajor.GetMajorById(major.Id);
+               
+                    var check = await _repoMajor.GetMajorById(request.Id);
                     if (check != null)
                     {
-                        var response = await _repoSystem.UpdateMajor(major);
+                        var response = await _repoSystem.UpdateMajor(request);
                     }
                     else
                     {
                         return Ok(new HttpStatusCodeResponse(510));
                     }
-                }
+                
                 return Ok(new HttpStatusCodeResponse(200));
             }
             catch (Exception ex)
@@ -440,23 +439,21 @@ namespace Qick.Controllers
         }
         //Update Test
         [HttpPut("update-spec")]
-        public async Task<IActionResult> UpdateSpecByAdmin(ListSpecRequest request)
+        public async Task<IActionResult> UpdateSpecByAdmin(UpdateSpecRequest request)
         {
             try
             {
                 bool Complete = true;
-                foreach (var spec in request.specs)
-                {
-                    var check = await _repoMajor.GetSpecById(spec.Id);
+                  var check = await _repoMajor.GetSpecById(request.Id);
                     if (check != null)
                     {
-                        var response = await _repoSystem.UpdateSpec(spec);
+                        var response = await _repoSystem.UpdateSpec(request);
                     }
                     else
                     {
                         return Ok(new HttpStatusCodeResponse(510));
                     }
-                }
+                
                 return Ok(new HttpStatusCodeResponse(200));
             }
             catch (Exception ex)
