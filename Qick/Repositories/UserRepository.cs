@@ -196,10 +196,33 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
-
+        public async Task<bool> SaveUni(SaveUniRequest request,Guid userId)
+        {
+            try
+            {
+                SavedUni saveUni = new()
+                {
+                    UserId = userId,
+                    UniversityId = request.uniId,
+                    Status = Status.ACTIVE
+                };
+                await _context.SavedUnis.AddAsync(saveUni);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public async Task<User> GetUserByEmail(string email)
         {
             return await _context.Users.Where(u => u.Email.Equals(email.ToLower()) && u.RoleId != Roles.USER_GOOGLE).FirstOrDefaultAsync();
+        }
+
+        public async Task<User> GetUnisSaved(Guid userId)
+        {
+            return null;
         }
 
         public async Task<User> ActiveUserStatus(User user, string code)

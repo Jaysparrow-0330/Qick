@@ -101,6 +101,30 @@ namespace Qick.Controllers
             }
         }
 
+        //Create Academic profile
+        [HttpPost("save-uni")]
+        public async Task<IActionResult> SaveUni(SaveUniRequest request)
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var response = await _repo.SaveUni(request, userId);
+                if (response)
+                {
+                    return Ok(new HttpStatusCodeResponse(200));
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
+
         //Update User Profiel
         [HttpPut("update-user")]
         public async Task<IActionResult> UpdateUser(UserProfileUpdateRequest request)

@@ -29,6 +29,7 @@ namespace Qick.Repositories.Interfaces
 
         Task<IEnumerable<User>> GetAllUser();
         Task<User> BanUser(Guid UserId);
+        Task<bool> SaveUni(SaveUniRequest request, Guid userId);
         Task<User> RoleUser(Guid UserId,string roleChange);
 
         // create Acadamic Profile
