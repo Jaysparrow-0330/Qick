@@ -52,7 +52,34 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
-
+        [HttpGet("staffs")]
+        public async Task<IActionResult> GetAllStaff()
+        {
+            try
+            {
+                Guid uniId = Guid.Parse(User.FindFirst("university").Value);
+                var response = await _repoUser.GetListAllStaff(uniId);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+        [HttpGet("active-staffs")]
+        public async Task<IActionResult> GetAllActiveStaff()
+        {
+            try
+            {
+                Guid uniId = Guid.Parse(User.FindFirst("university").Value);
+                var response = await _repoUser.GetListActiveStaff(uniId);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
         //Get all University
         [AllowAnonymous]
         [HttpGet("get-university-spec")]

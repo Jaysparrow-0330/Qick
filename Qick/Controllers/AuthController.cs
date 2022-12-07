@@ -170,31 +170,26 @@ namespace Qick.Controllers
         /// Register to a member role
         [Authorize(Roles = Roles.MANAGER)]
         [HttpPost("register-staff")]
-        public async Task<IActionResult> RegisterStaff(ListStaffRequest request)
+        public async Task<IActionResult> RegisterStaff(ManagerStaffRequest request)
         {
             try
             {
-                foreach (var staff in request.staffs)
-                {
-                    var check = await _repo.EmailExistStaff(staff.Email);
+                    var check = await _repo.EmailExistStaff(request.Email);
                     if (check)
                     {
                         return Ok(new HttpStatusCodeResponse(410));
                     }
                     string code = _random.GenerateRandomString(12);
-                    var user = await _repo.RegisterStaff(staff, code);
-
+                    var user = await _repo.RegisterStaff(request, code);
                     if (user == null)
                     {
                         return Ok(new HttpStatusCodeResponse(400));
                     } 
                     else
                     {
-                        await _mail.SendMailAsync(staff.Email, code, "Access Allowed", "HTMLTemplates/create-uni-email.html");
+                        await _mail.SendMailAsync(request.Email, code, "Access Allowed", "HTMLTemplates/create-uni-email.html");
                     }
-                }
                     return Ok(new HttpStatusCodeResponse(200));
-                
             }
             catch (Exception ex) { return BadRequest(ex); }
         }

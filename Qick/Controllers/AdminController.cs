@@ -418,8 +418,6 @@ namespace Qick.Controllers
         {
             try
             {
-                bool Complete = true;
-               
                     var check = await _repoMajor.GetMajorById(request.Id);
                     if (check != null)
                     {
