@@ -94,15 +94,24 @@ namespace Qick.Controllers
             try
             {
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                var response = await _repo.CreateUniversitySpec(request);
-                if (response)
+                string status = User.FindFirst("status").Value;
+                if(status == Status.ACTIVE)
                 {
-                    return Ok(new HttpStatusCodeResponse(200));
+                    var response = await _repo.CreateUniversitySpec(request);
+                    if (response)
+                    {
+                        return Ok(new HttpStatusCodeResponse(200));
+                    }
+                    else
+                    {
+                        return Ok(new HttpStatusCodeResponse(204));
+                    }
                 }
                 else
                 {
-                    return Ok(new HttpStatusCodeResponse(204));
+                    return Ok(new HttpStatusCodeResponse(210));
                 }
+                
             }
             catch (Exception ex)
             {
@@ -119,15 +128,24 @@ namespace Qick.Controllers
             {
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 Guid uniId = Guid.Parse(User.FindFirst("university").Value);
-                if (userId != null)
+                string status = User.FindFirst("status").Value;
+                if (status == Status.ACTIVE)
                 {
-                    var uni = await _repo.UpdateUni(request, uniId);
-                    return Ok(uni);
+                    if (userId != null)
+                    {
+                        var uni = await _repo.UpdateUni(request, uniId);
+                        return Ok(uni);
+                    }
+                    else
+                    {
+                        return Ok(new HttpStatusCodeResponse(204));
+                    }
                 }
                 else
                 {
-                    return Ok(new HttpStatusCodeResponse(204));
+                    return Ok(new HttpStatusCodeResponse(210));
                 }
+                
 
             }
             catch (Exception ex)
@@ -142,12 +160,20 @@ namespace Qick.Controllers
         {
             try
             {
-                if (userId != null)
+                string status = User.FindFirst("status").Value;
+                if (status == Status.ACTIVE)
                 {
-                    var check = await _repoUser.BanUser(userId);
-                    if (check != null)
+                    if (userId != null)
                     {
-                        return Ok(check);
+                        var check = await _repoUser.BanUser(userId);
+                        if (check != null)
+                        {
+                            return Ok(check);
+                        }
+                        else
+                        {
+                            return Ok(new HttpStatusCodeResponse(204));
+                        }
                     }
                     else
                     {
@@ -156,8 +182,9 @@ namespace Qick.Controllers
                 }
                 else
                 {
-                    return Ok(new HttpStatusCodeResponse(204));
+                    return Ok(new HttpStatusCodeResponse(210));
                 }
+                
 
             }
             catch (Exception ex)

@@ -92,9 +92,18 @@ namespace Qick.Controllers
                 else if (Role.Equals(Roles.STAFF) || Role.Equals(Roles.MANAGER))
                 {
                     Guid uniId = Guid.Parse(User.FindFirst("university").Value);
-                    var response = await _repo.CreateMailUni(request, uniId, MailType.SENDUNI);
-                    var messResponse = await _repo.CreateMess(response.Id, request.MessageContent, MailType.SENDUNI);
-                    check = messResponse;
+                    string status = User.FindFirst("status").Value;
+                    if (status == Status.ACTIVE)
+                    {
+                        var response = await _repo.CreateMailUni(request, uniId, MailType.SENDUNI);
+                        var messResponse = await _repo.CreateMess(response.Id, request.MessageContent, MailType.SENDUNI);
+                        check = messResponse;
+                    }
+                    else
+                    {
+                        return Ok(new HttpStatusCodeResponse(210));
+                    }
+                    
                 }
                 else
                 {
@@ -130,8 +139,17 @@ namespace Qick.Controllers
                 }
                 else if (Role.Equals(Roles.STAFF) || Role.Equals(Roles.MANAGER))
                 {
-                    var messResponse = await _repo.CreateMess(request.MailBoxId, request.MessageContent, MailType.SENDUNI);
-                    check = messResponse;
+                    string status = User.FindFirst("status").Value;
+                    if (status == Status.ACTIVE)
+                    {
+                        var messResponse = await _repo.CreateMess(request.MailBoxId, request.MessageContent, MailType.SENDUNI);
+                        check = messResponse;
+                    }
+                    else
+                    {
+                        return Ok(new HttpStatusCodeResponse(210));
+                    }
+                    
                 }
                 else
                 {
