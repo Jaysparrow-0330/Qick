@@ -13,6 +13,7 @@ namespace Qick.Models
         public string? Status { get; set; }
         public string? Title { get; set; }
         public string? BannerUrl { get; set; }
+        public DateTime? CreateDate { get; set; }
 
         public virtual AddmissionCampaign Uni { get; set; } = null!;
         public virtual University UniNavigation { get; set; } = null!;

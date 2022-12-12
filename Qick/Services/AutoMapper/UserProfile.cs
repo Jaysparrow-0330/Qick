@@ -8,6 +8,7 @@ namespace Qick.Services.AutoMapper
     {
         public UserProfile()
         {
+            CreateMap<SavedUni, SaveUniResponse>();
             CreateMap<User, ProfileResponse>()
                 .ForMember(m => m.HighSchoolName, n => n.MapFrom(i => i.HighSchool.HighSchoolName))
                 .ForMember(m => m.WardId, n => n.MapFrom(i => i.Ward.Id))

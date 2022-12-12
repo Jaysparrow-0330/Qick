@@ -43,7 +43,23 @@ namespace Qick.Controllers
             }
         }
 
+        //Get profile
+        [HttpGet("save-unis")]
+        public async Task<IActionResult> GetListSaveUni()
+        {
 
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var response = await _repo.GetAllUniSavedByUserId(userId);
+                var profile = _mapper.Map<IEnumerable<SaveUniResponse>>(response);
+                return Ok(profile);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
         //Get profile
         [HttpGet("user")]
         public async Task<IActionResult> GetUser()
@@ -124,7 +140,28 @@ namespace Qick.Controllers
             }
         }
 
-
+        //Create Academic profile
+        [HttpPost("check-save")]
+        public async Task<IActionResult> CheckSaveUni(SaveUniRequest request)
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var response = await _repo.CheckSaveUni(request, userId);
+                if (response)
+                {
+                    return Ok(new HttpStatusCodeResponse(200));
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
         //Update User Profiel
         [HttpPut("update-user")]
         public async Task<IActionResult> UpdateUser(UserProfileUpdateRequest request)

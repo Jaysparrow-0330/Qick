@@ -33,6 +33,8 @@ namespace Qick.Repositories.Interfaces
         Task<IEnumerable<User>> GetListActiveStaff(Guid? UniId);
         Task<IEnumerable<User>> GetListAllStaff(Guid? UniId);
         Task<bool> SaveUni(SaveUniRequest request, Guid userId);
+        Task<bool> CheckSaveUni(SaveUniRequest request, Guid userId);
+        Task<IEnumerable<SavedUni>> GetSaveUniByuserId( Guid userId);
         Task<User> RoleUser(Guid UserId,string roleChange);
 
         // create Acadamic Profile

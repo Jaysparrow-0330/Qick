@@ -97,6 +97,8 @@ namespace Qick.Models
 
             modelBuilder.Entity<AddmissionNews>(entity =>
             {
+                entity.Property(e => e.CreateDate).HasColumnType("datetime");
+
                 entity.HasOne(d => d.Uni)
                     .WithMany(p => p.AddmissionNews)
                     .HasForeignKey(d => d.UniId)
@@ -180,22 +182,20 @@ namespace Qick.Models
 
             modelBuilder.Entity<AttemptDetail>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("AttemptDetail");
 
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.Property(e => e.SelectedField).HasMaxLength(50);
 
                 entity.Property(e => e.Status).HasMaxLength(50);
 
                 entity.HasOne(d => d.Attempt)
-                    .WithMany()
+                    .WithMany(p => p.AttemptDetails)
                     .HasForeignKey(d => d.AttemptId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TblAttemptDetail_TblAttempt");
 
                 entity.HasOne(d => d.Option)
-                    .WithMany()
+                    .WithMany(p => p.AttemptDetails)
                     .HasForeignKey(d => d.OptionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TblAttemptDetail_TblOption");

@@ -414,7 +414,7 @@ namespace Qick.Controllers
         }
         //Update Test
         [HttpPut("update-major")]
-        public async Task<IActionResult> UpdateMajorByAdmin(UpdateMajorRequest request)
+        public async Task<IActionResult> UpdateMajor(UpdateMajorRequest request)
         {
             try
             {
@@ -437,7 +437,7 @@ namespace Qick.Controllers
         }
         //Update Test
         [HttpPut("update-spec")]
-        public async Task<IActionResult> UpdateSpecByAdmin(UpdateSpecRequest request)
+        public async Task<IActionResult> UpdateSpec(UpdateSpecRequest request)
         {
             try
             {

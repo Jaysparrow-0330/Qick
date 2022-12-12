@@ -161,7 +161,7 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
-        public async Task<int> CreateAttempt(int testId, Guid? userId, string result)
+        public async Task<Attempt> CreateAttempt(int testId, Guid? userId, string result)
         {
             try
             {
@@ -175,10 +175,7 @@ namespace Qick.Repositories
                 };
                 await _context.Attempts.AddAsync(attempt);
                 await _context.SaveChangesAsync();
-                var attemptId = await _context.Attempts
-                    .Where(i => i.TestId == testId)
-                    .FirstOrDefaultAsync();
-                return attemptId.Id;
+                return attempt;
             }
             catch (Exception)
             {
@@ -186,21 +183,18 @@ namespace Qick.Repositories
                 throw;
             }
         }
-        public async Task<bool> CreateAttemptDetail(int attemptId, QuestionResultRequest request)
+        public async Task<bool> CreateAttemptDetail(int attempId ,int optionId, string selectedField)
         {
             try
             {
-                foreach (var option in request.Options)
-                {
                     AttemptDetail addDetail = new()
                     {
-                        AttemptId = attemptId,
-                        OptionId = option.optionId,
+                        AttemptId = attempId,
+                        OptionId = optionId,
                         Status = Status.ACTIVE,
+                        SelectedField = selectedField
                     };
-                    await _context.AttemptDetails.AddAsync(addDetail);
-                }
-                await _context.SaveChangesAsync();
+                await _context.AttemptDetails.AddAsync(addDetail);
                 return true;
             }
             catch (Exception)
@@ -208,6 +202,15 @@ namespace Qick.Repositories
 
                 throw;
             }
+        }
+
+        public async Task<Attempt> GetAttempt(Guid? userId, int testId)
+        {
+            var result = await _context.Attempts
+                .Where(u => u.TestId == testId && u.UserId == userId)
+                .OrderByDescending(x => x.AttemptDate)
+                .FirstOrDefaultAsync();
+            return result;
         }
         private async Task<SubmitResponse> getTestResult(string typeResult, int testId)
         {
@@ -360,7 +363,18 @@ namespace Qick.Repositories
                     var attempt = CreateAttempt(result.Result.Id, userId, result.Result.ResultShortName);
                     foreach ( var question in request.questions)
                     {
-                        var detail = CreateAttemptDetail(attempt.Result, question);
+                        foreach (var option in question.Options)
+                        {
+                            if (option.selectedField == true)
+                            {
+                                var detail = CreateAttemptDetail(attempt.Result.Id, option.optionId, "LIKE");
+                            }
+                            else
+                            {
+                                var detail = CreateAttemptDetail(attempt.Result.Id, option.optionId, "UNLIKE");
+                            }
+                        }
+                        
                     }
                 }
                 
@@ -500,8 +514,21 @@ namespace Qick.Repositories
                     var attempt = CreateAttempt(result.Result.Id, userId, result.Result.ResultShortName);
                     foreach (var question in request.questions)
                     {
-                        var detail = CreateAttemptDetail(attempt.Result, question);
+                        foreach (var option in question.Options)
+                        {
+                            if (option.selectedField ==  true)
+                            {
+                                var detail = CreateAttemptDetail(attempt.Result.Id, option.optionId,"LIKE");
+                            }
+                            else
+                            {
+                                var detail = CreateAttemptDetail(attempt.Result.Id, option.optionId, "UNLIKE");
+                            }
+                            
+                        }
+                        
                     }
+                    await _context.SaveChangesAsync();
                 }
                 return result.Result;
             }

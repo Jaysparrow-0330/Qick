@@ -201,13 +201,31 @@ namespace Qick.Repositories
         {
             try
             {
-                SavedUni saveUni = new()
+                var checkSave = await _context.SavedUnis
+                    .Where(a => a.UserId == userId && a.UniversityId == request.uniId)
+                    .FirstOrDefaultAsync();
+                if (checkSave != null)
                 {
-                    UserId = userId,
-                    UniversityId = request.uniId,
-                    Status = Status.ACTIVE
-                };
-                await _context.SavedUnis.AddAsync(saveUni);
+                    if (checkSave.Status.Equals(Status.ACTIVE))
+                    {
+                        checkSave.Status = Status.DISABLE;
+                    }
+                    else
+                    {
+                        checkSave.Status = Status.ACTIVE;
+                    }
+                    
+                }
+                else
+                {
+                    SavedUni saveUni = new()
+                    {
+                        UserId = userId,
+                        UniversityId = request.uniId,
+                        Status = Status.ACTIVE
+                    };
+                    await _context.SavedUnis.AddAsync(saveUni);
+                }
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -216,7 +234,45 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
+        public async Task<bool> CheckSaveUni(SaveUniRequest request, Guid userId)
+        {
+            try
+            {
+                var response = await _context.SavedUnis
+                    .Where(u => u.UserId == userId && u.Status == Status.ACTIVE)
+                .FirstOrDefaultAsync();
+                if (response != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+          
+            }
+            catch (Exception ex)
+            {
 
+                throw ex;
+            }
+        }
+        public async Task<IEnumerable<SavedUni>> GetSaveUniByuserId( Guid userId)
+        {
+            try
+            {
+                var response = await _context.SavedUnis
+                    .Where(u => u.UserId == userId && u.Status == Status.ACTIVE)
+                .ToListAsync();
+                return response;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
         public async Task<IEnumerable<User>> GetListAllStaff(Guid? UniId)
         {
             try
@@ -367,7 +423,7 @@ namespace Qick.Repositories
             try
             {
                 var user = await _context.Users
-                    .Where(u => u.Email.Equals(login.Email.ToLower()) && (u.RoleId.Equals(Roles.ADMIN)  || u.RoleId.Equals(Roles.MANAGER) || u.RoleId.Equals(Roles.STAFF)) && u.Status != Status.BANNED)
+                    .Where(u => u.Email.Equals(login.Email.ToLower()) && ((u.RoleId.Equals(Roles.ADMIN))  || (u.RoleId.Equals(Roles.MANAGER)) || (u.RoleId.Equals(Roles.STAFF))) && u.Status != Status.BANNED)
                     .FirstOrDefaultAsync();
                 if (user != null)
                 {

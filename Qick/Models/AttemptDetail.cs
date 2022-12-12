@@ -9,6 +9,7 @@ namespace Qick.Models
         public int OptionId { get; set; }
         public string? Status { get; set; }
         public int Id { get; set; }
+        public string? SelectedField { get; set; }
 
         public virtual Attempt Attempt { get; set; } = null!;
         public virtual Option Option { get; set; } = null!;

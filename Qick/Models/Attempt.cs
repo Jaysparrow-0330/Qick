@@ -5,6 +5,11 @@ namespace Qick.Models
 {
     public partial class Attempt
     {
+        public Attempt()
+        {
+            AttemptDetails = new HashSet<AttemptDetail>();
+        }
+
         public int Id { get; set; }
         public Guid? UserId { get; set; }
         public int? TestId { get; set; }
@@ -14,5 +19,6 @@ namespace Qick.Models
 
         public virtual Test? Test { get; set; }
         public virtual User? User { get; set; }
+        public virtual ICollection<AttemptDetail> AttemptDetails { get; set; }
     }
 }
