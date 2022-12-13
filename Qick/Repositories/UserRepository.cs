@@ -263,6 +263,7 @@ namespace Qick.Repositories
             {
                 var response = await _context.SavedUnis
                     .Where(u => u.UserId == userId && u.Status == Status.ACTIVE)
+                    .Include(u => u.University)
                 .ToListAsync();
                 return response;
 
