@@ -6,7 +6,7 @@ namespace Qick.Repositories.Interfaces
     public interface IApplicationRepository
     {
         // create Acadamic Profile
-        Task<Application> CreateApplication(CreateApplicationRequest request);
+        Task<Application> CreateApplication(CreateApplicationRequest request, Guid userId);
 
         // create Acadamic Profile
         Task<Application> ChangeStatusApplication(String status, Guid? AppId);

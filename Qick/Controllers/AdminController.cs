@@ -113,14 +113,30 @@ namespace Qick.Controllers
         }
 
         //Get all Job
-        [HttpGet("get-job")]
+        [HttpGet("job")]
         public async Task<IActionResult> GetJob()
         {
             try
             {
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                var response = await _repoJob.GetAllJob();
+                var response = await _repoJob.GetAllJobByAdmin();
                 var ListJobResponse = _mapper.Map<IEnumerable<JobResponse>>(response);
+
+                return Ok(ListJobResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
+        [HttpGet("major")]
+        public async Task<IActionResult> GetMajor()
+        {
+            try
+            {
+                var response = await _repoMajor.GetAllMajorByAdmin();
+                var ListJobResponse = _mapper.Map<IEnumerable<MajorResponse>>(response);
 
                 return Ok(ListJobResponse);
             }

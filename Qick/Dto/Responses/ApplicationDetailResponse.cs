@@ -28,9 +28,5 @@ namespace Qick.Dto.Responses
         public int? GraduationYear { get; set; }
         public double? AvarageScore { get; set; }
         public string? AcademicRank { get; set; }
-        public string? SchoolReport1Url { get; set; }
-        public string? SchoolReport2Url { get; set; }
-        public string? SchoolReport3Url { get; set; }
-        public string? SchoolReport4Url { get; set; }
     }
 }

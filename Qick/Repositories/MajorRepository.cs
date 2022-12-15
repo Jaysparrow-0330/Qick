@@ -17,7 +17,7 @@ namespace Qick.Repositories
             try
             {
                 var response = await _context.Majors
-                    .Where(a => a.Specializations.ToList().Count() > 0)
+                    .Where(a=> a.Specializations.Where(x => x.UniversitySpecializations.ToList().Count() > 0).ToList().Count>0)
                     .ToListAsync();
                 return response;
             }
@@ -27,7 +27,20 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
+        public async Task<IEnumerable<Major>> GetAllMajorByAdmin()
+        {
+            try
+            {
+                var response = await _context.Majors
+                    .ToListAsync();
+                return response;
+            }
+            catch (Exception ex)
+            {
 
+                throw ex;
+            }
+        }
         public async Task<Major> GetMajorById(Guid majorId)
         {
             try
@@ -80,7 +93,7 @@ namespace Qick.Repositories
                 var response = await _context.Majors
                     .Where(x => x.Id == x.JobMajors
                     .Where(a => a.JobId == JobId)
-                    .FirstOrDefault().MajorId && x.Specializations.ToList().Count() > 0)
+                    .FirstOrDefault().MajorId &&  x.Specializations.Where(x => x.UniversitySpecializations.ToList().Count() > 0).ToList().Count > 0)
                     .ToListAsync();
 
                 return response;
@@ -102,7 +115,7 @@ namespace Qick.Repositories
             try
             {
                 var response = await _context.Specializations
-                    .Where(x => x.MajorId == MajorId && x.UniversitySpecializations.ToList().Count() > 0)
+                    .Where(x => x.MajorId == MajorId )
                     .ToListAsync();
 
                 return response;
