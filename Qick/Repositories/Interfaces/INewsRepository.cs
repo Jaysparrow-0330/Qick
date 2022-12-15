@@ -7,7 +7,12 @@ namespace Qick.Repositories.Interfaces
     {
         Task<bool> CreateNews(CreateNewsRequest request, Guid UniId, Guid UserId);
 
-        Task<AddmissionNews> ApproveNews(int newsId);
-        //Task<bool> UpdateNews()
+        Task<AddmissionNews> ApproveNews(int newsId,string status);
+
+        Task<AddmissionNews> UpdateNews(UpdateNewsRequest request);
+
+        Task<AddmissionNews> GetNewsById(int newsId);
+
+        Task<bool> DeleteNews(int newsId);
     }
 }

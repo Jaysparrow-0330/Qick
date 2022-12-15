@@ -20,9 +20,10 @@ namespace Qick.Controllers
         private readonly IUserRepository _repoUser;
         private readonly IMapper _mapper;
 
-        public UniversityController(IUserRepository repoUser,IUniversityRepository repo, IMapper mapper)
+        public UniversityController(IUserRepository repoUser,INewsRepository repoNews,IUniversityRepository repo, IMapper mapper)
         {
             _repo = repo;
+            _repoNews= repoNews;
             _mapper = mapper;
             _repoUser = repoUser;
         }
@@ -148,6 +149,7 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
+
         [Authorize(Roles = Roles.STAFF)]
         [HttpPost("create-news")]
         public async Task<IActionResult> CreateNews(CreateNewsRequest request)
@@ -177,11 +179,61 @@ namespace Qick.Controllers
         [Authorize(Roles = Roles.MANAGER)]
         //Update User Profiel
         [HttpPut("approve-news")]
-        public async Task<IActionResult> ApproveNews(int newsId)
+        public async Task<IActionResult> ApproveNews(int newsId,string status)
         {
             try
             {
-                var response = await _repoNews.ApproveNews(newsId);
+                var response = await _repoNews.ApproveNews(newsId, status);
+                if (response != null)
+                {
+                    return Ok(new HttpStatusCodeResponse(200));
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return Ok(ex.Message);
+            }
+        }
+
+        [Authorize(Roles = Roles.STAFF)]
+        //Update User Profiel
+        [HttpPut("delete-news")]
+        public async Task<IActionResult> DeleteNews(int newsId)
+        {
+            try
+            {
+                var response = await _repoNews.DeleteNews(newsId);
+                if (response)
+                {
+                    return Ok(new HttpStatusCodeResponse(200));
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        [Authorize(Roles = Roles.STAFF)]
+        //Update User Profiel
+        [HttpPut("update-news")]
+        public async Task<IActionResult> UpdateNews(UpdateNewsRequest request)
+        {
+            try
+            {
+              
+                var response = await _repoNews.UpdateNews(request);
                 if (response != null)
                 {
                     return Ok(new HttpStatusCodeResponse(200));
