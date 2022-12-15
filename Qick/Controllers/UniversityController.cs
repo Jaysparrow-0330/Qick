@@ -16,6 +16,7 @@ namespace Qick.Controllers
     public class UniversityController : ControllerBase
     {
         private readonly IUniversityRepository _repo;
+        private readonly INewsRepository _repoNews;
         private readonly IUserRepository _repoUser;
         private readonly IMapper _mapper;
 
@@ -144,6 +145,31 @@ namespace Qick.Controllers
             }
             catch (Exception ex)
             {
+                return Ok(ex.Message);
+            }
+        }
+        [Authorize(Roles = Roles.STAFF)]
+        [HttpPost("create-news")]
+        public async Task<IActionResult> CreateNews(CreateNewsRequest request)
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                Guid uniId = Guid.Parse(User.FindFirst("university").Value);
+                var response = await _repoNews.CreateNews(request,uniId,userId);
+                if (response)
+                {
+                    return Ok(new HttpStatusCodeResponse(200));
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+
+            }
+            catch (Exception ex)
+            {
+
                 return Ok(ex.Message);
             }
         }

@@ -316,6 +316,7 @@ namespace Qick.Repositories
             try
             {
                 var list = await _context.SavedUnis
+                    .Include(u => u.University)
                     .Where(a => a.UserId == userId)
                     .ToListAsync();
 
