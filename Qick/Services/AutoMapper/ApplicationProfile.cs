@@ -47,11 +47,7 @@ namespace Qick.Services.AutoMapper
             .ForMember(m => m.HighSchoolId, n => n.MapFrom(i => i.ApplicationDetails.Where(x => x.ApplicationId == i.Id).FirstOrDefault().HighSchoolId))
             .ForMember(m => m.HighSchoolName, n => n.MapFrom(i => i.ApplicationDetails.Where(x => x.ApplicationId == i.Id).FirstOrDefault().HighSchool.HighSchoolName))
             .ForMember(m => m.HighSchoolCode, n => n.MapFrom(i => i.ApplicationDetails.Where(x => x.ApplicationId == i.Id).FirstOrDefault().HighSchool.HighSchoolCode))
-            .ForMember(m => m.HighSchoolAddress, n => n.MapFrom(i => i.ApplicationDetails.Where(x => x.ApplicationId == i.Id).FirstOrDefault().HighSchool.HighSchoolAddress))
-            .ForMember(m => m.SchoolReport1Url, n => n.MapFrom(i => i.ApplicationDetails.Where(x => x.ApplicationId == i.Id).FirstOrDefault().SchoolReport1Url))
-            .ForMember(m => m.SchoolReport2Url, n => n.MapFrom(i => i.ApplicationDetails.Where(x => x.ApplicationId == i.Id).FirstOrDefault().SchoolReport2Url))
-            .ForMember(m => m.SchoolReport3Url, n => n.MapFrom(i => i.ApplicationDetails.Where(x => x.ApplicationId == i.Id).FirstOrDefault().SchoolReport3Url))
-            .ForMember(m => m.SchoolReport4Url, n => n.MapFrom(i => i.ApplicationDetails.Where(x => x.ApplicationId == i.Id).FirstOrDefault().SchoolReport4Url));
+            .ForMember(m => m.HighSchoolAddress, n => n.MapFrom(i => i.ApplicationDetails.Where(x => x.ApplicationId == i.Id).FirstOrDefault().HighSchool.HighSchoolAddress));
         }
     }
 }

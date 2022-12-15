@@ -262,8 +262,8 @@ namespace Qick.Repositories
             try
             {
                 var response = await _context.SavedUnis
-                    .Where(u => u.UserId == userId && u.Status == Status.ACTIVE)
                     .Include(u => u.University)
+                    .Where(u => u.UserId == userId && u.Status == Status.ACTIVE)
                 .ToListAsync();
                 return response;
 
@@ -316,6 +316,7 @@ namespace Qick.Repositories
             try
             {
                 var list = await _context.SavedUnis
+                    .Include(u => u.University)
                     .Where(a => a.UserId == userId)
                     .ToListAsync();
 
@@ -531,11 +532,7 @@ namespace Qick.Repositories
                     AcademicRank = request.AcademicRank,
                     AverageScore = request.AverageScore,
                     GraduationYear = request.GraduationYear,
-                    HighSchoolId = request.HighSchoolId,
-                    SchoolReport1Url = request.SchoolReport1Url,
-                    SchoolReport2Url = request.SchoolReport2Url,
-                    SchoolReport3Url = request.SchoolReport3Url,
-                    SchoolReport4Url =request.SchoolReport4Url
+                    HighSchoolId = request.HighSchoolId
                 };
                 await _context.AcademicProfiles.AddAsync(addProfile);
                 await _context.SaveChangesAsync();
@@ -583,10 +580,6 @@ namespace Qick.Repositories
                     profile.AverageScore = request.AverageScore;
                     profile.GraduationYear = request.GraduationYear;
                     profile.HighSchoolId = request.HighSchoolId;
-                    profile.SchoolReport1Url = request.SchoolReport1Url;
-                    profile.SchoolReport2Url = request.SchoolReport2Url;
-                    profile.SchoolReport3Url = request.SchoolReport3Url;
-                    profile.SchoolReport4Url = request.SchoolReport4Url;
                 }
                 else
                 {

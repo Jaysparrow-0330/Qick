@@ -12,6 +12,7 @@ namespace Qick.Repositories.Interfaces
 
         // get Jobs by character Id
         Task<IEnumerable<Major>> GetMajorByUniId(Guid uniId);
+        Task<IEnumerable<Major>> GetAllMajorByAdmin();
 
         // get Specs by Major Id
         Task<IEnumerable<Specialization>> GetSpecByMajorId(Guid? MajorId);

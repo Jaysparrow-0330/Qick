@@ -40,14 +40,14 @@ namespace Qick.Repositories
             }
         }
 
-        public async Task<Application> CreateApplication(CreateApplicationRequest request)
+        public async Task<Application> CreateApplication(CreateApplicationRequest request, Guid userId)
         {
             try
             {
                 Application addApp = new()
                 {
                     Id = Guid.NewGuid(),
-                    UserId = request.UserId,
+                    UserId = userId,
                     UniId = request.UniId,
                     UniSpecId = request.UniSpecId,
                     ApplyDate = DateTime.Now,
@@ -98,10 +98,6 @@ namespace Qick.Repositories
                    CredentialFrontImgUrl = request.CredentialFrontImgUrl,
                    GraduationYear = request.GraduationYear,
                    HighSchoolId = request.HighSchoolId,
-                   SchoolReport1Url = request.SchoolReport1Url,
-                   SchoolReport2Url = request.SchoolReport2Url,
-                   SchoolReport3Url = request.SchoolReport3Url,
-                   SchoolReport4Url = request.SchoolReport4Url
                 };
                 await _context.ApplicationDetails.AddAsync(addApp);
                 await _context.SaveChangesAsync();

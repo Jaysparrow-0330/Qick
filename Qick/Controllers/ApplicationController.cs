@@ -100,7 +100,7 @@ namespace Qick.Controllers
             try
             {
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                var response = await _repo.CreateApplication(request);
+                var response = await _repo.CreateApplication(request,userId);
                 if (response != null)
                 {
                     return Ok(response);
