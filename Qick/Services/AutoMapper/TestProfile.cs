@@ -21,6 +21,9 @@ namespace Qick.Services.AutoMapper
             CreateMap<TestType, TestTypeResponse>();
             CreateMap<Character, SubmitResponse>();
             CreateMap<Character, ResultResponse>();
+            CreateMap<Attempt, ListAttemptResponse>()
+                .ForMember(m => m.testName, n => n.MapFrom(i => i.Test.TestName))
+                .ForMember(m => m.ResultName, n => n.MapFrom(i => i.Test.Characters.Where(u => u.ResultShortName.Equals(i.ResultShortName)).Select(a => a.ResultName).FirstOrDefault()));
         }
         
     }

@@ -144,6 +144,20 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
+        [HttpGet("dashboard")]
+        public async Task<IActionResult> GetDashboard()
+        {
+            try
+            {
+                var response = await _repoSystem.GetDashboardAdmin();
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
         //Create Test step one create basic information of test , return test to create questions, option, etc.
         [HttpPost("test-create")]
         public async Task<IActionResult> CreateTestStepOne(CreateTestRequest request)

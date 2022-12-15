@@ -16,12 +16,14 @@ namespace Qick.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _repo;
+        private readonly ITestRepository _repoTest;
         private readonly IMapper _mapper;
 
-        public UserController(IUserRepository repo, IMapper mapper)
+        public UserController(IUserRepository repo, IMapper mapper, ITestRepository repoTest)
         {
             _repo = repo;
             _mapper = mapper;
+            _repoTest = repoTest;
         }
 
 
@@ -53,6 +55,23 @@ namespace Qick.Controllers
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 var response = await _repo.GetAllUniSavedByUserId(userId);
                 var profile = _mapper.Map<IEnumerable<SaveUniResponse>>(response);
+                return Ok(profile);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+        //Get profile
+        [HttpGet("attempts")]
+        public async Task<IActionResult> GetAtemptByUser()
+        {
+
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var response = await _repoTest.GetAttempt(userId);
+                var profile = _mapper.Map<IEnumerable<ListAttemptResponse>>(response);
                 return Ok(profile);
             }
             catch (Exception ex)

@@ -1,4 +1,5 @@
 ﻿using Qick.Dto.Requests;
+using Qick.Dto.Responses;
 using Qick.Models;
 
 namespace Qick.Repositories.Interfaces
@@ -25,6 +26,7 @@ namespace Qick.Repositories.Interfaces
         Task<University> UpdateUni(UpdateUniRequest request, Guid uniId);
         Task<University> GetUniversityById(Guid? uniId);
         Task<University> BanUni(Guid uniId);
+        Task<DashboardUniResponse> GetDashboardUni(Guid uniId);
 
     }
 }

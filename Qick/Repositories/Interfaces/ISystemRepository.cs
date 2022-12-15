@@ -22,5 +22,6 @@ namespace Qick.Repositories.Interfaces
         Task<bool> CreateJobMajorMapping(JobMajorMappingRequest request);
         Task<Major> UpdateMajor(UpdateMajorRequest request);
         Task<Specialization> UpdateSpec(UpdateSpecRequest request);
+        Task<DashboardAdminResponse> GetDashboardAdmin();
     }
 }

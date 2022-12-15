@@ -43,6 +43,7 @@ namespace Qick.Repositories.Interfaces
 
         // get all testType
         Task<IEnumerable<Models.TestType>> GetActiveTestType();
+        Task<IEnumerable<Attempt>> GetAttempt(Guid? userId);
 
 
     }

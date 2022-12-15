@@ -155,20 +155,41 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
-        //public async Task<DashboardAdminResponse> GetDashboardAdmin()
-        //{
-        //    try
-        //    {
-        //        var response = await _context.Majors
-        //            .ToListAsync();
-        //        return response;
-        //    }
-        //    catch (Exception ex)
-        //    {
+        public async Task<DashboardAdminResponse> GetDashboardAdmin()
+        {
+            try
+            {
+                var user = await _context.Users
+                    .Where(u => u.Status == Status.ACTIVE && (u.RoleId == Roles.MEMBER || u.RoleId == Roles.STUDENT))
+                    .ToListAsync();
 
-        //        throw ex;
-        //    }
-        //}
+                var uni = await _context.Universities
+                    .Where(u => u.Status == Status.ACTIVE)
+                    .ToListAsync();
+
+                var attempt =  await _context.Attempts
+                    .Where(u => u.Status == Status.ACTIVE)
+                    .ToListAsync();
+
+                var test = await _context.Tests
+                    .Where(u => u.Status == Status.ACTIVE)
+                    .ToListAsync();
+
+                DashboardAdminResponse response = new()
+                {
+                totalAttempt = attempt.Count(),
+                totalTest = test.Count(),
+                totalUni = uni.Count(),
+                totalUser = user.Count()
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
         public async Task<Specialization> UpdateSpec(UpdateSpecRequest request)
         {
             try

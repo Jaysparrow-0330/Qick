@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Qick.Dto.Enum;
 using Qick.Dto.Requests;
+using Qick.Dto.Responses;
 using Qick.Models;
 using Qick.Repositories.Interfaces;
 using System.Linq;
@@ -166,7 +167,41 @@ namespace Qick.Repositories
                 throw;
             }
         }
+        public async Task<DashboardUniResponse> GetDashboardUni(Guid uniId)
+        {
+            try
+            {
+                var user = await _context.Users
+                    .Where(u => u.Status == Status.ACTIVE && u.RoleId == Roles.STAFF && u.UniversityId == uniId)
+                    .ToListAsync();
 
+                var News = await _context.AddmissionNews
+                    .Where(u => u.Status == Status.ACTIVE)
+                    .ToListAsync();
+
+                var applicaiton = await _context.Applications
+                    .Where(u => u.Status == Status.ACTIVE && u.UniId == uniId)
+                    .ToListAsync();
+
+                var save = await _context.SavedUnis
+                    .Where(u => u.Status == Status.ACTIVE && u.UniversityId == uniId)
+                    .ToListAsync();
+
+                DashboardUniResponse response = new()
+                {
+                    totalApplication = applicaiton.Count(),
+                    totalNews = News.Count(),
+                    totalSaveUni = save.Count(),
+                    totalStaff = user.Count()
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
         public async Task<University> GetUniversityById(Guid? uniId)
         {
             try

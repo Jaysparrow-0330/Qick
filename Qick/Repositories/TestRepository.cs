@@ -204,12 +204,14 @@ namespace Qick.Repositories
             }
         }
 
-        public async Task<Attempt> GetAttempt(Guid? userId, int testId)
+        public async Task<IEnumerable<Attempt>> GetAttempt(Guid? userId)
         {
             var result = await _context.Attempts
-                .Where(u => u.TestId == testId && u.UserId == userId)
+                .Include(a => a.Test)
+                .ThenInclude(u => u.Characters)
+                .Where(u =>  u.UserId == userId)
                 .OrderByDescending(x => x.AttemptDate)
-                .FirstOrDefaultAsync();
+                .ToListAsync();
             return result;
         }
         private async Task<SubmitResponse> getTestResult(string typeResult, int testId)

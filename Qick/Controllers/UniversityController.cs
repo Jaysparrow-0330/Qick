@@ -148,6 +148,22 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
+        [Authorize(Roles = Roles.STAFF + "," + Roles.MANAGER)]
+        [HttpGet("dashboard")]
+        public async Task<IActionResult> GetDashboard()
+        {
+            try
+            {
+                Guid uniId = Guid.Parse(User.FindFirst("university").Value);
+                var response = await _repo.GetDashboardUni(uniId);
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
         [Authorize(Roles = Roles.STAFF)]
         [HttpPost("create-news")]
         public async Task<IActionResult> CreateNews(CreateNewsRequest request)
