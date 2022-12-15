@@ -155,7 +155,20 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
+        //public async Task<DashboardAdminResponse> GetDashboardAdmin()
+        //{
+        //    try
+        //    {
+        //        var response = await _context.Majors
+        //            .ToListAsync();
+        //        return response;
+        //    }
+        //    catch (Exception ex)
+        //    {
 
+        //        throw ex;
+        //    }
+        //}
         public async Task<Specialization> UpdateSpec(UpdateSpecRequest request)
         {
             try

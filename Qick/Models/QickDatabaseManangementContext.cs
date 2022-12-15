@@ -17,7 +17,6 @@ namespace Qick.Models
         }
 
         public virtual DbSet<AcademicProfile> AcademicProfiles { get; set; } = null!;
-        public virtual DbSet<AddmissionCampaign> AddmissionCampaigns { get; set; } = null!;
         public virtual DbSet<AddmissionNews> AddmissionNews { get; set; } = null!;
         public virtual DbSet<Application> Applications { get; set; } = null!;
         public virtual DbSet<ApplicationDetail> ApplicationDetails { get; set; } = null!;
@@ -81,31 +80,11 @@ namespace Qick.Models
                     .HasConstraintName("FK_AcademicProfile_User");
             });
 
-            modelBuilder.Entity<AddmissionCampaign>(entity =>
-            {
-                entity.ToTable("AddmissionCampaign");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Uni)
-                    .WithMany(p => p.AddmissionCampaigns)
-                    .HasForeignKey(d => d.UniId)
-                    .HasConstraintName("FK_TblAddmissionCampaign_TblUniversity");
-            });
-
             modelBuilder.Entity<AddmissionNews>(entity =>
             {
                 entity.Property(e => e.CreateDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Uni)
-                    .WithMany(p => p.AddmissionNews)
-                    .HasForeignKey(d => d.UniId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_TblAddmissionNew_TblAddmissionCampaign");
-
-                entity.HasOne(d => d.UniNavigation)
                     .WithMany(p => p.AddmissionNews)
                     .HasForeignKey(d => d.UniId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
