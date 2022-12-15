@@ -129,13 +129,12 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
-
         [HttpGet("major")]
         public async Task<IActionResult> GetMajor()
         {
             try
             {
-                var response = await _repoMajor.GetAllMajorByAdmin();
+                var response = await _repoMajor.GetAllMajor();
                 var ListJobResponse = _mapper.Map<IEnumerable<MajorResponse>>(response);
 
                 return Ok(ListJobResponse);
