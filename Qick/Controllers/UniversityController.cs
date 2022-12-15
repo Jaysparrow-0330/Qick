@@ -176,6 +176,31 @@ namespace Qick.Controllers
 
         [Authorize(Roles = Roles.MANAGER)]
         //Update User Profiel
+        [HttpPut("approve-news")]
+        public async Task<IActionResult> ApproveNews(int newsId)
+        {
+            try
+            {
+                var response = await _repoNews.ApproveNews(newsId);
+                if (response != null)
+                {
+                    return Ok(new HttpStatusCodeResponse(200));
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return Ok(ex.Message);
+            }
+        }
+
+        [Authorize(Roles = Roles.MANAGER)]
+        //Update User Profiel
         [HttpPut("update-uni")]
         public async Task<IActionResult> UpdateUniversity(UpdateUniRequest request)
         {
