@@ -239,7 +239,7 @@ namespace Qick.Repositories
             try
             {
                 var response = await _context.SavedUnis
-                    .Where(u => u.UserId == userId && u.Status == Status.ACTIVE)
+                    .Where(u => u.UserId == userId && u.Status == Status.ACTIVE && u.UniversityId == request.uniId)
                 .FirstOrDefaultAsync();
                 if (response != null)
                 {
