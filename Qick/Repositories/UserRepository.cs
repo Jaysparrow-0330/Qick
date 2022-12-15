@@ -521,18 +521,14 @@ namespace Qick.Repositories
             }
         }
 
-        public async Task<AcademicProfile> CreateAcademicProfile(CreateAcademyRequest request,Guid userId)
+        public async Task<AcademicProfile> CreateAcademicProfile(Guid userId)
         {
             try
             {
                 AcademicProfile addProfile = new()
                 {
                     Id = Guid.NewGuid(),
-                    UserId = userId,
-                    AcademicRank = request.AcademicRank,
-                    AverageScore = request.AverageScore,
-                    GraduationYear = request.GraduationYear,
-                    HighSchoolId = request.HighSchoolId
+                    UserId = userId
                 };
                 await _context.AcademicProfiles.AddAsync(addProfile);
                 await _context.SaveChangesAsync();

@@ -38,7 +38,7 @@ namespace Qick.Repositories.Interfaces
         Task<User> RoleUser(Guid UserId,string roleChange);
 
         // create Acadamic Profile
-        Task<AcademicProfile> CreateAcademicProfile(CreateAcademyRequest request,Guid userId);
+        Task<AcademicProfile> CreateAcademicProfile(Guid userId);
 
         // update user profile
         Task<AcademicProfile> UpdateAcademicProfile(UpdateAcademyRequest request);

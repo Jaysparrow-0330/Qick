@@ -96,12 +96,12 @@ namespace Qick.Controllers
 
         //Create Academic profile
         [HttpPost("create-aca-profile")]
-        public async Task<IActionResult> CreateAcademicprofile(CreateAcademyRequest request)
+        public async Task<IActionResult> CreateAcademicprofile()
         {
             try
             {
                     Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                    var response = await _repo.CreateAcademicProfile(request,userId);
+                    var response = await _repo.CreateAcademicProfile(userId);
                     if (response != null)
                     {
                         return Ok(response);
