@@ -167,6 +167,7 @@ namespace Qick.Repositories
                 throw;
             }
         }
+
         public async Task<DashboardUniResponse> GetDashboardUni(Guid uniId)
         {
             try
@@ -176,7 +177,6 @@ namespace Qick.Repositories
                     .ToListAsync();
 
                 var News = await _context.AddmissionNews
-                    .Where(u => u.Status == Status.ACTIVE)
                     .ToListAsync();
 
                 var applicaiton = await _context.Applications

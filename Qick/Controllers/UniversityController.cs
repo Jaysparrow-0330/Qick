@@ -20,15 +20,17 @@ namespace Qick.Controllers
         private readonly INewsRepository _repoNews;
         private readonly IFQARepository _repoFqa;
         private readonly IUserRepository _repoUser;
+        private readonly IMajorRepository _repoMajor;
         private readonly IMapper _mapper;
 
-        public UniversityController(IUserRepository repoUser,INewsRepository repoNews,IUniversityRepository repo, IMapper mapper,IFQARepository repoFqa)
+        public UniversityController(IFQARepository repoFqa,IMajorRepository repoMajor,IUserRepository repoUser,INewsRepository repoNews,IUniversityRepository repo, IMapper mapper)
         {
             _repo = repo;
             _repoNews= repoNews;
             _mapper = mapper;
             _repoUser = repoUser;
-            _repoFqa= repoFqa;
+            _repoFqa = repoFqa;
+            _repoMajor = repoMajor;
         }
 
         //Get all University
@@ -239,20 +241,49 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
-
+        //GET all fqas of a university
         [AllowAnonymous]
         [HttpGet("fqa")]
-        public async Task<IActionResult> GetFQAById(int fqaId)
+        public async Task<IActionResult> GetFQAByUni(int contentId)
         {
             try
             {
-                var fqa = await _repoFqa.GetFqaById(fqaId);
-                var response = _mapper.Map<FQAResponse>(fqa);
-                return Ok(response);    
+                if (contentId != null)
+                {
+                    var list = await _repoFqa.GetFqaById(contentId);
+                    if (list != null)
+                    {
+                        var response = _mapper.Map<FQAResponse>(list);
+                        return Ok(response);
+                    }
+                    else
+                    {
+                        return Ok(new HttpStatusCodeResponse(204));
+                    }
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
             }
             catch (Exception ex)
             {
 
+                return Ok(ex.Message);
+            }
+        }
+        [AllowAnonymous]
+        [HttpGet("majoruni")]
+        public async Task<IActionResult> GetMajorUni(Guid uniId)
+        {
+            try
+            {
+                var response = await _repoMajor.GetMajorByUniId(uniId);
+                var listResponse = _mapper.Map<IEnumerable<ListMajorUniResponse>>(response);
+                return Ok(listResponse);
+            }
+            catch (Exception ex)
+            {
                 return Ok(ex.Message);
             }
         }
