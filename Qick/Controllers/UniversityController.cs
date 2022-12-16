@@ -6,6 +6,7 @@ using Qick.Dto.Enum;
 using Qick.Dto.Requests;
 using Qick.Dto.Responses;
 using Qick.Repositories.Interfaces;
+using System.Collections.Generic;
 using System.Security.Claims;
 
 namespace Qick.Controllers
@@ -17,15 +18,17 @@ namespace Qick.Controllers
     {
         private readonly IUniversityRepository _repo;
         private readonly INewsRepository _repoNews;
+        private readonly IFQARepository _repoFqa;
         private readonly IUserRepository _repoUser;
         private readonly IMapper _mapper;
 
-        public UniversityController(IUserRepository repoUser,INewsRepository repoNews,IUniversityRepository repo, IMapper mapper)
+        public UniversityController(IUserRepository repoUser,INewsRepository repoNews,IUniversityRepository repo, IMapper mapper,IFQARepository repoFqa)
         {
             _repo = repo;
             _repoNews= repoNews;
             _mapper = mapper;
             _repoUser = repoUser;
+            _repoFqa= repoFqa;
         }
 
         //Get all University
@@ -84,7 +87,6 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
-
         //Get all University
         [AllowAnonymous]
         [HttpGet("get-university-spec")]
@@ -103,7 +105,7 @@ namespace Qick.Controllers
 
         //GET all news
         [AllowAnonymous]
-        [HttpGet("get-news")]
+        [HttpGet("news")]
         public async Task<IActionResult> GetAllNews(Guid? UniId)
         {
             try
@@ -202,6 +204,42 @@ namespace Qick.Controllers
             }
         }
 
+        //GET all fqas of a university
+        [AllowAnonymous]
+        [HttpGet("fqas")]
+        public async Task<IActionResult> GetAllFQAByUni(Guid? UniId,string? status)
+        {
+            try
+            {
+                if (UniId != null)
+                {
+                    if (status == null)
+                    {
+                        var list = await _repoFqa.GetListUniFQA(UniId);
+                        var response = _mapper.Map<IEnumerable<FQAResponse>>(list);
+                        return Ok(response);
+                    }
+                    else
+                    {
+                        // Result will serve the format of :
+                        // Topic {... FQA[] }[]
+                        var list = await _repoFqa.GetUniFQAById(UniId);
+                        var response = _mapper.Map<IEnumerable<ListFqaResponse>>(list);
+                        return Ok(response);
+                    }
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return Ok(ex.Message);
+            }
+        }
+
         //Create Test step one create basic information of test , return test to create questions, option, etc.
         [Authorize(Roles = Roles.STAFF + "," + Roles.MANAGER)]
         [HttpPost("unispec-create")]
@@ -231,6 +269,31 @@ namespace Qick.Controllers
             }
             catch (Exception ex)
             {
+                return Ok(ex.Message);
+            }
+        }
+
+        [Authorize(Roles = Roles.STAFF)]
+        [HttpPost("create-fqa")]
+        public async Task<IActionResult> CreateFqa(CreateFQARequest request)
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                Guid uniId = Guid.Parse(User.FindFirst("university").Value);
+                var response = await _repoFqa.CreateFQA(request, uniId,userId);
+                if (response)
+                {
+                    return Ok(new HttpStatusCodeResponse(200));
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+            }
+            catch (Exception ex)
+            {
+
                 return Ok(ex.Message);
             }
         }
@@ -329,6 +392,72 @@ namespace Qick.Controllers
                     return Ok(new HttpStatusCodeResponse(204));
                 }
 
+            }
+            catch (Exception ex)
+            {
+
+                return Ok(ex.Message);
+            }
+        }
+
+        [Authorize(Roles = Roles.STAFF)]
+        //Update fqa by staff
+        [HttpPut("update-fqa")]
+        public async Task<IActionResult> UpdateFqa(UpdateFQARequest request)
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                Guid uniId = Guid.Parse(User.FindFirst("university").Value);
+                string status = User.FindFirst("status").Value;
+                if (status == Status.ACTIVE)
+                {
+                    if(userId != null)
+                    {
+                        var response = await _repoFqa.UpdateFQA(request);
+                        
+                        if(response != null)
+                        {
+                            return Ok(new HttpStatusCodeResponse(200));
+                        }
+                        else
+                        {
+                            return Ok(new HttpStatusCodeResponse(204));
+                        }
+                    }
+                    else
+                    {
+                        return Ok(new HttpStatusCodeResponse(204));
+                    }
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(210));
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return Ok(ex.Message);
+            }
+        }
+
+        [Authorize(Roles = Roles.STAFF)]
+        //Delete fqa by staff
+        [HttpPut("delete-fqa")]
+        public async Task<IActionResult> DeleteFqa(int fqaId)
+        {
+            try
+            {
+                var response = await _repoFqa.DeleteFQA(fqaId);
+                if (response != null)
+                {
+                    return Ok(new HttpStatusCodeResponse(200));
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
             }
             catch (Exception ex)
             {

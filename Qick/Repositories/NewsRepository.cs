@@ -140,7 +140,10 @@ namespace Qick.Repositories
         {
             try
             {
-                var news = await _context.AddmissionNews.Where(x => x.Status == Status.ACTIVE).OrderByDescending(x => x.CreateDate).ToListAsync();
+                var news = await _context.AddmissionNews
+                    .Where(x => x.Status == Status.ACTIVE)
+                    .OrderByDescending(x => x.CreateDate)
+                    .ToListAsync();
                 return news;
             }
             catch (Exception ex )

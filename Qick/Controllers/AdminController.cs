@@ -19,6 +19,7 @@ namespace Qick.Controllers
         private readonly IQuestionRepository _repoQuestion;
         private readonly IOptionRepository _repoOption;
         private readonly ISystemRepository _repoSystem;
+        private readonly IFQARepository _repoFqa;
         private readonly IUniversityRepository _repoUni;
         private readonly IJobRepository _repoJob;
         private readonly IUserRepository _repoUser;
@@ -26,7 +27,12 @@ namespace Qick.Controllers
         private readonly IApplicationRepository _repoApp;
         private readonly IMapper _mapper;
 
-        public AdminController(IMajorRepository repoMajor,IApplicationRepository repoApp,IUserRepository repoUser,IJobRepository repoJob,IUniversityRepository repoUni,ISystemRepository repoSystem,ITestRepository repoTest, IMapper mapper, IQuestionRepository repoQuestion, IOptionRepository repoOption)
+        public AdminController(
+            IMajorRepository repoMajor,
+            IApplicationRepository repoApp,
+            IUserRepository repoUser,
+            IJobRepository repoJob,
+            IUniversityRepository repoUni,ISystemRepository repoSystem,ITestRepository repoTest, IMapper mapper, IQuestionRepository repoQuestion, IOptionRepository repoOption,IFQARepository repoFqa)
         {
             _repoTest = repoTest;
             _mapper = mapper;
@@ -38,6 +44,7 @@ namespace Qick.Controllers
             _repoUser = repoUser;
             _repoApp = repoApp;
             _repoMajor = repoMajor;
+            _repoFqa = repoFqa; 
         }
 
         // Get list all question by test id
@@ -158,6 +165,44 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
+
+        [HttpGet("fqa-topics")]
+        public async Task<IActionResult> GetAllFQATopic()
+        {
+            try
+            {
+                var list = await _repoFqa.ListFQATopic();
+                var response = _mapper.Map<IEnumerable<ListFqaTopicResponse>>(list);
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
+        [HttpPost("create-fqa-topics")]
+        public async Task<IActionResult> CreateFQATopic(CreateFQATopicRequest request) {
+            try
+            {
+                var response = await _repoFqa.CreateFQATopic(request);
+                if (response)
+                {
+                    return Ok(new HttpStatusCodeResponse(200));
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
+
         //Create Test step one create basic information of test , return test to create questions, option, etc.
         [HttpPost("test-create")]
         public async Task<IActionResult> CreateTestStepOne(CreateTestRequest request)
@@ -417,7 +462,27 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
-
+        //Update FQA Topic
+        [HttpPut("update-fqa-topics")]
+        public async Task<IActionResult> UpdateFQATopic(UpdateFQATopicRequest request)
+        {
+            try
+            {
+                var response = await _repoFqa.UpdateFQATopic(request);
+                if (response != null)
+                {
+                    return Ok(new HttpStatusCodeResponse(200));
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
         //Update Test
         [HttpPut("update-test")]
         public async Task<IActionResult> UpdateTestByAdmin(UpdateTestRequest request)
@@ -512,7 +577,33 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
-
+        [HttpPut("delete-fqa-topic")]
+        public async Task<IActionResult> DeleteFqaTopic(int FqaTopicId)
+        {
+            try
+            {
+                if (FqaTopicId != null)
+                {
+                    var response = await _repoFqa.DeleteFQATopic(FqaTopicId);
+                    if (response != null)
+                    {
+                        return Ok(response);
+                    }
+                    else
+                    {
+                        return Ok(new HttpStatusCodeResponse(204));
+                    }
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         [HttpPut("delete-char")]
         public async Task<IActionResult> DeleteChar(Guid charId)
         {
