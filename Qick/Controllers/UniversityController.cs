@@ -84,6 +84,7 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
+
         //Get all University
         [AllowAnonymous]
         [HttpGet("get-university-spec")]
@@ -126,6 +127,26 @@ namespace Qick.Controllers
             }
         }
 
+        //TODO : GetNewsById
+
+        //GET all candidates by staff
+        [Authorize(Roles = Roles.STAFF)]
+        [HttpGet("get-candidates")]
+        public async Task<IActionResult> GetAllCandidate()
+        {
+            try
+            {
+                Guid uniId = Guid.Parse(User.FindFirst("university").Value);
+                var response = _repoUser.GetListAllCandidate(uniId);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+
+                return Ok(ex.Message);
+            }
+        }
+
         //Get University by Major Id
         [AllowAnonymous]
         [HttpGet("get-uni-major")]
@@ -142,6 +163,25 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
+
+        //Get dashboard data for uni's account
+        [Authorize(Roles = Roles.STAFF + "," + Roles.MANAGER)]
+        [HttpGet("dashboard")]
+        public async Task<IActionResult> GetDashboard()
+        {
+            try
+            {
+                Guid uniId = Guid.Parse(User.FindFirst("university").Value);
+                var response = await _repo.GetDashboardUni(uniId);
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
         //Create Test step one create basic information of test , return test to create questions, option, etc.
         [Authorize(Roles = Roles.STAFF + "," + Roles.MANAGER)]
         [HttpPost("unispec-create")]
@@ -174,22 +214,8 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
-        [Authorize(Roles = Roles.STAFF + "," + Roles.MANAGER)]
-        [HttpGet("dashboard")]
-        public async Task<IActionResult> GetDashboard()
-        {
-            try
-            {
-                Guid uniId = Guid.Parse(User.FindFirst("university").Value);
-                var response = await _repo.GetDashboardUni(uniId);
 
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return Ok(ex.Message);
-            }
-        }
+        //Create news by staff
         [Authorize(Roles = Roles.STAFF)]
         [HttpPost("create-news")]
         public async Task<IActionResult> CreateNews(CreateNewsRequest request)
@@ -217,7 +243,7 @@ namespace Qick.Controllers
         }
 
         [Authorize(Roles = Roles.MANAGER)]
-        //Update User Profiel
+        //Approve news by uni manager
         [HttpPut("approve-news")]
         public async Task<IActionResult> ApproveNews(int newsId,string status)
         {
@@ -242,7 +268,7 @@ namespace Qick.Controllers
         }
 
         [Authorize(Roles = Roles.STAFF)]
-        //Update User Profiel
+        //Delete news by staff
         [HttpPut("delete-news")]
         public async Task<IActionResult> DeleteNews(int newsId)
         {
@@ -266,7 +292,7 @@ namespace Qick.Controllers
         }
 
         [Authorize(Roles = Roles.STAFF)]
-        //Update User Profiel
+        //Update news by staff
         [HttpPut("update-news")]
         public async Task<IActionResult> UpdateNews(UpdateNewsRequest request)
         {

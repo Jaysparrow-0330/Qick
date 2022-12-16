@@ -752,5 +752,23 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
+
+        //public async Task<IEnumerable<User>> GetListAllCandidate(Guid? UniId)
+        //{
+        //    try
+        //    {
+        //        var response = await _context.Users
+        //            .Include(s => s.SavedUnis)
+        //            .Where(u => u.PublicProfile == Status.ACTIVE)
+        //            ////.Where(s => s.SavedUnis.Where(i => i.UniversityId == UniId).FirstOrDefault())
+        //            .ToListAsync();
+
+        //            return response;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
     }
 }
