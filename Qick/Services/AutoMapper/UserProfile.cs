@@ -29,11 +29,16 @@ namespace Qick.Services.AutoMapper
                 .ForMember(m => m.DistrictId, n => n.MapFrom(i => i.Ward.District.Id))
                 .ForMember(m => m.ProvinceId, n => n.MapFrom(i => i.Ward.District.Province.Id));
 
-            //CreateMap<User, CandidateResponse>()
-            //    .ForMember(m => m.HighSchoolName, n => n.MapFrom(i => i.AcademicProfiles.
-            //    .ForMember(m => m.HighSchoolCode, n => n.MapFrom(i => i.AcademicProfiles.Where(x => x.HighSchool.Id == i.HighSchoolId).FirstOrDefault().HighSchool.HighSchoolCode))
-            //    .ForMember(m => m.HighSchoolAddress, n => n.MapFrom(i => i.AcademicProfiles.Where(x => x.HighSchool.Id == i.HighSchoolId).FirstOrDefault().HighSchool.HighSchoolAddress));
-            //    //.ForMember(m => m.HighSchoolAddress, n => n.MapFrom(i => i.HighSchool.HighSchoolAddress));
+            CreateMap<User, CandidateResponse>()
+                .ForMember(m => m.UserId, n => n.MapFrom(i => i.Id))
+                .ForMember(m => m.GraduationYear, n => n.MapFrom(i => i.AcademicProfiles.Where(x => x.UserId == i.Id).First().GraduationYear))
+                .ForMember(m => m.AvarageScore, n => n.MapFrom(i => i.AcademicProfiles.Where(x => x.UserId == i.Id).First().AverageScore))
+                .ForMember(m => m.AcademicRank, n => n.MapFrom(i => i.AcademicProfiles.Where(x => x.UserId == i.Id).First().AcademicRank))
+                .ForMember(m => m.HighSchoolId, n => n.MapFrom(i => i.AcademicProfiles.Where(x => x.UserId == i.Id).First().HighSchool.Id))
+                .ForMember(m => m.HighSchoolName, n => n.MapFrom(i => i.AcademicProfiles.Where(x => x.UserId == i.Id).First().HighSchool.HighSchoolName))
+                .ForMember(m => m.HighSchoolCode, n => n.MapFrom(i => i.AcademicProfiles.Where(x => x.UserId == i.Id).First().HighSchool.HighSchoolCode))
+                .ForMember(m => m.HighSchoolAddress, n => n.MapFrom(i => i.AcademicProfiles.Where(x => x.UserId == i.Id).First().HighSchool.HighSchoolAddress));
+                
         }
     }
 }
