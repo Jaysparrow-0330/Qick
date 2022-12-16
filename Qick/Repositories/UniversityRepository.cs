@@ -180,7 +180,7 @@ namespace Qick.Repositories
                     .ToListAsync();
 
                 var applicaiton = await _context.Applications
-                    .Where(u => u.Status == Status.ACTIVE && u.UniId == uniId)
+                    .Where(u =>  u.UniId == uniId)
                     .ToListAsync();
 
                 var save = await _context.SavedUnis
