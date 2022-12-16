@@ -24,6 +24,16 @@ namespace Qick.Services.AutoMapper
                 .ForMember(m => m.WardId, n => n.MapFrom(i => i.Ward.Id))
                 .ForMember(m => m.DistrictId, n => n.MapFrom(i => i.Ward.District.Id))
                 .ForMember(m => m.ProvinceId, n => n.MapFrom(i => i.Ward.District.Province.Id));
+
+            CreateMap<User, ListCandidateResponse>()
+                .ForMember(m => m.DistrictId, n => n.MapFrom(i => i.Ward.District.Id))
+                .ForMember(m => m.ProvinceId, n => n.MapFrom(i => i.Ward.District.Province.Id));
+
+            //CreateMap<User, CandidateResponse>()
+            //    .ForMember(m => m.HighSchoolName, n => n.MapFrom(i => i.AcademicProfiles.
+            //    .ForMember(m => m.HighSchoolCode, n => n.MapFrom(i => i.AcademicProfiles.Where(x => x.HighSchool.Id == i.HighSchoolId).FirstOrDefault().HighSchool.HighSchoolCode))
+            //    .ForMember(m => m.HighSchoolAddress, n => n.MapFrom(i => i.AcademicProfiles.Where(x => x.HighSchool.Id == i.HighSchoolId).FirstOrDefault().HighSchool.HighSchoolAddress));
+            //    //.ForMember(m => m.HighSchoolAddress, n => n.MapFrom(i => i.HighSchool.HighSchoolAddress));
         }
     }
 }

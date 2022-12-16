@@ -131,19 +131,39 @@ namespace Qick.Controllers
 
         //GET all candidates by staff
         [Authorize(Roles = Roles.STAFF)]
-        [HttpGet("get-candidates")]
+        [HttpGet("candidates")]
         public async Task<IActionResult> GetAllCandidate()
         {
             try
             {
                 Guid uniId = Guid.Parse(User.FindFirst("university").Value);
-                var response = _repoUser.GetListAllCandidate(uniId);
+                var list = await _repoUser.GetListAllCandidate(uniId);
+                var response = _mapper.Map<IEnumerable<ListCandidateResponse>>(list);
                 return Ok(response);
             }
             catch (Exception ex)
             {
 
                 return Ok(ex.Message);
+            }
+        }
+
+        //GET candidate detail by staff
+        [Authorize(Roles = Roles.STAFF)]
+        [HttpGet("candidate-detail")]
+        public async Task<IActionResult> GetCandidate(Guid userId)
+        {
+            try
+            {
+                Guid uniId = Guid.Parse(User.FindFirst("university").Value);
+                var user = await _repoUser.GetCandidate(userId);
+                var response = _mapper.Map<CandidateResponse>(user);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
 
