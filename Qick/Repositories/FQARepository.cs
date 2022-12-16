@@ -242,5 +242,26 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
+
+        public async Task<Fqa> GetFqaById(int fqaId)
+        {
+            try
+            {
+                var response = _context.Fqas
+                    .Include(i=> i.Topic)
+                    .Where(i => i.Id == fqaId && i.Status == Status.ACTIVE)
+                    .FirstOrDefault();
+
+                if(response != null)
+                {
+                    return response;
+                }
+                else { { throw new Exception("Fqa not found"); } }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+}
     }
 }

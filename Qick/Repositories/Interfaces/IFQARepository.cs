@@ -24,5 +24,7 @@ namespace Qick.Repositories.Interfaces
         Task<Fqatopic> DeleteFQATopic(int FQATopicId);
 
         Task<IEnumerable<Fqatopic>> GetUniFQAById(Guid? UniId);
+
+        Task<Fqa> GetFqaById(int fqaId);
     }
 }

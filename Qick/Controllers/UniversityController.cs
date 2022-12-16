@@ -240,6 +240,23 @@ namespace Qick.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [HttpGet("fqa")]
+        public async Task<IActionResult> GetFQAById(int fqaId)
+        {
+            try
+            {
+                var fqa = await _repoFqa.GetFqaById(fqaId);
+                var response = _mapper.Map<FQAResponse>(fqa);
+                return Ok(response);    
+            }
+            catch (Exception ex)
+            {
+
+                return Ok(ex.Message);
+            }
+        }
+
         //Create Test step one create basic information of test , return test to create questions, option, etc.
         [Authorize(Roles = Roles.STAFF + "," + Roles.MANAGER)]
         [HttpPost("unispec-create")]
