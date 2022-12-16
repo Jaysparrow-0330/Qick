@@ -155,6 +155,7 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
+
         public async Task<DashboardAdminResponse> GetDashboardAdmin()
         {
             try

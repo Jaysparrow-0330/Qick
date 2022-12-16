@@ -14,16 +14,16 @@ namespace Qick.Repositories
             _context = context;
         }
 
-        public async Task<AddmissionNews> ApproveNews(int newsId)
+        public async Task<AddmissionNews> ApproveNews(int newsId,string status)
         {
             try
             {
                 var newsDb = await _context.AddmissionNews
                 .Where(u => u.Id == newsId)
                 .FirstOrDefaultAsync();
-                if (newsDb == null)
+                if (newsDb != null)
                 {
-                    newsDb.Status = Status.ACTIVE;
+                    newsDb.Status = status;
                 }
                 else
                 {
@@ -66,6 +66,74 @@ namespace Qick.Repositories
             }
         }
 
-                    
+        public async Task<AddmissionNews> GetNewsById(int newsId)
+        {
+            try
+            {
+                var newsDb = await _context.AddmissionNews
+                    .Where(u => u.Id == newsId)
+                    .FirstOrDefaultAsync();
+                if(newsDb != null)
+                {
+                    return newsDb;
+                }
+                else
+                {
+                    { throw new Exception("News does not exist"); }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<bool> DeleteNews(int newsId)
+        {
+            try
+            {
+                var newsDb = await _context.AddmissionNews
+                   .Where(u => u.Id == newsId)
+                   .FirstOrDefaultAsync();
+                if(newsDb != null) {
+                    newsDb.Status = Status.DISABLE;
+                }
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<AddmissionNews> UpdateNews(UpdateNewsRequest request)
+        {
+            try
+            {
+                var news = await _context.AddmissionNews
+                  .Where(u => u.Id == request.Id)
+                  .FirstOrDefaultAsync();
+                if (news != null)
+                {
+                    news.Title = request.Title;
+                    news.Content = request.Content;
+                    news.UniSpecId= request.UniSpecId;
+                    news.BannerUrl = request.BannerUrl;
+                    news.Status= request.Status;
+                }
+                else
+                {
+                    throw new Exception("News does not exist"); 
+                }
+
+                await _context.SaveChangesAsync();
+                return news;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
