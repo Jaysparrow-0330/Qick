@@ -135,5 +135,33 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
+
+        public async Task<IEnumerable<AddmissionNews>> GetAllNews()
+        {
+            try
+            {
+                var news = await _context.AddmissionNews.Where(x => x.Status == Status.ACTIVE).OrderByDescending(x => x.CreateDate).ToListAsync();
+                return news;
+            }
+            catch (Exception ex )
+            {
+
+                throw ex;
+            }
+        }
+
+        public async Task<IEnumerable<AddmissionNews>> GetNewsByUniId(Guid? UniId)
+        {
+            try
+            {
+                var news = await _context.AddmissionNews.Where(x => x.UniId == UniId).OrderByDescending(x => x.CreateDate).ToListAsync();
+                return news;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }

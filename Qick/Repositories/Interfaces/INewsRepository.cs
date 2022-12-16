@@ -13,6 +13,10 @@ namespace Qick.Repositories.Interfaces
 
         Task<AddmissionNews> GetNewsById(int newsId);
 
+        Task<IEnumerable<AddmissionNews>> GetAllNews();
+
+        Task<IEnumerable<AddmissionNews>> GetNewsByUniId(Guid? UniId);
+
         Task<bool> DeleteNews(int newsId);
     }
 }

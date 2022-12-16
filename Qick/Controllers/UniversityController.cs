@@ -100,7 +100,32 @@ namespace Qick.Controllers
             }
         }
 
-      
+        //GET all news
+        [AllowAnonymous]
+        [HttpGet("get-news")]
+        public async Task<IActionResult> GetAllNews(Guid? UniId)
+        {
+            try
+            {
+                if(UniId != null)
+                {
+                    var news = await _repoNews.GetNewsByUniId(UniId);
+                    var response = _mapper.Map<IEnumerable<ListNewsResponse>>(news);
+                    return Ok(response);
+                }
+                else {
+                    var news = await _repoNews.GetAllNews();
+                    var response = _mapper.Map<IEnumerable<ListNewsResponse>>(news);
+                    return Ok(response);
+                }
+            }
+            catch (Exception ex )
+            {
+
+                return Ok(ex.Message) ;
+            }
+        }
+
         //Get University by Major Id
         [AllowAnonymous]
         [HttpGet("get-uni-major")]
@@ -236,7 +261,7 @@ namespace Qick.Controllers
             catch (Exception ex)
             {
 
-                throw ex;
+                return Ok(ex.Message);
             }
         }
 
