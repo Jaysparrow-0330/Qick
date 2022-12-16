@@ -23,5 +23,8 @@ namespace Qick.Repositories.Interfaces
         Task<Major> UpdateMajor(UpdateMajorRequest request);
         Task<Specialization> UpdateSpec(UpdateSpecRequest request);
         Task<DashboardAdminResponse> GetDashboardAdmin();
+        Task<Character> GetCharacterById(Guid Id);
+        Task<Character> UpdateCharacter(UpdateCharacterRequest request);
+        Task<Character> DeleteChar(Guid charId);
     }
 }

@@ -156,6 +156,87 @@ namespace Qick.Repositories
             }
         }
 
+        public async Task<Character> UpdateCharacter(UpdateCharacterRequest request)
+        {
+            try
+            {
+                var character = await _context.Characters
+                    .Where(u => u.Id == request.Id)
+                    .FirstOrDefaultAsync();
+
+                if (character != null)
+                {
+                    character.ResultSummary = request.ResultSummary;
+                    character.ResultCareer = request.ResultCareer;
+                    character.ResultSuccessRule = request.ResultSuccessRule;
+                    character.ResultRelationship = request.ResultRelationship;
+                    character.ResultShortName = request.ResultShortName;
+                    character.ResultName = request.ResultName;
+                    character.ResultPictureUrl = request.ResultPictureUrl;
+                    character.Value = request.Value;
+
+                }
+                else
+                {
+                    { throw new Exception("Major does not exist"); }
+                }
+
+                await _context.SaveChangesAsync();
+                return character;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Character> DeleteChar(Guid charId)
+        {
+            try
+            {
+                var user = await _context.Characters
+                    .Where(u => u.Id == charId)
+                    .FirstOrDefaultAsync();
+
+                if (user != null)
+                {
+                    if (user.Status == Status.ACTIVE)
+                    {
+                        user.Status = Status.DISABLE;
+                    }
+                    else if (user.Status == Status.DISABLE)
+                    {
+                        user.Status = Status.ACTIVE;
+                    }
+
+                }
+                else
+                {
+                    { throw new Exception("Character does not exist"); }
+                }
+
+                await _context.SaveChangesAsync();
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Character> GetCharacterById(Guid Id)
+        {
+            try
+            {
+                var response = await _context.Characters
+                    .Where(u => u.Id == Id)
+                    .FirstOrDefaultAsync();
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
         public async Task<DashboardAdminResponse> GetDashboardAdmin()
         {
             try

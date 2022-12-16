@@ -118,7 +118,8 @@ namespace Qick.Repositories
                    ResultSummary = request.ResultSummary,
                    ResultShortName = request.ResultShortName,
                    ResultPictureUrl = request.ResultPicture,
-                   ResultCareer = request.ResultCareer
+                   ResultCareer = request.ResultCareer,
+                  Status = Status.ACTIVE
                 };
                 await _context.Characters.AddAsync(addResult);
                 await _context.SaveChangesAsync();

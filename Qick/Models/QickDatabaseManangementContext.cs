@@ -186,6 +186,8 @@ namespace Qick.Models
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
+                entity.Property(e => e.Status).HasMaxLength(50);
+
                 entity.HasOne(d => d.Test)
                     .WithMany(p => p.Characters)
                     .HasForeignKey(d => d.TestId)

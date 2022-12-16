@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Qick.Models
+﻿namespace Qick.Dto.Requests
 {
-    public partial class Character
+    public class UpdateCharacterRequest
     {
-        public Character()
-        {
-            JobMappings = new HashSet<JobMapping>();
-        }
-
         public Guid Id { get; set; }
-        public int? TestId { get; set; }
         public string? ResultName { get; set; }
         public string? ResultSummary { get; set; }
         public string? ResultRelationship { get; set; }
@@ -20,9 +11,5 @@ namespace Qick.Models
         public string? ResultPictureUrl { get; set; }
         public string? ResultCareer { get; set; }
         public string? Value { get; set; }
-        public string? Status { get; set; }
-
-        public virtual Test? Test { get; set; }
-        public virtual ICollection<JobMapping> JobMappings { get; set; }
     }
 }

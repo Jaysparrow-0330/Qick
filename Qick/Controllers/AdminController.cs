@@ -488,6 +488,59 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
+        //Update Test
+        [HttpPut("update-char")]
+        public async Task<IActionResult> UpdateCharacter(UpdateCharacterRequest request)
+        {
+            try
+            {
+                bool Complete = true;
+                var check = await _repoSystem.GetCharacterById(request.Id);
+                if (check != null)
+                {
+                    var response = await _repoSystem.UpdateCharacter(request);
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(510));
+                }
+
+                return Ok(new HttpStatusCodeResponse(200));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
+        [HttpPut("delete-char")]
+        public async Task<IActionResult> DeleteChar(Guid charId)
+        {
+            try
+            {
+                if (charId != null)
+                {
+                    var check = await _repoSystem.DeleteChar(charId);
+                    if (check != null)
+                    {
+                        return Ok(check);
+                    }
+                    else
+                    {
+                        return Ok(new HttpStatusCodeResponse(204));
+                    }
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
         //Update ACc Profiel
         [HttpPut("ban/unban")]
         public async Task<IActionResult> BanUnbanUser(Guid userId)
