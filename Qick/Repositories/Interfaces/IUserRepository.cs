@@ -31,6 +31,8 @@ namespace Qick.Repositories.Interfaces
 
         Task<IEnumerable<User>> GetListAllCandidate(Guid? UniId);
 
+        Task<User> GetCandidate(Guid UserId);
+
         Task<User> BanUser(Guid UserId);
         Task<IEnumerable<SavedUni>> GetAllUniSavedByUserId(Guid userId);
         Task<IEnumerable<User>> GetListActiveStaff(Guid? UniId);

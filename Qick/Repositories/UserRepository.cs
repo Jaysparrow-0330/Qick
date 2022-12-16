@@ -7,6 +7,7 @@ using Qick.Repositories.Interfaces;
 using System.Security.Cryptography;
 using System.Text;
 using Qick.Dto.Exceptions;
+using Qick.Dto.Responses;
 
 namespace Qick.Repositories
 {
@@ -753,22 +754,44 @@ namespace Qick.Repositories
             }
         }
 
-        //public async Task<IEnumerable<User>> GetListAllCandidate(Guid? UniId)
-        //{
-        //    try
-        //    {
-        //        var response = await _context.Users
-        //            .Include(s => s.SavedUnis)
-        //            .Where(u => u.PublicProfile == Status.ACTIVE)
-        //            ////.Where(s => s.SavedUnis.Where(i => i.UniversityId == UniId).FirstOrDefault())
-        //            .ToListAsync();
+        public async Task<IEnumerable<User>> GetListAllCandidate(Guid? UniId)
+        {
+            try
+            {
+                var response = await _context.Users
+                    .Include(s => s.SavedUnis)
+                    .Include(u => u.Ward)
+                    .ThenInclude(u => u.District)
+                    .ThenInclude(u => u.Province)
+                    .Where(u => u.PublicProfile == Status.ACTIVE)
+                    .Where(s => s.SavedUnis.Where(i => i.UniversityId == UniId).Count() > 0)
+                    .ToListAsync();
 
-        //            return response;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public async Task<User> GetCandidate(Guid UserId)
+        {
+            try
+            {
+                var response = _context.Users
+                    .Include(s => s.AcademicProfiles)
+                    .ThenInclude(h => h.HighSchool)
+                    .Where(u => u.Id == UserId)
+                    .FirstOrDefault();
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }

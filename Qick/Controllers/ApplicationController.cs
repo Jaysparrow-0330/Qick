@@ -24,8 +24,6 @@ namespace Qick.Controllers
             _mapper = mapper;
         }
 
-      
-
         // Get list all question by test id
         [HttpGet("get-all-application")]
         public async Task<IActionResult> GetAllApplicationById()
