@@ -22,5 +22,6 @@ namespace Qick.Repositories.Interfaces
 
         Task<Major> GetMajorById(Guid majorId);
         Task<Specialization> GetSpecById(Guid specId);
+        Task<IEnumerable<Major>> GetMajorByUniIdTest(Guid uniId);
     }
 }

@@ -18,14 +18,16 @@ namespace Qick.Controllers
         private readonly IUniversityRepository _repo;
         private readonly INewsRepository _repoNews;
         private readonly IUserRepository _repoUser;
+        private readonly IMajorRepository _repoMajor;
         private readonly IMapper _mapper;
 
-        public UniversityController(IUserRepository repoUser,INewsRepository repoNews,IUniversityRepository repo, IMapper mapper)
+        public UniversityController(IMajorRepository repoMajor,IUserRepository repoUser,INewsRepository repoNews,IUniversityRepository repo, IMapper mapper)
         {
             _repo = repo;
             _repoNews= repoNews;
             _mapper = mapper;
             _repoUser = repoUser;
+            _repoMajor = repoMajor;
         }
 
         //Get all University
@@ -201,7 +203,21 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
-
+        [AllowAnonymous]
+        [HttpGet("majoruni")]
+        public async Task<IActionResult> GetMajorUni(Guid uniId)
+        {
+            try
+            {
+                var response = await _repoMajor.GetMajorByUniIdTest(uniId);
+                //var listReponse = _mapper.Map<IEnumerable<ListMajorUniResponse>>(response);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
         //Create Test step one create basic information of test , return test to create questions, option, etc.
         [Authorize(Roles = Roles.STAFF + "," + Roles.MANAGER)]
         [HttpPost("unispec-create")]

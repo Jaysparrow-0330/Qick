@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Qick.Dto.Enum;
 using Qick.Models;
 using Qick.Repositories.Interfaces;
 
@@ -107,9 +108,40 @@ namespace Qick.Repositories
 
         public async Task<IEnumerable<Major>> GetMajorByUniId(Guid uniId)
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                var response = await _context.Majors
+                    .Where(x => x.Specializations.Where(u => u.MajorId == x.Id).FirstOrDefault().UniversitySpecializations.Where(i => i.UniId == uniId).Count()>0 && x.Status == Status.ACTIVE)
+                    .Include(p => p.Specializations.Where(a => a.UniversitySpecializations.FirstOrDefault().UniId == uniId))
+                    .ThenInclude(u => u.UniversitySpecializations.Where(x => x.UniId == uniId))
+                    .ToListAsync();
 
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public async Task<IEnumerable<Major>> GetMajorByUniIdTest(Guid uniId)
+        {
+            try
+            {
+                var response = await _context.Majors
+                    .Where(x => x.Specializations.Where(u => u.MajorId == x.Id).FirstOrDefault().UniversitySpecializations.Where(i => i.UniId == uniId).Count() > 0 && x.Status == Status.ACTIVE)
+                    .Include(p => p.Specializations.Where(a => a.UniversitySpecializations.Where(x => x.UniId == uniId).Count() > 0))
+                    .ThenInclude(u => u.UniversitySpecializations.Where(a => a.UniId == uniId))
+                    .ToListAsync();
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
         public async Task<IEnumerable<Specialization>> GetSpecByMajorId(Guid? MajorId)
         {
             try
