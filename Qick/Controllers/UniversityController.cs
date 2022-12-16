@@ -23,12 +23,14 @@ namespace Qick.Controllers
         private readonly IMajorRepository _repoMajor;
         private readonly IMapper _mapper;
 
-        public UniversityController(IUserRepository repoUser,INewsRepository repoNews,IUniversityRepository repo, IMapper mapper)
+        public UniversityController(IFQARepository repoFqa,IMajorRepository repoMajor,IUserRepository repoUser,INewsRepository repoNews,IUniversityRepository repo, IMapper mapper)
         {
             _repo = repo;
             _repoNews= repoNews;
             _mapper = mapper;
             _repoUser = repoUser;
+            _repoFqa = repoFqa;
+            _repoMajor = repoMajor;
         }
 
         //Get all University
@@ -245,9 +247,9 @@ namespace Qick.Controllers
         {
             try
             {
-                var response = await _repoMajor.GetMajorByUniIdTest(uniId);
-                //var listReponse = _mapper.Map<IEnumerable<ListMajorUniResponse>>(response);
-                return Ok(response);
+                var response = await _repoMajor.GetMajorByUniId(uniId);
+                var listResponse = _mapper.Map<IEnumerable<ListMajorUniResponse>>(response);
+                return Ok(listResponse);
             }
             catch (Exception ex)
             {

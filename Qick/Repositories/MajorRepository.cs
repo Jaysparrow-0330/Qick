@@ -111,9 +111,9 @@ namespace Qick.Repositories
             try
             {
                 var response = await _context.Majors
-                    .Where(x => x.Specializations.Where(u => u.MajorId == x.Id).FirstOrDefault().UniversitySpecializations.Where(i => i.UniId == uniId).Count()>0 && x.Status == Status.ACTIVE)
-                    .Include(p => p.Specializations.Where(a => a.UniversitySpecializations.FirstOrDefault().UniId == uniId))
-                    .ThenInclude(u => u.UniversitySpecializations.Where(x => x.UniId == uniId))
+                    .Where(x => x.Specializations.Where(u => u.UniversitySpecializations.Where(i => i.UniId == uniId).Count() > 0).Count() > 0)
+                    .Include(p => p.Specializations.Where(a => a.UniversitySpecializations.Where(x => x.UniId == uniId).Count() > 0))
+                    .ThenInclude(u => u.UniversitySpecializations.Where(a => a.UniId == uniId))
                     .ToListAsync();
 
                 return response;
@@ -129,8 +129,8 @@ namespace Qick.Repositories
             try
             {
                 var response = await _context.Majors
-                    .Where(x => x.Specializations.Where(u => u.MajorId == x.Id).FirstOrDefault().UniversitySpecializations.Where(i => i.UniId == uniId).Count() > 0 && x.Status == Status.ACTIVE)
-                    .Include(p => p.Specializations.Where(a => a.UniversitySpecializations.Where(x => x.UniId == uniId).Count() > 0))
+                    .Where(x => x.Specializations.Where(u => u.UniversitySpecializations.Where(i => i.UniId == uniId).Count()>0).Count() > 0) 
+                    .Include(p => p.Specializations.Where(a => a.UniversitySpecializations.Where(x => x.UniId == uniId).Count()>0))
                     .ThenInclude(u => u.UniversitySpecializations.Where(a => a.UniId == uniId))
                     .ToListAsync();
 
