@@ -131,6 +131,30 @@ namespace Qick.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [HttpGet("news-by-id")]
+        public async Task<IActionResult> GetNewsById(int NewsId)
+        {
+            try
+            {
+                var news = await _repoNews.GetNewsById(NewsId);
+                var response = _mapper.Map<ListNewsResponse>(news);
+                if(response != null)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return Ok(ex.Message);
+            }
+        }
+
         //TODO : GetNewsById
 
         //GET all candidates by staff

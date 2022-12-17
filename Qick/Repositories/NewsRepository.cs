@@ -71,6 +71,8 @@ namespace Qick.Repositories
             try
             {
                 var newsDb = await _context.AddmissionNews
+                    .Include(x => x.Uni)
+                    .ThenInclude(x=>x.UniversitySpecializations)
                     .Where(u => u.Id == newsId)
                     .FirstOrDefaultAsync();
                 if(newsDb != null)
