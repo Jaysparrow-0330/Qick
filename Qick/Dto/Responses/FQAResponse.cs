@@ -10,5 +10,6 @@
         public DateTime? CreatedDate { get; set; }
         public string? Status { get; set; }
         public int TopicId { get; set; }
+        public string TopicName { get; set; }
     }
 }

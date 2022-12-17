@@ -11,7 +11,10 @@ namespace Qick.Services.AutoMapper
         public FaqProfile()
         {
             CreateMap<Fqatopic, ListFqaTopicResponse>();
-            CreateMap<Fqa,FQAResponse>();
+
+            CreateMap<Fqa,FQAResponse>()
+                .ForMember(m=>m.TopicName,n => n.MapFrom(i => i.Topic.TopicName));
+
             CreateMap<Fqatopic, ListFqaResponse>();
 
         }

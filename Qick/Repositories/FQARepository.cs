@@ -146,7 +146,6 @@ namespace Qick.Repositories
                 var response = await _context.Fqas
                     .Include(i => i.Topic)
                     .Where(i => i.UniId == UniId)
-                    .Where(i => i.Status == Status.ACTIVE)
                     .OrderByDescending(i => i.TopicId)
                     .ToListAsync();
 

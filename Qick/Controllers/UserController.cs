@@ -49,7 +49,6 @@ namespace Qick.Controllers
         [HttpGet("save-unis")]
         public async Task<IActionResult> GetListSaveUni()
         {
-
             try
             {
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);

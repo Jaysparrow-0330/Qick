@@ -21,5 +21,8 @@
         public int? GraduationYear { get; set; }
         public double? AvarageScore { get; set; }
         public string? AcademicRank { get; set; }
+        public int? WardId { get; set; }
+        public int? DistrictId { get; set; }
+        public int? ProvinceId { get; set; }
     }
 }

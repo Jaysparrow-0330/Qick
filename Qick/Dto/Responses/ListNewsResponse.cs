@@ -11,7 +11,8 @@
         public string? Title { get; set; }
         public string? BannerUrl { get; set; }
         public DateTime? CreateDate { get; set; }
-
+        public string? UniName { get; set; }
+        public string? UniCode { get; set; }
         public string? UniSpecName { get; set; }
     }
 }
