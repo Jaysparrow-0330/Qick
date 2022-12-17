@@ -141,7 +141,9 @@ namespace Qick.Repositories
             try
             {
                 var news = await _context.AddmissionNews
-                    .Where(x => x.Status == Status.ACTIVE)
+                    .Where(x => x.Status == Status.APRROVED || x.Status == Status.ACTIVE)
+                    .Include(x => x.Uni)
+                    .ThenInclude(x => x.UniversitySpecializations)
                     .OrderByDescending(x => x.CreateDate)
                     .ToListAsync();
                 return news;
