@@ -1,4 +1,6 @@
-﻿namespace Qick.Dto.Requests
+﻿using Qick.Models;
+
+namespace Qick.Dto.Requests
 {
     public class UpdateCharacterRequest
     {
@@ -11,5 +13,7 @@
         public string? ResultPictureUrl { get; set; }
         public string? ResultCareer { get; set; }
         public string? Value { get; set; }
+
+        public virtual ICollection<JobMappingRequest> JobMappings { get; set; }
     }
 }

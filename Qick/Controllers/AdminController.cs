@@ -32,7 +32,7 @@ namespace Qick.Controllers
             IApplicationRepository repoApp,
             IUserRepository repoUser,
             IJobRepository repoJob,
-            IUniversityRepository repoUni,ISystemRepository repoSystem,ITestRepository repoTest, IMapper mapper, IQuestionRepository repoQuestion, IOptionRepository repoOption,IFQARepository repoFqa)
+            IUniversityRepository repoUni, ISystemRepository repoSystem, ITestRepository repoTest, IMapper mapper, IQuestionRepository repoQuestion, IOptionRepository repoOption, IFQARepository repoFqa)
         {
             _repoTest = repoTest;
             _mapper = mapper;
@@ -44,7 +44,7 @@ namespace Qick.Controllers
             _repoUser = repoUser;
             _repoApp = repoApp;
             _repoMajor = repoMajor;
-            _repoFqa = repoFqa; 
+            _repoFqa = repoFqa;
         }
 
         // Get list all question by test id
@@ -151,6 +151,7 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
+
         [HttpGet("dashboard")]
         public async Task<IActionResult> GetDashboard()
         {
@@ -739,6 +740,7 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
+
         //Update List Question
         //[HttpPut("update-questions")]
         //public async Task<IActionResult> UpdateQuestionByAdmin(CreateTestStepTwoRequest request)

@@ -45,6 +45,8 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
+
+
         public async Task<IEnumerable<Job>> GetJobByCharacterId(Guid characterId)
         {
             try

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Qick.Dto.Requests;
 using Qick.Dto.Responses;
 using Qick.Models;
 
@@ -24,6 +25,10 @@ namespace Qick.Services.AutoMapper
             CreateMap<Attempt, ListAttemptResponse>()
                 .ForMember(m => m.testName, n => n.MapFrom(i => i.Test.TestName))
                 .ForMember(m => m.ResultName, n => n.MapFrom(i => i.Test.Characters.Where(u => u.ResultShortName.Equals(i.ResultShortName)).Select(a => a.ResultName).FirstOrDefault()));
+        
+
+            CreateMap<UpdateCharacterRequest, Character>();
+
         }
         
     }
