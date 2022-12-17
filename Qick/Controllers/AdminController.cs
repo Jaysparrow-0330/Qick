@@ -166,6 +166,7 @@ namespace Qick.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("fqa-topics")]
         public async Task<IActionResult> GetAllFQATopic()
         {
