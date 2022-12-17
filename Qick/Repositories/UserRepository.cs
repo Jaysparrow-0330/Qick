@@ -112,6 +112,7 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
+
         public async Task<User> RegisterUni(ManagerStaffRequest register, string code)
         {
             try
@@ -783,6 +784,9 @@ namespace Qick.Repositories
                 var response = _context.Users
                     .Include(s => s.AcademicProfiles)
                     .ThenInclude(h => h.HighSchool)
+                    .Include(u => u.Ward)
+                    .ThenInclude(u => u.District)
+                    .ThenInclude(u => u.Province)
                     .Where(u => u.Id == UserId)
                     .FirstOrDefault();
                 return response;

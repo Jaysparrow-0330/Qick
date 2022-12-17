@@ -37,8 +37,10 @@ namespace Qick.Services.AutoMapper
                 .ForMember(m => m.HighSchoolId, n => n.MapFrom(i => i.AcademicProfiles.Where(x => x.UserId == i.Id).First().HighSchool.Id))
                 .ForMember(m => m.HighSchoolName, n => n.MapFrom(i => i.AcademicProfiles.Where(x => x.UserId == i.Id).First().HighSchool.HighSchoolName))
                 .ForMember(m => m.HighSchoolCode, n => n.MapFrom(i => i.AcademicProfiles.Where(x => x.UserId == i.Id).First().HighSchool.HighSchoolCode))
-                .ForMember(m => m.HighSchoolAddress, n => n.MapFrom(i => i.AcademicProfiles.Where(x => x.UserId == i.Id).First().HighSchool.HighSchoolAddress));
-                
+                .ForMember(m => m.HighSchoolAddress, n => n.MapFrom(i => i.AcademicProfiles.Where(x => x.UserId == i.Id).First().HighSchool.HighSchoolAddress))
+                .ForMember(m => m.DistrictId, n => n.MapFrom(i => i.Ward.District.Id))
+                .ForMember(m => m.ProvinceId, n => n.MapFrom(i => i.Ward.District.Province.Id));
+
         }
     }
 }
