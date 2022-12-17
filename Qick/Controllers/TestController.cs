@@ -21,16 +21,18 @@ namespace Qick.Controllers
         private readonly ICreateTokenService _token;
         private readonly IQuestionRepository _repoQuestion;
         private readonly IOptionRepository _repoOption;
+        private readonly ICharacterRepository _repoChar;
         private readonly IMapper _mapper;
 
         // constructor
-        public TestController(ITestRepository repo, ICreateTokenService token, IMapper mapper,IQuestionRepository repoQuestion,IOptionRepository repoOption)
+        public TestController(ICharacterRepository repoChar,ITestRepository repo, ICreateTokenService token, IMapper mapper,IQuestionRepository repoQuestion,IOptionRepository repoOption)
         {
             _repo = repo;
             _token = token;
             _mapper = mapper;
             _repoQuestion = repoQuestion;
             _repoOption = repoOption;
+            _repoChar = repoChar;
         }
 
         // Get list active test
@@ -148,6 +150,35 @@ namespace Qick.Controllers
                     Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                     //Guid userId = Guid.Parse(User.FindFirst)
                     var result = await _repo.CalculateDiscResult(request,userId);
+                    return Ok(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+
+        }
+
+        // submit test response test's result by guest
+        [AllowAnonymous]
+        [HttpPost("big5")]
+        public async Task<IActionResult> SubmitTestBig5(CalculateResultRequest request)
+        {
+            try
+            {
+
+                var user = User.ToString();
+                if (user == null)
+                {
+                    var result = await _repo.CalculateBig5Result(request, null);
+                    return Ok(result);
+                }
+                else
+                {
+                    Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                    //Guid userId = Guid.Parse(User.FindFirst)
+                    var result = await _repo.CalculateDiscResult(request, userId);
                     return Ok(result);
                 }
             }

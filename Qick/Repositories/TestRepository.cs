@@ -4,6 +4,7 @@ using Qick.Dto.Requests;
 using Qick.Dto.Responses;
 using Qick.Models;
 using Qick.Repositories.Interfaces;
+using System.Linq;
 
 namespace Qick.Repositories
 {
@@ -228,7 +229,23 @@ namespace Qick.Repositories
             };
             return response;
         }
-        public async Task<SubmitResponse> CalculateTestResult(CalculateResultRequest request, Guid? userId)
+        public async Task<Character> GetCharacterResult(int testId, string? resultShortName)
+        {
+            try
+            {
+                var result = await _context.Characters
+                             .Where(a => a.TestId == testId && a.ResultShortName.Equals(resultShortName))
+                             .FirstOrDefaultAsync();
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+        public async Task<TakingResultResponse> CalculateTestResult(CalculateResultRequest request, Guid? userId)
         {
             try
             {
@@ -237,6 +254,13 @@ namespace Qick.Repositories
                     .Where(i => i.Id == request.TestId)
                     .Include(u => u.TestType)
                     .FirstOrDefaultAsync();
+                string?
+                        result1 = null,
+                        result2 = null,
+                        result3 = null,
+                        result4 = null,
+                        result5 = null,
+                        result6 = null;
 
                 if (type.TestType.TestTypeName.Equals(TestTypeName.MBTI))
                 {
@@ -293,73 +317,143 @@ namespace Qick.Repositories
                     if (isI > isE)
                     {
                         typeResult = "I";
+                        int re1 = (isI / (isI + isE)) * 100;
+                        result1 = "I-" + re1+"%";
                     } 
                     else
                     {
                         typeResult = "E";
+                        int re1 = (isE / (isI + isE)) * 100;
+                        result1 = "E-" + re1 + "%";
                     }
                     if (isN > isS)
                     {
                         typeResult += "N";
+                        int re2 = (isN / (isS + isN)) * 100;
+                        result2 = "N-" + re2 + "%";
                     }
                     else
                     {
                         typeResult += "S";
+                        int re2 = (isS / (isS + isN)) * 100;
+                        result2 = "S-" + re2 + "%";
                     }
                     if (isF > isT)
                     {
                         typeResult += "F";
+                        int re3 = (isF / (isF + isT)) * 100;
+                        result3 = "F-" + re3 + "%";
                     }
                     else
                     {
                         typeResult += "T";
+                        int re3 = (isT / (isF + isT)) * 100;
+                        result3 = "T-" + re3 + "%";
                     }
                     if (isJ > isP)
                     {
                         typeResult += "J";
+                        int re4 = (isJ / (isJ + isP)) * 100;
+                        result4 = "J-" + re4 + "%";
                     }
                     else
                     {
                         typeResult += "P";
+                        int re4 = (isP / (isJ + isP)) * 100;
+                        result4 = "P-" + re4 + "%";
                     }
-                    //if (isI > isE)
-                    //{
-                    //    typeResult.Insert(0,"I");
-                    //}
-                    //else if (isE >= isI)
-                    //{
-                    //    typeResult.Insert(0, "E");
-                    //}
-
-                    //if (isN > isS)
-                    //{
-                    //    typeResult.Insert(1, "N");
-                    //}
-                    //else if (isS >= isN)
-                    //{
-                    //    typeResult.Insert(1, "S");
-                    //}
-
-                    //if (isF > isT)
-                    //{
-                    //    typeResult.Insert(2, "F");
-                    //}
-                    //else if (isT >= isF)
-                    //{
-                    //    typeResult.Insert(2, "T");
-                    //}
-
-                    //if (isJ > isP)
-                    //{
-                    //    typeResult.Insert(3, "J");
-                    //}
-                    //else if (isP >= isJ)
-                    //{
-                    //    typeResult.Insert(3, "P");
-                    //}
-
 
                 }
+                else if (type.TestType.TestTypeName.Equals(TestTypeName.HOLLAND))
+                {
+                    int
+                       isR = 0,
+                       isI = 0,
+                       isA = 0,
+                       isS = 0,
+                       isE = 0,
+                       isC = 0;
+                    foreach (var question in request.questions)
+                    {
+                        switch (question.Options.FirstOrDefault().optionValue)
+                        {
+                            case TypeHolland.IsR:
+                                isR += 1;
+                                break;
+
+                            case TypeHolland.IsI:
+                                isI += 1;
+                                break;
+
+                            case TypeHolland.IsA:
+                                isA += 1;
+                                break;
+
+                            case TypeHolland.IsS:
+                                isS += 1;
+                                break;
+
+                            case TypeHolland.IsE:
+                                isE += 1;
+                                break;
+
+                            case TypeHolland.IsC:
+                                isC += 1;
+                                break;
+                            default:
+                                { throw new Exception("Answer wrong"); }
+                        }
+                    }
+                    int re1 = (isR /18) * 100;
+                    result1 = "R-" + re1 + "%";
+                    int re2 = (isI / 18) * 100;
+                    result2 = "I-" + re2 + "%";
+                    int re3 = (isA / 18) * 100;
+                    result3 = "A-" + re3 + "%";
+                    int re4 = (isS / 18) * 100;
+                    result4 = "S-" + re4 + "%";
+                    int re5 = (isE / 18) * 100;
+                    result5 = "E-" + re5 + "%";
+                    int re6 = (isC / 18) * 100;
+                    result6 = "C-" + re6 + "%";
+                    List<int> orderBy = new List<int>();
+                    orderBy.Add(isR);
+                    orderBy.Add(isI);
+                    orderBy.Add(isA);
+                    orderBy.Add(isS);
+                    orderBy.Add(isE);
+                    orderBy.Add(isC);
+                    var sort = orderBy.OrderByDescending(a => a).ToList();
+                    switch (sort[0].ToString())
+                    {
+                        case "isR":
+                            typeResult = TypeHolland.IsR;
+                            break;
+
+                        case "isI":
+                            typeResult = TypeHolland.IsI;
+                            break;
+
+                        case "isA":
+                            typeResult = TypeHolland.IsA;
+                            break;
+
+                        case "isS":
+                            typeResult = TypeHolland.IsS;
+                            break;
+
+                        case "isE":
+                            typeResult = TypeHolland.IsE;
+                            break;
+
+                        case "isC":
+                            typeResult = TypeHolland.IsC;
+                            break;
+                        default:
+                            { throw new Exception("Answer wrong"); }
+                    }
+                }
+
                 var result = getTestResult(typeResult, request.TestId);
                 if (userId != null)
                 {
@@ -368,20 +462,30 @@ namespace Qick.Repositories
                     {
                         foreach (var option in question.Options)
                         {
-                            if (option.selectedField == true)
-                            {
-                                var detail = CreateAttemptDetail(attempt.Result.Id, option.optionId, "LIKE");
-                            }
-                            else
-                            {
-                                var detail = CreateAttemptDetail(attempt.Result.Id, option.optionId, "UNLIKE");
-                            }
+                                var detail = CreateAttemptDetail(attempt.Result.Id, option.optionId, option.optionValue);
                         }
                         
                     }
                 }
-                
-                return result.Result;
+                var realResult = GetCharacterResult(result.Result.Id, result.Result.ResultShortName);
+                TakingResultResponse response = new()
+                {
+                    Id = realResult.Result.Id,
+                    ResultName = realResult.Result.ResultShortName,
+                    ResultShortName = realResult.Result.ResultShortName,
+                    ResultSummary = realResult.Result.ResultSummary,
+                    ResultCareer = realResult.Result.ResultCareer,
+                    ResultRelationship = realResult.Result.ResultRelationship,
+                    ResultSuccessRule = realResult.Result.ResultSuccessRule,
+                    ResultPictureUrl = realResult.Result.ResultPictureUrl,
+                    Result1 = result1,
+                    Result2 = result2,
+                    Result3 = result3,
+                    Result4 = result4,
+                    Result5 = result5,
+                    Result6 = result6,
+                };
+                return response;
             }
             catch (Exception ex)
             {
@@ -392,7 +496,7 @@ namespace Qick.Repositories
 
         }
         
-        public async Task<SubmitResponse> CalculateDiscResult(CalculateResultRequest request, Guid? userId)
+        public async Task<TakingResultResponse> CalculateDiscResult(CalculateResultRequest request, Guid? userId)
         {
             try
             {
@@ -406,7 +510,12 @@ namespace Qick.Repositories
                     nS = 0,
                     yC = 0,
                     nC = 0;
-                
+                string?
+                    result1 = null,
+                    result2 = null,
+                    result3 = null,
+                    result4 = null;
+
                 foreach (var question in request.questions)
                 {
                     foreach (var option in question.Options)
@@ -472,6 +581,11 @@ namespace Qick.Repositories
                     .FirstOrDefaultAsync();
                 var list = checkGraphDisc(D,I,S,C).OrderByDescending(a => a.Percentage);
 
+                result1 ="D" + (int)D.Percentage+"%";
+                result2 ="I"+ (int)I.Percentage+"%";
+                result3 ="S" +(int)S.Percentage+"%";
+                result4 ="C"+ (int)C.Percentage+"%";
+
                 switch (list.Count())
                 {
                     case 1:
@@ -533,7 +647,23 @@ namespace Qick.Repositories
                     }
                     await _context.SaveChangesAsync();
                 }
-                return result.Result;
+                var realResult = GetCharacterResult(result.Result.Id, result.Result.ResultShortName);
+                TakingResultResponse response = new()
+                {
+                    Id = realResult.Result.Id,
+                    ResultName = realResult.Result.ResultShortName,
+                    ResultShortName = realResult.Result.ResultShortName,
+                    ResultSummary = realResult.Result.ResultSummary,
+                    ResultCareer = realResult.Result.ResultCareer,
+                    ResultRelationship = realResult.Result.ResultRelationship,
+                    ResultSuccessRule = realResult.Result.ResultSuccessRule,
+                    ResultPictureUrl = realResult.Result.ResultPictureUrl,
+                    Result1 = result1,
+                    Result2 = result2,
+                    Result3 = result3,
+                    Result4 = result4
+                };
+                return response;
             }
             catch (Exception ex)
             {
@@ -541,7 +671,167 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
-        
+        public async Task<TakingResultResponse> CalculateBig5Result(CalculateResultRequest request, Guid? userId)
+        {
+            try
+            {
+                string typeResult = "";
+                int
+                    yO = 0,
+                    nO = 0,
+                    yC = 0,
+                    nC = 0,
+                    yE = 0,
+                    nE = 0,
+                    yA = 0,
+                    nA = 0,
+                    yN = 0,
+                    nN = 0;
+                string?
+                    result1 = null,
+                    result2 = null,
+                    result3 = null,
+                    result4 = null,
+                    result5 = null;
+
+                foreach (var question in request.questions)
+                {
+                    if (question.questionvalue[2].Equals("P"))
+                    {
+                        switch (question.questionvalue[0])
+                        {
+                            case 'O':
+                                yO += Int32.Parse(question.Options.First().optionValue);
+                                break;
+                            case 'C':
+                                yC += Int32.Parse(question.Options.First().optionValue);
+                                break;
+                            case 'E':
+                                yE += Int32.Parse(question.Options.First().optionValue);
+                                break;
+                            case 'A':
+                                yA += Int32.Parse(question.Options.First().optionValue);
+                                break;
+                            case 'N':
+                                yN += Int32.Parse(question.Options.First().optionValue);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    else if (question.questionvalue[2].Equals("N"))
+                    {
+                        switch (question.questionvalue[0])
+                        {
+                            case 'O':
+                                nO += Int32.Parse(question.Options.First().optionValue);
+                                break;
+                            case 'C':
+                                nC += Int32.Parse(question.Options.First().optionValue);
+                                break;
+                            case 'E':
+                                nE += Int32.Parse(question.Options.First().optionValue);
+                                break;
+                            case 'A':
+                                nA += Int32.Parse(question.Options.First().optionValue);
+                                break;
+                            case 'N':
+                                nN += Int32.Parse(question.Options.First().optionValue);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                int
+                    isO = 14 + yO - nO,
+                    isC = 14 + yC - nC,
+                    isE = 20 + yE - nE,
+                    isA = 14 + yA - nA,
+                    isN = 14 + yN - nN;
+
+
+                result1 = "O" + (int)(isO / 40 * 100) + "%";
+                result2 = "C" + (int)(isC / 40 * 100) + "%";
+                result3 = "E" + (int)(isE / 40 * 100) + "%";
+                result4 = "A" + (int)(isA / 40 * 100) + "%";
+                result5 = "N" + (int)(isN / 40 * 100) + "%";
+
+                List<int> orderBy = new List<int>();
+                orderBy.Add(isO);
+                orderBy.Add(isC);
+                orderBy.Add(isE);
+                orderBy.Add(isA);
+                orderBy.Add(isN);
+                var sort = orderBy.OrderByDescending(a => a).ToList();
+                switch (sort[0].ToString())
+                {
+                    case "O":
+                        typeResult = "O";
+                        break;
+
+                    case "C":
+                        typeResult = "C";
+                        break;
+
+                    case "E":
+                        typeResult = "E";
+                        break;
+
+                    case "A":
+                        typeResult = "A";
+                        break;
+
+                    case "N":
+                        typeResult = "N";
+                        break;
+
+                    default:
+                        { throw new Exception("Answer wrong"); }
+                }
+
+                var result = getTestResult(typeResult, request.TestId);
+                if (userId != null)
+                {
+                    var attempt = CreateAttempt(result.Result.Id, userId, result.Result.ResultShortName);
+                    foreach (var question in request.questions)
+                    {
+                        foreach (var option in question.Options)
+                        {
+                            var detail = CreateAttemptDetail(attempt.Result.Id, option.optionId, option.optionValue);
+
+                        }
+
+                    }
+                    await _context.SaveChangesAsync();
+                }
+                var realResult = GetCharacterResult(result.Result.Id, result.Result.ResultShortName);
+                TakingResultResponse response = new()
+                {
+                    Id = realResult.Result.Id,
+                    ResultName = realResult.Result.ResultShortName,
+                    ResultShortName = realResult.Result.ResultShortName,
+                    ResultSummary = realResult.Result.ResultSummary,
+                    ResultCareer = realResult.Result.ResultCareer,
+                    ResultRelationship = realResult.Result.ResultRelationship,
+                    ResultSuccessRule = realResult.Result.ResultSuccessRule,
+                    ResultPictureUrl = realResult.Result.ResultPictureUrl,
+                    Result1 = result1,
+                    Result2 = result2,
+                    Result3 = result3,
+                    Result4 = result4,
+                    Result5 = result5
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+
         private List<IntensityIndex> checkGraphDisc (IntensityIndex isD, IntensityIndex isI, IntensityIndex isS, IntensityIndex isC)
         {
             List<IntensityIndex> list = new List<IntensityIndex>();   
