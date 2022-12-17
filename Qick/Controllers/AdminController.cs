@@ -554,6 +554,25 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
+
+        [HttpPut("update-job")]
+        public async Task<IActionResult> UpdateJob(UpdateJobRequest request)
+        {
+            try
+            {
+                var response = _repoJob.UpdateJob(request);
+                if(response != null) { return Ok(response); }
+                else
+                {
+                    return Ok(new HttpStatusCodeResponse(204));
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
+
         //Update Test
         [HttpPut("update-char")]
         public async Task<IActionResult> UpdateCharacter(UpdateCharacterRequest request)

@@ -1,4 +1,5 @@
-﻿using Qick.Models;
+﻿using Qick.Dto.Requests;
+using Qick.Models;
 
 namespace Qick.Repositories.Interfaces
 {
@@ -10,5 +11,6 @@ namespace Qick.Repositories.Interfaces
         // get Jobs by character Id
         Task<IEnumerable<Job>> GetJobByCharacterId(Guid CharacterId);
         Task<IEnumerable<Job>> GetAllJobByAdmin();
+        Task<Job> UpdateJob(UpdateJobRequest request);   
     }
 }
