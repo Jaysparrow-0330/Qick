@@ -429,34 +429,38 @@ namespace Qick.Repositories
                        isC = 0;
                 foreach (var question in request.questions)
                 {
-                    switch (question.Options.FirstOrDefault().optionValue)
+                    foreach (var option in question.Options)
                     {
-                        case TypeHolland.IsR:
-                            isR += 1;
-                            break;
+                        switch (option.optionValue)
+                        {
+                            case TypeHolland.IsR:
+                                isR += 1;
+                                break;
 
-                        case TypeHolland.IsI:
-                            isI += 1;
-                            break;
+                            case TypeHolland.IsI:
+                                isI += 1;
+                                break;
 
-                        case TypeHolland.IsA:
-                            isA += 1;
-                            break;
+                            case TypeHolland.IsA:
+                                isA += 1;
+                                break;
 
-                        case TypeHolland.IsS:
-                            isS += 1;
-                            break;
+                            case TypeHolland.IsS:
+                                isS += 1;
+                                break;
 
-                        case TypeHolland.IsE:
-                            isE += 1;
-                            break;
+                            case TypeHolland.IsE:
+                                isE += 1;
+                                break;
 
-                        case TypeHolland.IsC:
-                            isC += 1;
-                            break;
-                        default:
-                            { throw new Exception("Answer wrong"); }
+                            case TypeHolland.IsC:
+                                isC += 1;
+                                break;
+                            default:
+                                { throw new Exception("Answer wrong"); }
+                        }
                     }
+                    
                 }
                 double re1 = (isR / 107.0) * 100.0;
                 result1 = "R-" + (int)re1 + "%";
