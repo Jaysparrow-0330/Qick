@@ -462,17 +462,35 @@ namespace Qick.Repositories
                     }
                     
                 }
-                double re1 = (isR / 107.0) * 100.0;
+                var countR = await _context.Options
+                    .Where(a => a.Value.Equals(TypeHolland.IsR))
+                    .CountAsync();
+                var countI = await _context.Options
+                    .Where(a => a.Value.Equals(TypeHolland.IsI))
+                    .CountAsync();
+                var countA = await _context.Options
+                    .Where(a => a.Value.Equals(TypeHolland.IsA))
+                    .CountAsync();
+                var countS = await _context.Options
+                    .Where(a => a.Value.Equals(TypeHolland.IsS))
+                    .CountAsync();
+                var countE = await _context.Options
+                    .Where(a => a.Value.Equals(TypeHolland.IsE))
+                    .CountAsync();
+                var countC = await _context.Options
+                    .Where(a => a.Value.Equals(TypeHolland.IsC))
+                    .CountAsync();
+                double re1 = (isR / Convert.ToDouble(countR)) * 100.0;
                 result1 = "R-" + (int)re1 + "%";
-                double re2 = (isI / 107.0) * 100.0;
+                double re2 = (isI / Convert.ToDouble(countI)) * 100.0;
                 result2 = "I-" + (int)re2 + "%";
-                double re3 = (isA / 107.0) * 100.0;
+                double re3 = (isA / Convert.ToDouble(countA)) * 100.0;
                 result3 = "A-" + (int)re3 + "%";
-                double re4 = (isS / 107.0) * 100.0;
+                double re4 = (isS / Convert.ToDouble(countS)) * 100.0;
                 result4 = "S-" + (int)re4 + "%";
-                double re5 = (isE / 107.0) * 100.0;
+                double re5 = (isE / Convert.ToDouble(countE)) * 100.0;
                 result5 = "E-" + (int)re5 + "%";
-                double re6 = (isC / 107.0) * 100.0;
+                double re6 = (isC / Convert.ToDouble(countC)) * 100.0;
                 result6 = "C-" + (int)re6 + "%";
 
                 var result = getTestResult(typeResult, request.TestId);
