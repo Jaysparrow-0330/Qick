@@ -458,17 +458,17 @@ namespace Qick.Repositories
                             { throw new Exception("Answer wrong"); }
                     }
                 }
-                double re1 = (isR / 18) * 100.0;
+                double re1 = (isR / 107.0) * 100.0;
                 result1 = "R-" + (int)re1 + "%";
-                double re2 = (isI / 18) * 100.0;
+                double re2 = (isI / 107.0) * 100.0;
                 result2 = "I-" + (int)re2 + "%";
-                double re3 = (isA / 18) * 100.0;
+                double re3 = (isA / 107.0) * 100.0;
                 result3 = "A-" + (int)re3 + "%";
-                double re4 = (isS / 18) * 100.0;
+                double re4 = (isS / 107.0) * 100.0;
                 result4 = "S-" + (int)re4 + "%";
-                double re5 = (isE / 18) * 100.0;
+                double re5 = (isE / 107.0) * 100.0;
                 result5 = "E-" + (int)re5 + "%";
-                double re6 = (isC / 18) * 100.0;
+                double re6 = (isC / 107.0) * 100.0;
                 result6 = "C-" + (int)re6 + "%";
 
                 var result = getTestResult(typeResult, request.TestId);
