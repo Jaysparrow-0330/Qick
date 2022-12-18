@@ -18,6 +18,8 @@ namespace Qick.Services.AutoMapper
             CreateMap<JobMajorRequest, JobMajor>()
                 .ForMember(m => m.Status, n => n.MapFrom(i => Status.ACTIVE));
             
+            CreateMap<JobMappingRequest,JobMapping>()
+                .ForMember(m => m.Status, n => n.MapFrom(i => Status.ACTIVE));
 
         }
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Qick.Dto.Enum;
 using Qick.Dto.Requests;
 using Qick.Dto.Responses;
@@ -10,13 +11,15 @@ namespace Qick.Repositories
     public class SystemRepository : ISystemRepository
     {
         private readonly QickDatabaseManangementContext _context;
+        private readonly IMapper _mapper;
 
-        public SystemRepository(QickDatabaseManangementContext context)
+        public SystemRepository(QickDatabaseManangementContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        public async Task<bool> CreateJob(JobRequest request)
+            public async Task<bool> CreateJob(JobRequest request)
         {
             try
             {
@@ -161,11 +164,14 @@ namespace Qick.Repositories
             try
             {
                 var character = await _context.Characters
+                    .Include(m => m.JobMappings)
                     .Where(u => u.Id == request.Id)
                     .FirstOrDefaultAsync();
 
                 if (character != null)
                 {
+                    _context.RemoveRange(character.JobMappings);
+                    _mapper.Map(request, character);
                     character.ResultSummary = request.ResultSummary;
                     character.ResultCareer = request.ResultCareer;
                     character.ResultSuccessRule = request.ResultSuccessRule;
@@ -174,14 +180,13 @@ namespace Qick.Repositories
                     character.ResultName = request.ResultName;
                     character.ResultPictureUrl = request.ResultPictureUrl;
                     character.Value = request.Value;
-
                 }
                 else
                 {
-                    { throw new Exception("Major does not exist"); }
+                    { throw new Exception("Character does not exist"); }
                 }
 
-                await _context.SaveChangesAsync();
+                if (await _context.SaveChangesAsync() <= 0) throw new Exception("Nothing changes");
                 return character;
             }
             catch (Exception ex)
