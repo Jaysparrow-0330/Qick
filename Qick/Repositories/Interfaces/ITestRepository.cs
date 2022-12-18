@@ -41,7 +41,7 @@ namespace Qick.Repositories.Interfaces
         // create result  by test Id ony admin or godad
         Task<TakingResultResponse> CalculateDiscResult(CalculateResultRequest request, Guid? userId);
         Task<TakingResultResponse> CalculateBig5Result(CalculateResultRequest request, Guid? userId);
-
+        Task<TakingResultResponse> CalculateHollandResult(CalculateResultRequest request, Guid? userId);
         // get all testType
         Task<IEnumerable<Models.TestType>> GetActiveTestType();
         Task<IEnumerable<Attempt>> GetAttempt(Guid? userId);

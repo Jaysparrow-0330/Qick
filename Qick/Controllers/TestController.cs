@@ -194,5 +194,35 @@ namespace Qick.Controllers
             }
 
         }
+
+        // submit test response test's result by guest
+        [AllowAnonymous]
+        [HttpPost("holland")]
+        public async Task<IActionResult> SubmitTestHolland(CalculateResultRequest request)
+        {
+            try
+            {
+
+                var user = User.ToString();
+                Guid userId = Guid.Empty;
+                try
+                {
+                    userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                    var result = await _repo.CalculateHollandResult(request, userId);
+                    return Ok(result);
+                }
+                catch (Exception)
+                {
+
+                    var result = await _repo.CalculateHollandResult(request, null);
+                    return Ok(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+
+        }
     }
 }

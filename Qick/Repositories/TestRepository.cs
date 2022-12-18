@@ -365,95 +365,7 @@ namespace Qick.Repositories
                     }
 
                 }
-                else if (type.TestType.TestTypeName.Equals(TestTypeName.HOLLAND))
-                {
-                    int
-                       isR = 0,
-                       isI = 0,
-                       isA = 0,
-                       isS = 0,
-                       isE = 0,
-                       isC = 0;
-                    foreach (var question in request.questions)
-                    {
-                        switch (question.Options.FirstOrDefault().optionValue)
-                        {
-                            case TypeHolland.IsR:
-                                isR += 1;
-                                break;
-
-                            case TypeHolland.IsI:
-                                isI += 1;
-                                break;
-
-                            case TypeHolland.IsA:
-                                isA += 1;
-                                break;
-
-                            case TypeHolland.IsS:
-                                isS += 1;
-                                break;
-
-                            case TypeHolland.IsE:
-                                isE += 1;
-                                break;
-
-                            case TypeHolland.IsC:
-                                isC += 1;
-                                break;
-                            default:
-                                { throw new Exception("Answer wrong"); }
-                        }
-                    }
-                    double re1 = (isR /18) * 100.0;
-                    result1 = "R-" + (int)re1 + "%";
-                    double re2 = (isI / 18) * 100.0;
-                    result2 = "I-" + (int)re2 + "%";
-                    double re3 = (isA / 18) * 100.0;
-                    result3 = "A-" + (int)re3 + "%";
-                    double re4 = (isS / 18) * 100.0;
-                    result4 = "S-" + (int)re4 + "%";
-                    double re5 = (isE / 18) * 100.0;
-                    result5 = "E-" + (int)re5 + "%";
-                    double re6 = (isC / 18) * 100.0;
-                    result6 = "C-" + (int)re6 + "%";
-                    List<double> orderBy = new List<double>();
-                    orderBy.Add(isR);
-                    orderBy.Add(isI);
-                    orderBy.Add(isA);
-                    orderBy.Add(isS);
-                    orderBy.Add(isE);
-                    orderBy.Add(isC);
-                    var sort = orderBy.OrderByDescending(a => a).ToList();
-                    switch (sort[0].ToString())
-                    {
-                        case "isR":
-                            typeResult = TypeHolland.IsR;
-                            break;
-
-                        case "isI":
-                            typeResult = TypeHolland.IsI;
-                            break;
-
-                        case "isA":
-                            typeResult = TypeHolland.IsA;
-                            break;
-
-                        case "isS":
-                            typeResult = TypeHolland.IsS;
-                            break;
-
-                        case "isE":
-                            typeResult = TypeHolland.IsE;
-                            break;
-
-                        case "isC":
-                            typeResult = TypeHolland.IsC;
-                            break;
-                        default:
-                            { throw new Exception("Answer wrong"); }
-                    }
-                }
+                
 
                 var result = getTestResult(typeResult, request.TestId);
                 if (userId != null)
@@ -496,7 +408,101 @@ namespace Qick.Repositories
 
 
         }
-        
+        public async Task<TakingResultResponse> CalculateHollandResult(CalculateResultRequest request, Guid? userId)
+        {
+            try
+            {
+                string typeResult = "Holland";
+                string?
+                        result1 = null,
+                        result2 = null,
+                        result3 = null,
+                        result4 = null,
+                        result5 = null,
+                        result6 = null;
+                double
+                       isR = 0,
+                       isI = 0,
+                       isA = 0,
+                       isS = 0,
+                       isE = 0,
+                       isC = 0;
+                foreach (var question in request.questions)
+                {
+                    switch (question.Options.FirstOrDefault().optionValue)
+                    {
+                        case TypeHolland.IsR:
+                            isR += 1;
+                            break;
+
+                        case TypeHolland.IsI:
+                            isI += 1;
+                            break;
+
+                        case TypeHolland.IsA:
+                            isA += 1;
+                            break;
+
+                        case TypeHolland.IsS:
+                            isS += 1;
+                            break;
+
+                        case TypeHolland.IsE:
+                            isE += 1;
+                            break;
+
+                        case TypeHolland.IsC:
+                            isC += 1;
+                            break;
+                        default:
+                            { throw new Exception("Answer wrong"); }
+                    }
+                }
+                double re1 = (isR / 18) * 100.0;
+                result1 = "R-" + (int)re1 + "%";
+                double re2 = (isI / 18) * 100.0;
+                result2 = "I-" + (int)re2 + "%";
+                double re3 = (isA / 18) * 100.0;
+                result3 = "A-" + (int)re3 + "%";
+                double re4 = (isS / 18) * 100.0;
+                result4 = "S-" + (int)re4 + "%";
+                double re5 = (isE / 18) * 100.0;
+                result5 = "E-" + (int)re5 + "%";
+                double re6 = (isC / 18) * 100.0;
+                result6 = "C-" + (int)re6 + "%";
+
+                var result = getTestResult(typeResult, request.TestId);
+                if (userId != null)
+                {
+                    var attempt = CreateAttempt(result.Result.Id, userId, result.Result.ResultShortName);
+                    foreach (var question in request.questions)
+                    {
+                        foreach (var option in question.Options)
+                        {
+                            var detail = CreateAttemptDetail(attempt.Result.Id, option.optionId, option.optionValue);
+
+                        }
+
+                    }
+                    await _context.SaveChangesAsync();
+                }
+                TakingResultResponse response = new()
+                {
+                    Result1 = result1,
+                    Result2 = result2,
+                    Result3 = result3,
+                    Result4 = result4,
+                    Result5 = result5,
+                    Result6 = result6
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
         public async Task<TakingResultResponse> CalculateDiscResult(CalculateResultRequest request, Guid? userId)
         {
             try
@@ -676,7 +682,7 @@ namespace Qick.Repositories
         {
             try
             {
-                string typeResult = "";
+                string typeResult = "BigFive";
                 double
                     yO = 0,
                     nO = 0,
@@ -758,38 +764,7 @@ namespace Qick.Repositories
                 result4 = "A" + (int)(isA / 40 * 100) + "%";
                 result5 = "N" + (int)(isN / 40 * 100) + "%";
 
-                List<double> orderBy = new List<double>();
-                orderBy.Add(isO);
-                orderBy.Add(isC);
-                orderBy.Add(isE);
-                orderBy.Add(isA);
-                orderBy.Add(isN);
-                var sort = orderBy.OrderByDescending(a => a).ToList();
-                switch (sort[0].ToString())
-                {
-                    case "O":
-                        typeResult = "O";
-                        break;
-
-                    case "C":
-                        typeResult = "C";
-                        break;
-
-                    case "E":
-                        typeResult = "E";
-                        break;
-
-                    case "A":
-                        typeResult = "A";
-                        break;
-
-                    case "N":
-                        typeResult = "N";
-                        break;
-
-                    default:
-                        { throw new Exception("Answer wrong"); }
-                }
+                
 
                 var result = getTestResult(typeResult, request.TestId);
                 if (userId != null)
@@ -806,17 +781,8 @@ namespace Qick.Repositories
                     }
                     await _context.SaveChangesAsync();
                 }
-                var realResult = GetCharacterResult(result.Result.Id, result.Result.ResultShortName);
                 TakingResultResponse response = new()
                 {
-                    Id = realResult.Result.Id,
-                    ResultName = realResult.Result.ResultName,
-                    ResultShortName = realResult.Result.ResultShortName,
-                    ResultSummary = realResult.Result.ResultSummary,
-                    ResultCareer = realResult.Result.ResultCareer,
-                    ResultRelationship = realResult.Result.ResultRelationship,
-                    ResultSuccessRule = realResult.Result.ResultSuccessRule,
-                    ResultPictureUrl = realResult.Result.ResultPictureUrl,
                     Result1 = result1,
                     Result2 = result2,
                     Result3 = result3,
