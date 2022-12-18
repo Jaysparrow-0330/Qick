@@ -112,15 +112,19 @@ namespace Qick.Controllers
         {
             try
             {
+
                 var user = User.ToString();
-                if (user == null)
+                Guid userId = Guid.Empty;
+                try
                 {
-                    var result = await _repo.CalculateTestResult(request,null);
-                    return Ok(result);
-                } else
-                {
-                    Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                    userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                     var result = await _repo.CalculateTestResult(request, userId);
+                    return Ok(result);
+                }
+                catch (Exception)
+                {
+
+                    var result = await _repo.CalculateTestResult(request, null);
                     return Ok(result);
                 }
             }
@@ -140,16 +144,17 @@ namespace Qick.Controllers
             {
                 
                 var user = User.ToString();
-                if (user == null)
+                Guid userId = Guid.Empty;
+                try
                 {
-                    var result = await _repo.CalculateDiscResult(request,null);
+                    userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                    var result = await _repo.CalculateDiscResult(request, userId);
                     return Ok(result);
                 }
-                else
+                catch (Exception)
                 {
-                    Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                    //Guid userId = Guid.Parse(User.FindFirst)
-                    var result = await _repo.CalculateDiscResult(request,userId);
+
+                    var result = await _repo.CalculateDiscResult(request, null);
                     return Ok(result);
                 }
             }
@@ -169,16 +174,17 @@ namespace Qick.Controllers
             {
 
                 var user = User.ToString();
-                if (user == null)
+                Guid userId = Guid.Empty;
+                try
                 {
-                    var result = await _repo.CalculateBig5Result(request, null);
+                    userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                    var result = await _repo.CalculateBig5Result(request, userId);
                     return Ok(result);
                 }
-                else
+                catch (Exception)
                 {
-                    Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                    //Guid userId = Guid.Parse(User.FindFirst)
-                    var result = await _repo.CalculateDiscResult(request, userId);
+
+                    var result = await _repo.CalculateBig5Result(request, null);
                     return Ok(result);
                 }
             }

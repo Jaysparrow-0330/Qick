@@ -264,8 +264,8 @@ namespace Qick.Repositories
 
                 if (type.TestType.TestTypeName.Equals(TestTypeName.MBTI))
                 {
-                    
-                    int
+
+                    double
                         isI = 0,
                         isE = 0,
                         isS = 0,
@@ -274,6 +274,7 @@ namespace Qick.Repositories
                         isF = 0,
                         isJ = 0,
                         isP = 0;
+                    
                     foreach (var question in request.questions)
                     {
                             switch (question.Options.FirstOrDefault().optionValue)
@@ -317,50 +318,50 @@ namespace Qick.Repositories
                     if (isI > isE)
                     {
                         typeResult = "I";
-                        int re1 = (isI / (isI + isE)) * 100;
-                        result1 = "I-" + re1+"%";
+                       double re1 = isI / (isI + isE) * 100.0;
+                        result1 = "I-" + (int)re1 +"%";
                     } 
                     else
                     {
                         typeResult = "E";
-                        int re1 = (isE / (isI + isE)) * 100;
-                        result1 = "E-" + re1 + "%";
+                        double re1 = (isE / (isI + isE)) * 100.0;
+                        result1 = "E-" + (int)re1 + "%";
                     }
                     if (isN > isS)
                     {
                         typeResult += "N";
-                        int re2 = (isN / (isS + isN)) * 100;
-                        result2 = "N-" + re2 + "%";
+                        double re2 = (isN / (isS + isN)) * 100.0;
+                        result2 = "N-" + (int)re2 + "%";
                     }
                     else
                     {
                         typeResult += "S";
-                        int re2 = (isS / (isS + isN)) * 100;
-                        result2 = "S-" + re2 + "%";
+                        double re2 = (isS / (isS + isN)) * 100.0;
+                        result2 = "S-" + (int)re2 + "%";
                     }
                     if (isF > isT)
                     {
                         typeResult += "F";
-                        int re3 = (isF / (isF + isT)) * 100;
-                        result3 = "F-" + re3 + "%";
+                        double re3 = (isF / (isF + isT)) * 100.0;
+                        result3 = "F-" + (int)re3 + "%";
                     }
                     else
                     {
                         typeResult += "T";
-                        int re3 = (isT / (isF + isT)) * 100;
-                        result3 = "T-" + re3 + "%";
+                        double re3 = (isT / (isF + isT)) * 100.0;
+                        result3 = "T-" + (int)re3+ "%";
                     }
                     if (isJ > isP)
                     {
                         typeResult += "J";
-                        int re4 = (isJ / (isJ + isP)) * 100;
-                        result4 = "J-" + re4 + "%";
+                        double re4 = (isJ / (isJ + isP)) * 100.0;
+                        result4 = "J-" + (int)re4 + "%";
                     }
                     else
                     {
                         typeResult += "P";
-                        int re4 = (isP / (isJ + isP)) * 100;
-                        result4 = "P-" + re4 + "%";
+                        double re4 = (isP / (isJ + isP)) * 100.0;
+                        result4 = "P-" + (int)re4 + "%";
                     }
 
                 }
@@ -404,19 +405,19 @@ namespace Qick.Repositories
                                 { throw new Exception("Answer wrong"); }
                         }
                     }
-                    int re1 = (isR /18) * 100;
-                    result1 = "R-" + re1 + "%";
-                    int re2 = (isI / 18) * 100;
-                    result2 = "I-" + re2 + "%";
-                    int re3 = (isA / 18) * 100;
-                    result3 = "A-" + re3 + "%";
-                    int re4 = (isS / 18) * 100;
-                    result4 = "S-" + re4 + "%";
-                    int re5 = (isE / 18) * 100;
-                    result5 = "E-" + re5 + "%";
-                    int re6 = (isC / 18) * 100;
-                    result6 = "C-" + re6 + "%";
-                    List<int> orderBy = new List<int>();
+                    double re1 = (isR /18) * 100.0;
+                    result1 = "R-" + (int)re1 + "%";
+                    double re2 = (isI / 18) * 100.0;
+                    result2 = "I-" + (int)re2 + "%";
+                    double re3 = (isA / 18) * 100.0;
+                    result3 = "A-" + (int)re3 + "%";
+                    double re4 = (isS / 18) * 100.0;
+                    result4 = "S-" + (int)re4 + "%";
+                    double re5 = (isE / 18) * 100.0;
+                    result5 = "E-" + (int)re5 + "%";
+                    double re6 = (isC / 18) * 100.0;
+                    result6 = "C-" + (int)re6 + "%";
+                    List<double> orderBy = new List<double>();
                     orderBy.Add(isR);
                     orderBy.Add(isI);
                     orderBy.Add(isA);
@@ -581,10 +582,10 @@ namespace Qick.Repositories
                     .FirstOrDefaultAsync();
                 var list = checkGraphDisc(D,I,S,C).OrderByDescending(a => a.Percentage);
 
-                result1 ="D" + (int)D.Percentage+"%";
-                result2 ="I"+ (int)I.Percentage+"%";
-                result3 ="S" +(int)S.Percentage+"%";
-                result4 ="C"+ (int)C.Percentage+"%";
+                result1 ="D" + (int)D.Percentage +"%";
+                result2 ="I" + (int)I.Percentage +"%";
+                result3 ="S" + (int)S.Percentage +"%";
+                result4 ="C" + (int)C.Percentage +"%";
 
                 switch (list.Count())
                 {
@@ -676,7 +677,7 @@ namespace Qick.Repositories
             try
             {
                 string typeResult = "";
-                int
+                double
                     yO = 0,
                     nO = 0,
                     yC = 0,
@@ -743,7 +744,7 @@ namespace Qick.Repositories
                         }
                     }
                 }
-                int
+                double
                     isO = 14 + yO - nO,
                     isC = 14 + yC - nC,
                     isE = 20 + yE - nE,
@@ -757,7 +758,7 @@ namespace Qick.Repositories
                 result4 = "A" + (int)(isA / 40 * 100) + "%";
                 result5 = "N" + (int)(isN / 40 * 100) + "%";
 
-                List<int> orderBy = new List<int>();
+                List<double> orderBy = new List<double>();
                 orderBy.Add(isO);
                 orderBy.Add(isC);
                 orderBy.Add(isE);
