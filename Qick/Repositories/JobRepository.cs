@@ -65,7 +65,24 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
+        public async Task<IEnumerable<Job>> GetJobByCharacterIdByAdmin(Guid? characterId)
+        {
+            try
+            {
+                var response = await _context.Jobs
+                    .Where(x => x.Id == x.JobMappings
+                    .Where(a => a.CharacterId == characterId)
+                    .FirstOrDefault().JobId)
+                    .ToListAsync();
 
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
         public async Task<Job> UpdateJob(UpdateJobRequest request)
         {
             try

@@ -19,6 +19,7 @@ namespace Qick.Repositories.Interfaces
 
         // get all Major
         Task<IEnumerable<Specialization>> GetAllSpecDb();
+        Task<IEnumerable<Major>> GetMajorByJobIdByAdmin(int? JobId);
 
         Task<Major> GetMajorById(Guid majorId);
         Task<Specialization> GetSpecById(Guid specId);

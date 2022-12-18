@@ -105,7 +105,24 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
+        public async Task<IEnumerable<Major>> GetMajorByJobIdByAdmin(int? JobId)
+        {
+            try
+            {
+                var response = await _context.Majors
+                    .Where(x => x.Id == x.JobMajors
+                    .Where(a => a.JobId == JobId)
+                    .FirstOrDefault().MajorId )
+                    .ToListAsync();
 
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
         public async Task<IEnumerable<Major>> GetMajorByUniId(Guid uniId)
         {
             try

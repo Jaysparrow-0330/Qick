@@ -121,15 +121,25 @@ namespace Qick.Controllers
 
         //Get all Job
         [HttpGet("job")]
-        public async Task<IActionResult> GetJob()
+        public async Task<IActionResult> GetJob(Guid? characterId)
         {
             try
             {
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                var response = await _repoJob.GetAllJobByAdmin();
-                var ListJobResponse = _mapper.Map<IEnumerable<JobResponse>>(response);
+                
+                if (characterId != null)
+                {
+                    var response = await _repoJob.GetJobByCharacterIdByAdmin(characterId);
+                    var ListJobResponse = _mapper.Map<IEnumerable<JobResponse>>(response);
+                    return Ok(ListJobResponse);
+                }
+                else
+                {
+                    var response = await _repoJob.GetAllJobByAdmin();
+                    var ListJobResponse = _mapper.Map<IEnumerable<JobResponse>>(response);
 
-                return Ok(ListJobResponse);
+                    return Ok(ListJobResponse);
+                }
             }
             catch (Exception ex)
             {
@@ -137,14 +147,25 @@ namespace Qick.Controllers
             }
         }
         [HttpGet("major")]
-        public async Task<IActionResult> GetMajor()
+        public async Task<IActionResult> GetMajor(int? jobId)
         {
             try
             {
-                var response = await _repoMajor.GetAllMajor();
-                var ListJobResponse = _mapper.Map<IEnumerable<MajorResponse>>(response);
+                if (jobId != null )
+                {
+                    var response = await _repoMajor.GetMajorByJobIdByAdmin(jobId);
+                    var ListJobResponse = _mapper.Map<IEnumerable<MajorResponse>>(response);
 
-                return Ok(ListJobResponse);
+                    return Ok(ListJobResponse);
+                }
+                else
+                {
+                    var response = await _repoMajor.GetAllMajorByAdmin();
+                    var ListJobResponse = _mapper.Map<IEnumerable<MajorResponse>>(response);
+
+                    return Ok(ListJobResponse);
+                }
+                
             }
             catch (Exception ex)
             {

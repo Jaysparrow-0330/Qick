@@ -652,7 +652,7 @@ namespace Qick.Repositories
                 TakingResultResponse response = new()
                 {
                     Id = realResult.Result.Id,
-                    ResultName = realResult.Result.ResultShortName,
+                    ResultName = realResult.Result.ResultName,
                     ResultShortName = realResult.Result.ResultShortName,
                     ResultSummary = realResult.Result.ResultSummary,
                     ResultCareer = realResult.Result.ResultCareer,
@@ -810,7 +810,7 @@ namespace Qick.Repositories
                 TakingResultResponse response = new()
                 {
                     Id = realResult.Result.Id,
-                    ResultName = realResult.Result.ResultShortName,
+                    ResultName = realResult.Result.ResultName,
                     ResultShortName = realResult.Result.ResultShortName,
                     ResultSummary = realResult.Result.ResultSummary,
                     ResultCareer = realResult.Result.ResultCareer,
