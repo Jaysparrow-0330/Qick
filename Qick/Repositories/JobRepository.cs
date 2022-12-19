@@ -112,6 +112,11 @@ namespace Qick.Repositories
                     .ToListAsync();
 
             var result = resultJobMbti.Intersect(resultJobDisc);
+            if(!(result.Count()>0))
+            {
+                var response = resultJobMbti.Concat(resultJobDisc);
+                return response;
+            }
             return result;
           
         }
