@@ -26,7 +26,6 @@ namespace Qick.Repositories
 
             return testMember;
         }
-
         public async Task<IEnumerable<Test>> GetListActiveTestGuest()
         {
             var testMember = await _context.Tests
@@ -34,7 +33,6 @@ namespace Qick.Repositories
                   .ToListAsync();
             return testMember;
         }
-
         public async Task<Test> GetTestById(int testId)
         {
             var testDetail = await _context.Tests
@@ -44,7 +42,6 @@ namespace Qick.Repositories
                 .FirstOrDefaultAsync();
             return testDetail;
         }
-
         public async Task<Test> GetTestToAttemp(int testId)
         {
             var testMember = await _context.Tests
@@ -55,9 +52,6 @@ namespace Qick.Repositories
                 .FirstOrDefaultAsync();
             return testMember;
         }
-
-       
-
         public async Task<Test> CreateTest(CreateTestRequest request, Guid userId)
         {
             try
@@ -85,7 +79,6 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
-
         public async Task<IEnumerable<Models.TestType>> GetActiveTestType()
         {
             var listTestType = await _context.TestTypes
@@ -94,7 +87,6 @@ namespace Qick.Repositories
 
             return listTestType;
         }
-
         public async Task<IEnumerable<Test>> GetListAllTest(Guid userId)
         {
             var testMember = await _context.Tests
@@ -104,7 +96,6 @@ namespace Qick.Repositories
 
             return testMember;
         }
-
         public async Task<bool> CreateResult(ResultRequest request)
         {
             try
@@ -131,7 +122,6 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
-
         public async Task<Test> UpdateTestInformation(UpdateTestRequest test)
         {
             try
@@ -211,7 +201,6 @@ namespace Qick.Repositories
                 throw;
             }
         }
-
         public async Task<IEnumerable<Attempt>> GetAttempt(Guid? userId)
         {
             var result = await _context.Attempts
@@ -222,24 +211,6 @@ namespace Qick.Repositories
                 .ToListAsync();
             return result;
         }
-        //public async Task<IEnumerable<Attempt>> GetAttemptForFilter(Guid? userId, int? testId)
-        //{
-        //    if (testId != null)
-        //    {
-        //        var result = await _context.Attempts
-        //        .ThenInclude(u => u.Characters)
-        //        .Where(u => u.UserId == userId)
-        //        .OrderByDescending(x => x.AttemptDate)
-        //        .ToListAsync();
-        //        return result;
-        //    }
-        //    else
-        //    {
-
-        //    }
-
-        //}
-       
         public async Task<Character> GetCharacterResult(int testId, string? resultShortName)
         {
             try
@@ -648,7 +619,7 @@ namespace Qick.Repositories
                         typeResult = "S";
                         break;
                     case "IC":
-                        typeResult = "I";
+                        typeResult = "i";
                         break;
                     case "CI":
                         typeResult = "C";
@@ -812,8 +783,6 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
-
-
         private List<IntensityIndex> checkGraphDisc (IntensityIndex isD, IntensityIndex isI, IntensityIndex isS, IntensityIndex isC)
         {
             List<IntensityIndex> list = new List<IntensityIndex>();   

@@ -83,6 +83,24 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
+        //public async Task<IEnumerable<Attempt>> GetAttemptForFilter(Guid? userId, int? testId)
+        //{
+        //    if (testId != null)
+        //    {
+        //        var result = await _context.Attempts
+        //        .Include(u => u.Test)
+        //        .ThenInclude(x => x.Characters)
+        //        .Where(u => u.UserId == userId)
+        //        .OrderByDescending(x => x.AttemptDate)
+        //        .ToListAsync();
+        //        return result;
+        //    }
+        //    else
+        //    {
+
+        //    }
+
+        //}
         public async Task<Job> UpdateJob(UpdateJobRequest request)
         {
             try
