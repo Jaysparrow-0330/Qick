@@ -627,10 +627,10 @@ namespace Qick.Repositories
                     .FirstOrDefaultAsync();
                 var list = checkGraphDisc(D,I,S,C).OrderByDescending(a => a.Percentage);
 
-                result1 ="D" + (int)D.Percentage +"%";
-                result2 ="I" + (int)I.Percentage +"%";
-                result3 ="S" + (int)S.Percentage +"%";
-                result4 ="C" + (int)C.Percentage +"%";
+                result1 ="D-" + (int)D.Percentage +"%";
+                result2 ="I-" + (int)I.Percentage +"%";
+                result3 ="S-" + (int)S.Percentage +"%";
+                result4 ="C-" + (int)C.Percentage +"%";
 
                 switch (list.Count())
                 {
