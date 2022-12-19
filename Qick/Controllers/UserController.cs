@@ -70,8 +70,8 @@ namespace Qick.Controllers
             {
                 Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 var response = await _repoTest.GetAttempt(userId);
-                var profile = _mapper.Map<IEnumerable<ListAttemptResponse>>(response);
-                return Ok(profile);
+                //var profile = _mapper.Map<IEnumerable<ListAttemptResponse>>(response);
+                return Ok(response);
             }
             catch (Exception ex)
             {

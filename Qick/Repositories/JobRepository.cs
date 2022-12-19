@@ -83,6 +83,44 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
+        public async Task<IEnumerable<Job>> GetAttemptForFilterSingle(Guid? userId, int number)
+        {
+            if (number == 3)
+            {
+                var resultMbti = await _context.Attempts
+                                .Where(u => u.UserId == userId && u.Test.TestTypeId == 3)
+                                .OrderByDescending(x => x.AttemptDate)
+                                .FirstOrDefaultAsync();
+                var charMbti = await _context.Characters
+                                 .Where(a => a.TestId == resultMbti.TestId && a.ResultShortName.Equals(resultMbti.ResultShortName))
+                                 .FirstOrDefaultAsync();
+                var resultJobMbti = await _context.Jobs
+                        .Where(x => x.Id == x.JobMappings
+                        .Where(a => a.CharacterId == charMbti.Id)
+                        .FirstOrDefault().JobId && x.JobMajors.ToList().Count() > 0)
+                        .ToListAsync();
+                return resultJobMbti;
+
+            }
+            else
+            {
+                var resultDisc = await _context.Attempts
+                                .Where(u => u.UserId == userId && u.Test.TestTypeId == 4)
+                                .OrderByDescending(x => x.AttemptDate)
+                                .FirstOrDefaultAsync();
+                var charDisc = await _context.Characters
+                                 .Where(a => a.TestId == resultDisc.TestId && a.ResultShortName.Equals(resultDisc.ResultShortName))
+                                 .FirstOrDefaultAsync();
+                var resultJobDisc = await _context.Jobs
+                        .Where(x => x.Id == x.JobMappings
+                        .Where(a => a.CharacterId == charDisc.Id)
+                        .FirstOrDefault().JobId && x.JobMajors.ToList().Count() > 0)
+                        .ToListAsync();
+                return resultJobDisc;
+            }
+            
+
+        }
         public async Task<IEnumerable<Job>> GetAttemptForFilter(Guid? userId)
         {
             var resultMbti = await _context.Attempts

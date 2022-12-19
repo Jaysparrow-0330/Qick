@@ -14,5 +14,6 @@ namespace Qick.Repositories.Interfaces
         Task<IEnumerable<Job>> GetAllJobByAdmin();
         Task<Job> UpdateJob(UpdateJobRequest request);
         Task<IEnumerable<Job>> GetAttemptForFilter(Guid? userId);
+        Task<IEnumerable<Job>> GetAttemptForFilterSingle(Guid? userId, int number);
     }
 }

@@ -44,7 +44,7 @@ namespace Qick.Repositories.Interfaces
         Task<SubmitResponse> CalculateHollandResult(CalculateResultRequest request, Guid? userId);
         // get all testType
         Task<IEnumerable<Models.TestType>> GetActiveTestType();
-        Task<IEnumerable<Attempt>> GetAttempt(Guid? userId);
+        Task<IEnumerable<ListAttemptResponse>> GetAttempt(Guid? userId);
 
 
     }

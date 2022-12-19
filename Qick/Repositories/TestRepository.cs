@@ -201,16 +201,65 @@ namespace Qick.Repositories
                 throw;
             }
         }
-        public async Task<IEnumerable<Attempt>> GetAttempt(Guid? userId)
+        public async Task<IEnumerable<ListAttemptResponse>> GetAttempt(Guid? userId)
         {
             var result = await _context.Attempts
                 .Include(a => a.Test)
-                .ThenInclude(u => u.Characters)
-                .Where(u =>  u.UserId == userId)
+                //.ThenInclude(u => u.Characters)
+                .Where(u => u.UserId == userId)
                 .OrderByDescending(x => x.AttemptDate)
                 .ToListAsync();
-            return result;
+            var list = new List<ListAttemptResponse>();
+            foreach (var item in result)
+            {
+                var character = await _context.Characters
+                            .Where(a => a.TestId == item.TestId && a.ResultShortName.Equals(item.ResultShortName))
+                            .FirstOrDefaultAsync();
+                if (character != null)
+                {
+                    ListAttemptResponse add = new()
+                    {
+                        id = item.Id,
+                        testId = (int)item.TestId,
+                        testName = item.Test.TestName,
+                        ResultShortName = item.ResultShortName,
+                        ResultName = character.ResultName,
+                        AttemptDate = item.AttemptDate,
+                        Result1 = item.Result1,
+                        Result2 = item.Result2,
+                        Result3 = item.Result3,
+                        Result4 = item.Result4,
+                        Result5 = item.Result5,
+                        Result6 = item.Result6,
+                    };
+                    list.Add(add);
+                }
+                else
+                {
+                    ListAttemptResponse add = new()
+                    {
+                        id = item.Id,
+                        testId = (int)item.TestId,
+                        testName = item.Test.TestName,
+                        ResultShortName = item.ResultShortName,
+                        ResultName = null,
+                        AttemptDate = item.AttemptDate,
+                        Result1 = item.Result1,
+                        Result2 = item.Result2,
+                        Result3 = item.Result3,
+                        Result4 = item.Result4,
+                        Result5 = item.Result5,
+                        Result6 = item.Result6,
+                    };
+                    list.Add(add);
+                }
+                
+                
+
+            }
+            return list;
         }
+        
         public async Task<Character> GetCharacterResult(int testId, string? resultShortName)
         {
             try
@@ -744,7 +793,26 @@ namespace Qick.Repositories
                     isA = 14 + yA - nA,
                     isN = 14 + yN - nN;
 
-
+                if (isO <= 0.0)
+                {
+                    isO = 1.0;
+                }
+                if (isC <= 0.0)
+                {
+                    isC = 1.0;
+                }
+                if (isE <= 0.0)
+                {
+                    isE = 1.0;
+                }
+                if (isA <= 0.0)
+                {
+                    isA = 1.0;
+                }
+                if (isN <= 0.0)
+                {
+                    isN = 1.0;
+                }
                 result1 = "O-" + (int)(isO / 40 * 100) + "%";
                 result2 = "C-" + (int)(isC / 40 * 100) + "%";
                 result3 = "E-" + (int)(isE / 40 * 100) + "%";

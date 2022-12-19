@@ -72,5 +72,22 @@ namespace Qick.Controllers
                 return Ok(ex.Message);
             }
         }
+
+        [HttpGet("single-filter")]
+        public async Task<IActionResult> GetJobByTestFilterSingle(int number)
+        {
+            try
+            {
+                Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var response = await _repo.GetAttemptForFilterSingle(userId, number);
+                var ListJobResponse = _mapper.Map<IEnumerable<CareerJobResponse>>(response);
+
+                return Ok(ListJobResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+        }
     }
 }
