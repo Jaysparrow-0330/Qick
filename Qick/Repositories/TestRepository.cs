@@ -801,7 +801,7 @@ namespace Qick.Repositories
                 result2 = "C-" + (int)(isC / 40 * 100) + "%";
                 result3 = "E-" + (int)(isE / 40 * 100) + "%";
                 result4 = "A-" + (int)(isA / 40 * 100) + "%";
-                result5 = "N-S" + (int)(isN / 40 * 100) + "%";
+                result5 = "N-" + (int)(isN / 40 * 100) + "%";
 
                 
 
