@@ -216,6 +216,23 @@ namespace Qick.Repositories
                 .ToListAsync();
             return result;
         }
+        //public async Task<IEnumerable<Attempt>> GetAttemptForFilter(Guid? userId, int? testId )
+        //{
+        //    if (testId != null)
+        //    {
+        //        var result = await _context.Attempts
+        //        .ThenInclude(u => u.Characters)
+        //        .Where(u => u.UserId == userId)
+        //        .OrderByDescending(x => x.AttemptDate)
+        //        .ToListAsync();
+        //        return result;
+        //    }
+        //    else
+        //    {
+
+        //    }
+            
+        //}
         private async Task<SubmitResponse> getTestResult(string typeResult, int testId)
         {
             var result = await _context.Characters
@@ -780,11 +797,11 @@ namespace Qick.Repositories
                     isN = 14 + yN - nN;
 
 
-                result1 = "O" + (int)(isO / 40 * 100) + "%";
-                result2 = "C" + (int)(isC / 40 * 100) + "%";
-                result3 = "E" + (int)(isE / 40 * 100) + "%";
-                result4 = "A" + (int)(isA / 40 * 100) + "%";
-                result5 = "N" + (int)(isN / 40 * 100) + "%";
+                result1 = "O-" + (int)(isO / 40 * 100) + "%";
+                result2 = "C-" + (int)(isC / 40 * 100) + "%";
+                result3 = "E-" + (int)(isE / 40 * 100) + "%";
+                result4 = "A-" + (int)(isA / 40 * 100) + "%";
+                result5 = "N-S" + (int)(isN / 40 * 100) + "%";
 
                 
 
