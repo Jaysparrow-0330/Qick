@@ -163,7 +163,7 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
-        public async Task<Attempt> CreateAttempt(int testId, Guid? userId, string result)
+        public async Task<Attempt> CreateAttempt(int testId, Guid? userId, string result, string re1, string r2, string r3, string r4, string r5, string r6)
         {
             try
             {
@@ -173,7 +173,13 @@ namespace Qick.Repositories
                     UserId = userId,
                     ResultShortName = result,
                     AttemptDate = DateTime.Now,
-                    Status = Status.ACTIVE
+                    Status = Status.ACTIVE,
+                    Result1 = re1,
+                    Result2 = r2,
+                    Result3 = r3,
+                    Result4 = r4,
+                    Result5 = r5,
+                    Result6 = r6
                 };
                 await _context.Attempts.AddAsync(attempt);
                 await _context.SaveChangesAsync();
@@ -216,7 +222,7 @@ namespace Qick.Repositories
                 .ToListAsync();
             return result;
         }
-        //public async Task<IEnumerable<Attempt>> GetAttemptForFilter(Guid? userId, int? testId )
+        //public async Task<IEnumerable<Attempt>> GetAttemptForFilter(Guid? userId, int? testId)
         //{
         //    if (testId != null)
         //    {
@@ -231,21 +237,9 @@ namespace Qick.Repositories
         //    {
 
         //    }
-            
-        //}
-        private async Task<SubmitResponse> getTestResult(string typeResult, int testId)
-        {
-            var result = await _context.Characters
-                    .Where(a => a.ResultShortName.ToLower() == typeResult.ToLower())
-                    .FirstOrDefaultAsync();
 
-            SubmitResponse response = new()
-            {
-                Id = testId,
-                ResultShortName = result.ResultShortName
-            };
-            return response;
-        }
+        //}
+       
         public async Task<Character> GetCharacterResult(int testId, string? resultShortName)
         {
             try
@@ -262,7 +256,7 @@ namespace Qick.Repositories
             }
 
         }
-        public async Task<TakingResultResponse> CalculateTestResult(CalculateResultRequest request, Guid? userId)
+        public async Task<SubmitResponse> CalculateTestResult(CalculateResultRequest request, Guid? userId)
         {
             try
             {
@@ -383,11 +377,9 @@ namespace Qick.Repositories
 
                 }
                 
-
-                var result = getTestResult(typeResult, request.TestId);
                 if (userId != null)
                 {
-                    var attempt = CreateAttempt(result.Result.Id, userId, result.Result.ResultShortName);
+                    var attempt = CreateAttempt(request.TestId, userId, typeResult, result1,result2,result3,result4,null,null);
                     foreach ( var question in request.questions)
                     {
                         foreach (var option in question.Options)
@@ -397,17 +389,10 @@ namespace Qick.Repositories
                         
                     }
                 }
-                var realResult = GetCharacterResult(result.Result.Id, result.Result.ResultShortName);
-                TakingResultResponse response = new()
+                SubmitResponse response = new()
                 {
-                    Id = realResult.Result.Id,
-                    ResultName = realResult.Result.ResultName,
-                    ResultShortName = realResult.Result.ResultShortName,
-                    ResultSummary = realResult.Result.ResultSummary,
-                    ResultCareer = realResult.Result.ResultCareer,
-                    ResultRelationship = realResult.Result.ResultRelationship,
-                    ResultSuccessRule = realResult.Result.ResultSuccessRule,
-                    ResultPictureUrl = realResult.Result.ResultPictureUrl,
+                    Id = request.TestId,
+                    ResultShortName = typeResult,
                     Result1 = result1,
                     Result2 = result2,
                     Result3 = result3,
@@ -425,7 +410,7 @@ namespace Qick.Repositories
 
 
         }
-        public async Task<TakingResultResponse> CalculateHollandResult(CalculateResultRequest request, Guid? userId)
+        public async Task<SubmitResponse> CalculateHollandResult(CalculateResultRequest request, Guid? userId)
         {
             try
             {
@@ -510,10 +495,10 @@ namespace Qick.Repositories
                 double re6 = (isC / Convert.ToDouble(countC)) * 100.0;
                 result6 = "C-" + (int)re6 + "%";
 
-                var result = getTestResult(typeResult, request.TestId);
+              
                 if (userId != null)
                 {
-                    var attempt = CreateAttempt(result.Result.Id, userId, result.Result.ResultShortName);
+                    var attempt = CreateAttempt(request.TestId, userId, typeResult, result1,result2,result3,result4,result5,result6);
                     foreach (var question in request.questions)
                     {
                         foreach (var option in question.Options)
@@ -525,7 +510,7 @@ namespace Qick.Repositories
                     }
                     await _context.SaveChangesAsync();
                 }
-                TakingResultResponse response = new()
+                SubmitResponse response = new()
                 {
                     Result1 = result1,
                     Result2 = result2,
@@ -542,7 +527,7 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
-        public async Task<TakingResultResponse> CalculateDiscResult(CalculateResultRequest request, Guid? userId)
+        public async Task<SubmitResponse> CalculateDiscResult(CalculateResultRequest request, Guid? userId)
         {
             try
             {
@@ -671,10 +656,9 @@ namespace Qick.Repositories
                     default:
                         break;
                 }
-                var result = getTestResult(typeResult, request.TestId);
                 if (userId != null)
                 {
-                    var attempt = CreateAttempt(result.Result.Id, userId, result.Result.ResultShortName);
+                    var attempt = CreateAttempt(request.TestId, userId, typeResult, result1,result2,result3,result4,null,null);
                     foreach (var question in request.questions)
                     {
                         foreach (var option in question.Options)
@@ -693,17 +677,10 @@ namespace Qick.Repositories
                     }
                     await _context.SaveChangesAsync();
                 }
-                var realResult = GetCharacterResult(result.Result.Id, result.Result.ResultShortName);
-                TakingResultResponse response = new()
+                SubmitResponse response = new()
                 {
-                    Id = realResult.Result.Id,
-                    ResultName = realResult.Result.ResultName,
-                    ResultShortName = realResult.Result.ResultShortName,
-                    ResultSummary = realResult.Result.ResultSummary,
-                    ResultCareer = realResult.Result.ResultCareer,
-                    ResultRelationship = realResult.Result.ResultRelationship,
-                    ResultSuccessRule = realResult.Result.ResultSuccessRule,
-                    ResultPictureUrl = realResult.Result.ResultPictureUrl,
+                   Id = request.TestId,
+                   ResultShortName = typeResult,
                     Result1 = result1,
                     Result2 = result2,
                     Result3 = result3,
@@ -717,7 +694,7 @@ namespace Qick.Repositories
                 throw ex;
             }
         }
-        public async Task<TakingResultResponse> CalculateBig5Result(CalculateResultRequest request, Guid? userId)
+        public async Task<SubmitResponse> CalculateBig5Result(CalculateResultRequest request, Guid? userId)
         {
             try
             {
@@ -805,10 +782,9 @@ namespace Qick.Repositories
 
                 
 
-                var result = getTestResult(typeResult, request.TestId);
                 if (userId != null)
                 {
-                    var attempt = CreateAttempt(result.Result.Id, userId, result.Result.ResultShortName);
+                    var attempt = CreateAttempt(request.TestId, userId, typeResult, result1, result2, result3, result4, result5, null);
                     foreach (var question in request.questions)
                     {
                         foreach (var option in question.Options)
@@ -820,7 +796,7 @@ namespace Qick.Repositories
                     }
                     await _context.SaveChangesAsync();
                 }
-                TakingResultResponse response = new()
+                SubmitResponse response = new()
                 {
                     Result1 = result1,
                     Result2 = result2,

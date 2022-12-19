@@ -144,6 +144,18 @@ namespace Qick.Models
 
                 entity.Property(e => e.AttemptDate).HasColumnType("datetime");
 
+                entity.Property(e => e.Result1).HasMaxLength(50);
+
+                entity.Property(e => e.Result2).HasMaxLength(50);
+
+                entity.Property(e => e.Result3).HasMaxLength(50);
+
+                entity.Property(e => e.Result4).HasMaxLength(50);
+
+                entity.Property(e => e.Result5).HasMaxLength(50);
+
+                entity.Property(e => e.Result6).HasMaxLength(50);
+
                 entity.Property(e => e.ResultShortName).HasMaxLength(50);
 
                 entity.Property(e => e.Status).HasMaxLength(50);
@@ -286,13 +298,11 @@ namespace Qick.Models
                 entity.HasOne(d => d.Job)
                     .WithMany(p => p.JobMajors)
                     .HasForeignKey(d => d.JobId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_JobMajor_Job");
 
                 entity.HasOne(d => d.Major)
                     .WithMany(p => p.JobMajors)
                     .HasForeignKey(d => d.MajorId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_JobMajor_Major");
             });
 

@@ -7,10 +7,10 @@ namespace Qick.Models
     {
         public int? JobId { get; set; }
         public Guid? MajorId { get; set; }
-        public string? Status { get; set; } = null!;
+        public string? Status { get; set; }
         public int Id { get; set; }
 
-        public virtual Job? Job { get; set; } = null!;
-        public virtual Major? Major { get; set; } = null!;
+        public virtual Job? Job { get; set; }
+        public virtual Major? Major { get; set; }
     }
 }
