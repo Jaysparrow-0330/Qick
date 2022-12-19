@@ -690,7 +690,7 @@ namespace Qick.Repositories
 
                 foreach (var question in request.questions)
                 {
-                    if (question.questionvalue[2].Equals("P"))
+                    if (question.questionvalue[2].Equals('P'))
                     {
                         switch (question.questionvalue[0])
                         {
@@ -713,7 +713,7 @@ namespace Qick.Repositories
                                 break;
                         }
                     }
-                    else if (question.questionvalue[2].Equals("N"))
+                    else if (question.questionvalue[2].Equals('N'))
                     {
                         switch (question.questionvalue[0])
                         {
