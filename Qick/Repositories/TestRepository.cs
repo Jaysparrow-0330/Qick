@@ -787,11 +787,11 @@ namespace Qick.Repositories
                     }
                 }
                 double
-                    isO = 14 + yO - nO,
+                    isO = 8 + yO - nO,
                     isC = 14 + yC - nC,
                     isE = 20 + yE - nE,
                     isA = 14 + yA - nA,
-                    isN = 14 + yN - nN;
+                    isN = 38 + yN - nN;
 
                 if (isO <= 0.0)
                 {
